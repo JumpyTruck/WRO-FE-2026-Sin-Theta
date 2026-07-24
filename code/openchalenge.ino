@@ -28,7 +28,7 @@ void setup() {
   move_motor(0, 0);
   motorRunning = false;
 
-  Serial.println("ESP32 ready");
+  Serial.println("Nano ready");
 }
 
 void loop() {
