@@ -63,7 +63,7 @@ The **Raspberry Pi Camera Module 3 Wide** was chosen for its wider field of view
 ###### **2.4 Custom PCB**
 A custom-designed PCB organizes wiring between components, giving cleaner cable management, reliable connections, a compact fit inside the chassis, and easier debugging.
 
-<img width="220" alt="custom" src="https://github.com/user-attachments/assets/e683a304-067c-4533-8f4e-6a8a9f362700" />
+<img width="220" alt="custom" src="https://github.com/user-attachments/assets/786668db-364b-4857-a257-9bcc6381ebec" />
 
 ---
 
