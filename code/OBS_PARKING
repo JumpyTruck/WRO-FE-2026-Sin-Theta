@@ -1,0 +1,1039 @@
+"""
+Obstacle challenge, merged:
+  - Wall following: ported from the open-challenge script (single-side
+    "lowest wall point" PD tracker + dynamic target point per turn count),
+    rescaled onto THIS robot's servo range (default_servo / max_turn_degree
+    / STEER_SIGN below) instead of the open challenge's raw values.
+  - Polygon detection + red border: now ported EXACTLY like the reference
+    repo (ImageDrawingUtils.find_contour + draw_polygon): find the contour
+    that contains the point directly in front of the robot, approxPolyDP
+    with a tight epsilon, fillPoly to get the mask, bitwise_and against
+    the clean binary image. No dilation margin, no custom "biggest
+    contour" heuristic -- same steps, same order they use.
+  - Color detection: switched from Lab to HSV throughout (calculate_color_mask),
+    as plain module-level constants + a function -- no color-utility class.
+  - Pillar detection + avoidance: ported from the reference repo's
+    filter_pillars()/closest-distance-to-robot loop -- always finds the
+    single red-or-green blob whose center is closest to the robot's
+    bottom-center point, with no ROI restriction and no minimum-y gate.
+    It just always picks whichever blob (above the area threshold) is
+    nearest, full stop.
+  - Crash avoidance (SIMPLIFIED, corner-anticipating): 3 inner dots + 1
+    outer dot are checked every frame. If any of the 3 inner dots sees
+    black, hard-steer AWAY from that inner wall until all 3 are clear
+    again. If the outer dot sees black, hard-steer INTO the turn
+    direction until it's clear again. When wall-follow's own corner
+    detector (`is_corner`, from a sudden jump in its PD error) fires,
+    both checks temporarily add an extra, further-out detection point so
+    a real corner trips the crash override a frame or two sooner. This
+    directly overrides wall-follow and pillar avoidance while active --
+    no passive "warning" state that lets the robot keep drifting into
+    the wall.
+  - Turning: corner-marker detection is a pure lap counter now; it does
+    not touch steering. Cornering is handled entirely by wall-follow's
+    continuous PD math plus the crash/pillar overrides above.
+  - Lap counting (2026-07-30, hysteresis update): the corner marker is
+    direction-aware -- LEFT only ever watches the BLUE line, RIGHT only
+    ever watches the ORANGE line, masked against the current track
+    polygon (not a fixed ROI box). The entry/exit debounce now uses TWO
+    thresholds with a dead-band between them (LINE_AREA_ENTER_THRESHOLD
+    higher, LINE_AREA_EXIT_THRESHOLD lower) instead of one shared
+    threshold, plus longer TURN_MIN_DURATION/EXIT_CONFIRM_FRAMES/
+    TURN_COOLDOWN. This fixes an earlier bug where a single physical
+    corner marker got counted TWICE: with one threshold and short
+    timers, the marker mask could dip below threshold for a few frames
+    mid-turn (camera angle change / partial occlusion while steering
+    through the corner) -- long enough to be read as "line gone,
+    quarter finished" -- and then reappear later in that SAME corner and
+    get counted again as a brand-new entry, so 12 counted quarters could
+    happen after only ~6 real corners. The dead-band means transient
+    dips that don't fully clear the (lower) exit threshold can't flip
+    the state, and the longer minimum/cooldown durations mean the
+    detector can't finish and restart within a single real corner
+    traversal. See the marker-detection block in run().
+  - Exit-parking direction calibration (2026-07-30): before ANY other
+    logic runs (lap counting, wall-follow, obstacle avoidance), the
+    robot drives straight for a few frames while checking two fixed
+    points against the floor mask -- one near the left edge of the
+    frame, one near the right edge. Whichever side sees the wall first
+    tells us which wall the robot is closest to as it leaves the bay,
+    so the robot should follow the OPPOSITE wall for the rest of the
+    run (left point sees wall -> follow the right wall; right point
+    sees wall -> follow the left wall). Direction is printed once,
+    locked, and this check never runs again -- everything else proceeds
+    exactly as before, just using the locked `direction`. See
+    detect_exit_parking_direction() and the calibration gate in run().
+  - Exit-turn maneuver (2026-07-30): immediately after direction is
+    locked, a one-time three-point-turn state machine runs before the
+    main wall-follow loop takes over:
+        1. "turning"      -- steer hard INTO the locked direction and
+                              drive forward, watching a single dot near
+                              the TOP of the frame. As soon as that dot
+                              sees black (the front wall getting close),
+                              this phase ends.
+        2. "counter_turn"  -- steer hard the OPPOSITE way for a fixed
+                              duration (EXIT_COUNTER_TURN_DURATION),
+                              still driving forward, to swing the back
+                              end around.
+        3. "backing_up"    -- reverse the motor with the wheels
+                              straight for a fixed duration
+                              (EXIT_BACKUP_DURATION) to back out of the
+                              corner the turn put it in.
+        4. "done"          -- motor back to forward drive, and the main
+                              loop (lap counting, wall-follow, obstacle
+                              avoidance) takes over from here on, exactly
+                              as before.
+    See check_top_wall(), the EXIT_* constants below, and the maneuver
+    state machine in run().
+
+HSV ranges below (BLUE_LOWER/UPPER, RED_LOWER_1/2, etc.) are tuned for the
+actual track/lighting. GRAY_THRESHOLD, kp/kd, and the crash-point offsets
+may still need further tuning once you see it running.
+
+=========================================================================
+SERVO-INVERSION FIX (2026-07-29)
+=========================================================================
+The servo horn/linkage was remounted upside down, so a raw PWM angle that
+used to steer the wheels RIGHT now physically steers them LEFT, and vice
+versa. Rather than touch any of the steering math (PD control, crash
+avoidance targets, pillar avoidance, slew-rate limiting all still reason
+in the ORIGINAL convention: MIN_ANGLE steers right, MAX_ANGLE steers
+left), the fix mirrors the final angle around `default_servo` at the one
+and only point it's handed to the servo queue -- see `to_physical_angle()`
+and its use in `run()`. Since MIN_ANGLE = default_servo - max_turn_degree
+and MAX_ANGLE = default_servo + max_turn_degree, mirroring around the
+center exactly swaps MIN_ANGLE <-> MAX_ANGLE, so the whole valid range
+maps onto itself -- no extra clamping needed, and every other part of the
+code keeps working in the same coordinate system it always has.
+
+If the servo ever gets remounted right-side up again, just flip
+STEER_SIGN back to 1 and this correction switches off automatically.
+"""
+
+import cv2
+import math
+import numpy as np
+import serial
+import time
+import threading
+from queue import Queue
+from enum import Enum
+from picamera2 import Picamera2
+
+# =========================================================================
+# ESP32 / MOTOR SERIAL
+# =========================================================================
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+time.sleep(2)
+
+MOTOR_START_CMD = 888
+MOTOR_STOP_CMD = 999
+MOTOR_REVERSE_CMD = 777   # NOTE: confirm this matches whatever code the ESP32
+                          # firmware actually expects for "drive backward" --
+                          # 777 is a placeholder alongside 888/999.
+
+LAPS_TARGET = 3
+TOTAL_TURNS = LAPS_TARGET * 4   # 4 corners per lap
+
+motor_command_queue = Queue()
+servo_angle_queue = Queue()
+
+
+def send_motor_start():
+    ser.write(f"{MOTOR_START_CMD}\n".encode())
+    print("[motor] START sent to ESP32")
+
+
+def send_motor_stop():
+    ser.write(f"{MOTOR_STOP_CMD}\n".encode())
+    print("[motor] STOP sent to ESP32")
+
+
+def send_motor_reverse():
+    ser.write(f"{MOTOR_REVERSE_CMD}\n".encode())
+    print("[motor] REVERSE sent to ESP32")
+
+
+def send_angle(angle):
+    ser.write(f"{angle}\n".encode())
+
+
+def motor_drive():
+    current_command = None
+    while True:
+        command = motor_command_queue.get()
+        if command is None:
+            break
+        if command == current_command:
+            continue
+        if command == "drive":
+            send_motor_start()
+        elif command == "stop":
+            send_motor_stop()
+        elif command == "reverse":
+            send_motor_reverse()
+        current_command = command
+
+
+def servo_move():
+    while True:
+        angle = servo_angle_queue.get()
+        if angle is None:
+            print("Servo disabled")
+            break
+        send_angle(angle)
+        time.sleep(0.005)
+
+
+# =========================================================================
+# CAMERA / FRAME GEOMETRY
+# =========================================================================
+CAMERA_PIC_WIDTH = 640
+CAMERA_PIC_HEIGHT = 360
+PIC_WIDTH = 640
+PIC_HEIGHT = 280
+
+GRAY_THRESHOLD = 100  # same role as reference repo's THRESHOLD constant
+
+# ---- lap-counting marker thresholds (masked-pixel count of the
+# direction-relevant line within the track polygon) --------------------
+# Two thresholds with a dead-band between them, instead of one shared
+# value, so noise/occlusion flicker right around the boundary can't flip
+# the entry/exit state back and forth and cause a double count:
+#   - area must climb ABOVE the (higher) ENTER threshold to start a
+#     crossing
+#   - area must drop BELOW the (lower) EXIT threshold to end it
+# Retune both against your actual track/lighting -- start by printing
+# marker_area for a few laps and picking values that sit safely above
+# the noise floor (exit) and safely above a true, fully-visible line
+# (enter).
+LINE_AREA_ENTER_THRESHOLD = 150
+LINE_AREA_EXIT_THRESHOLD = 60
+
+# =========================================================================
+# LAB COLOR RANGES -- L: 0-255 (lightness), a: 0-255 (green<-128->red),
+# b: 0-255 (blue<-128->yellow). Starting points only -- retune against
+# your actual track/camera the same way the HSV ranges were tuned.
+# =========================================================================
+BLUE_LOWER = np.array([42, 128, 90])
+BLUE_UPPER = np.array([140, 149, 127])
+
+ORANGE_LOWER = np.array([65, 131, 136])
+ORANGE_UPPER = np.array([255, 159, 255])
+
+GREEN_LOWER = np.array([53, 91, 116])
+GREEN_UPPER = np.array([154, 113, 187])
+
+# red = high 'a' channel (no hue wraparound issue like HSV had, so
+# just one range now instead of two)
+RED_LOWER = np.array([24, 148, 142])
+RED_UPPER = np.array([148, 182, 166])
+
+
+
+MASK_CLEAN_KERNEL = np.ones((5, 5), np.uint8)
+
+
+def calculate_color_mask(lab_img, color):
+    """
+    Plain function, no class -- returns a clean single-channel 0/255 mask.
+    color is one of: "blue", "orange", "green", "red"
+    """
+    if color == "blue":
+        mask = cv2.inRange(lab_img, BLUE_LOWER, BLUE_UPPER)
+    elif color == "orange":
+        mask = cv2.inRange(lab_img, ORANGE_LOWER, ORANGE_UPPER)
+    elif color == "green":
+        mask = cv2.inRange(lab_img, GREEN_LOWER, GREEN_UPPER)
+    elif color == "red":
+        mask = cv2.inRange(lab_img, RED_LOWER, RED_UPPER)
+    else:
+        mask = np.zeros(lab_img.shape[:2], dtype=np.uint8)
+
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, MASK_CLEAN_KERNEL)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, MASK_CLEAN_KERNEL)
+    return mask
+
+
+
+class Direction(Enum):
+    LEFT = -1    # counterclockwise: robot follows the left wall, turns left at corners
+    RIGHT = 1    # clockwise: robot follows the right wall, turns right at corners
+
+
+def line_length(mask):
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if not contours:
+        return 0.0
+    largest = max(contours, key=cv2.contourArea)
+    (_, _), (rw, rh), _ = cv2.minAreaRect(largest)
+    return max(rw, rh)
+
+
+def detect_initial_direction(hsv_img, polygon_mask):
+    blue_mask = calculate_color_mask(lab_img, "blue")
+    orange_mask = calculate_color_mask(lab_img, "orange")
+    blue_line = cv2.bitwise_and(blue_mask, blue_mask, mask=polygon_mask)
+    orange_line = cv2.bitwise_and(orange_mask, orange_mask, mask=polygon_mask)
+    blue_len = line_length(blue_line)
+    orange_len = line_length(orange_line)
+    print(f"[direction calibration] blue_len={blue_len:.1f}  orange_len={orange_len:.1f}")
+    return Direction.LEFT if blue_len > orange_len else Direction.RIGHT
+
+
+# =========================================================================
+# EXIT-PARKING DIRECTION CALIBRATION
+# =========================================================================
+def detect_exit_parking_direction(polygon_image, display_frame):
+    """
+    One-shot direction calibration for exiting the parking spot: checks
+    two fixed points against the floor (polygon) mask -- one near the
+    LEFT edge of the frame, one near the RIGHT edge. Whichever side sees
+    black (wall) tells us the robot should follow the OPPOSITE wall for
+    the rest of the run:
+        left point sees wall  -> Direction.RIGHT (follow the right wall)
+        right point sees wall -> Direction.LEFT  (follow the left wall)
+
+    Returns None if the reading is inconclusive (both points see wall,
+    neither does, or the polygon isn't stable yet) so the caller can
+    just keep calling this every frame until it gets a clean answer.
+    """
+    h, w = polygon_image.shape[:2]
+
+    # (y, x) -- adjust these against your actual parking-exit framing
+    left_point = (h - 50, 40)
+    right_point = (h - 50, w - 40)
+
+    ly, lx = left_point
+    ry, rx = right_point
+
+    left_wall = polygon_image[ly, lx] == 0
+    right_wall = polygon_image[ry, rx] == 0
+
+    # draw them so you can see what's being checked while tuning
+    cv2.circle(display_frame, (lx, ly), 6, (255, 0, 255), -1)
+    cv2.circle(display_frame, (rx, ry), 6, (255, 0, 255), -1)
+
+    if left_wall and not right_wall:
+        return Direction.RIGHT
+    if right_wall and not left_wall:
+        return Direction.LEFT
+    return None
+
+
+# =========================================================================
+# EXIT-TURN MANEUVER (three-point turn out of the parking bay)
+# =========================================================================
+# Single point near the TOP of the frame -- i.e. far away, straight
+# ahead -- used only during the "turning" phase below to detect the
+# front wall closing in while the robot swings hard into its locked
+# direction. (y, x) -- adjust against your actual parking-bay framing.
+TOP_WALL_POINT = (15, PIC_WIDTH // 2)
+
+# How long to hold the counter-steer and the reverse phases. Retune
+# against your robot's actual turning radius/speed.
+EXIT_COUNTER_TURN_DURATION = 1.0   # seconds
+EXIT_BACKUP_DURATION = 1.0         # seconds
+
+
+def check_top_wall(polygon_image, display_frame):
+    """
+    Checks the single TOP_WALL_POINT dot against the floor (polygon)
+    mask. Returns True if it sees black (wall), meaning the front wall
+    is now close enough, straight ahead, that the "turning" phase of the
+    exit maneuver should stop and hand off to the counter-turn phase.
+    """
+    h, w = polygon_image.shape[:2]
+    y, x = TOP_WALL_POINT
+    in_bounds = 0 <= y < h and 0 <= x < w
+    seen_wall = in_bounds and polygon_image[y, x] == 0
+    if in_bounds:
+        color = (0, 0, 255) if seen_wall else (0, 255, 255)
+        cv2.circle(display_frame, (x, y), 6, color, -1)
+    return seen_wall
+
+
+# =========================================================================
+# SERVO / STEERING CALIBRATION
+# =========================================================================
+default_servo = 90
+max_turn_degree = 35
+STEER_SIGN = -1
+MIN_ANGLE = default_servo - max_turn_degree   # per this file's convention: MIN_ANGLE steers RIGHT
+MAX_ANGLE = default_servo + max_turn_degree   # per this file's convention: MAX_ANGLE steers LEFT
+MAX_ANGLE_STEP = 6   # max degrees the commanded angle may change per frame (slew limit) -- wall-follow only, see run()
+
+
+def to_physical_angle(logical_angle):
+    """
+    Converts a "logical" servo angle (computed everywhere else in this
+    file using the ORIGINAL convention: MIN_ANGLE steers right, MAX_ANGLE
+    steers left) into the actual PWM angle the hardware needs, given the
+    servo horn is now mounted upside down.
+
+    This is the ONLY place the physical flip is applied. Every other
+    function (wall_follow_angle, ObstacleTracker.obstacle_angle, the
+    pillar-avoidance math, the slew-rate limiter in run()) keeps
+    computing angles in the original coordinate system -- they don't
+    need to know or care which way the servo is mounted.
+
+    Mirroring around default_servo works cleanly because
+    MIN_ANGLE = default_servo - max_turn_degree and
+    MAX_ANGLE = default_servo + max_turn_degree, so this maps
+    MIN_ANGLE <-> MAX_ANGLE exactly and default_servo -> default_servo.
+    No extra clamping is needed since the mirrored value can never leave
+    [MIN_ANGLE, MAX_ANGLE] if the input didn't.
+
+    If the servo is ever remounted right-side up again, just set
+    STEER_SIGN back to 1 and this correction switches off automatically.
+    """
+    if STEER_SIGN == -1:
+        return int(round(2 * default_servo - logical_angle))
+    return int(round(logical_angle))
+
+
+# =========================================================================
+# WALL-FOLLOW PD (ported from open challenge, rescaled)
+# =========================================================================
+TARGET_X = 0
+TARGET_Y = 220
+
+Kp_wall = 0.6
+Kd_wall = 0.35
+CORNER_THRESHOLD = PIC_HEIGHT // 2.5
+prev_wall_error = 0.0
+
+
+NBR_COLS = 10
+
+def _find_black_from_bottom(img, col_range):
+    h = img.shape[0]
+    y_vals = []
+    for x in col_range:
+        found = 0  # nothing found -> treat as "far" (matches reference default)
+        for y in reversed(range(h - 20)):
+            if img[y, x] == 0:
+                found = y
+                break
+        y_vals.append(found)
+    return y_vals
+
+def _find_black_sides(img, direction, row_range):
+    w = img.shape[1]
+    end_index = 0 if direction == Direction.LEFT else w - 1
+    step = direction.value  # LEFT=-1, RIGHT=1 -- matches Direction enum already
+    x_vals = []
+    for y in row_range:
+        found = end_index
+        for x in range(w // 2, end_index, step):
+            if img[y, x] == 0:
+                found = x
+                break
+        x_vals.append(found)
+    return x_vals
+
+def wall_follow_angle(polygon_image, direction, display_frame, gain_scale=1.0):
+    global prev_wall_error
+    h, w = polygon_image.shape[:2]
+
+    cols = range(0, NBR_COLS) if direction == Direction.LEFT else range(w - NBR_COLS, w)
+    rows = range(h - 3 * NBR_COLS, h - 2 * NBR_COLS)
+
+    y_vals = _find_black_from_bottom(polygon_image, cols)
+    x_vals = _find_black_sides(polygon_image, direction, rows)
+
+    avg_y = np.mean(y_vals)
+    avg_x = np.mean(x_vals)
+    if direction == Direction.RIGHT:
+        avg_x = w - avg_x
+    if avg_y >= h - 1:
+        avg_y = h
+
+    disp_x = int(avg_x) if direction == Direction.LEFT else int(w - avg_x)
+    cv2.circle(display_frame, (disp_x, int(avg_y)), 8, (0, 0, 255), -1)
+    cv2.circle(display_frame, (TARGET_X, TARGET_Y), 8, (0, 255, 0), -1)
+
+    error_y = TARGET_Y - avg_y
+    error_x = TARGET_X - avg_x
+    error = error_y + error_x
+
+    # ---- corner detection: same idea as the reference's p_compare/is_corner --
+    # a big frame-to-frame jump in the combined error means the scan just
+    # started hitting the corner/front wall instead of the side wall.
+    derivative = error - prev_wall_error
+    is_corner = derivative < -CORNER_THRESHOLD
+
+    control = (Kp_wall * error) + (Kd_wall * derivative)
+    prev_wall_error = error
+
+    angle = default_servo + gain_scale * direction.value * control * -1
+    angle = max(MIN_ANGLE, min(MAX_ANGLE, angle))
+    return angle, is_corner
+
+
+# =========================================================================
+# POLYGON MASK -- IDENTICAL to the reference repo's
+# ImageDrawingUtils.find_contour(img, white=1) + draw_polygon(binary, target)
+# =========================================================================
+def find_contour(img, white=0):
+    contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if white == 1:
+        target_pt = (PIC_WIDTH / 2, PIC_HEIGHT - 10)
+        contours = [cnt for cnt in contours if cv2.pointPolygonTest(cnt, target_pt, False) >= 0]
+    if not contours:
+        return None, None
+    biggest_contour = max(contours, key=cv2.contourArea)
+    contours = [cnt for cnt in contours if not np.array_equal(cnt, biggest_contour)]
+    if not contours:
+        return biggest_contour, None
+    second_biggest_contour = max(contours, key=cv2.contourArea)
+    return biggest_contour, second_biggest_contour
+
+
+def draw_polygon(binary_img, target_img):
+    cnt, _ = find_contour(binary_img, 1)
+    if cnt is None:
+        return target_img, None
+    epsilon = 0.001 * cv2.arcLength(cnt, True)
+    polygon = cv2.approxPolyDP(cnt, epsilon, True)
+    mask = np.zeros_like(binary_img)
+    cv2.fillPoly(mask, [polygon], 255)
+    result = cv2.bitwise_and(binary_img, mask)
+    return result, polygon
+
+
+# =========================================================================
+# PILLAR DETECTION + AVOIDANCE
+# =========================================================================
+MIDDLE_X = PIC_WIDTH // 2
+LEFT_OBSTACLE_X_THRESHOLD = 0
+RIGHT_OBSTACLE_X_THRESHOLD = PIC_WIDTH - LEFT_OBSTACLE_X_THRESHOLD
+OBJECT_LINE_ANGLE_THRESHOLD = 45
+GREEN_OBSTACLE_KP = 1.35
+RED_OBSTACLE_KP = 1.4
+
+TOO_LOW_Y = PIC_HEIGHT - 45
+TOO_CLOSE_Y = PIC_HEIGHT - 25
+
+# Crash point marker color (BGR) -- blue, so it doesn't get lost against
+# the green/red pillar drawing
+CRASH_POINT_COLOR = (255, 0, 0)
+
+# Minimum contour area for a red/green blob to be considered a pillar at
+# all -- same role as the reference repo's `pillar_threshold`.
+PILLAR_AREA_THRESHOLD = 250
+
+# module-level, near TOO_LOW_Y / TOO_CLOSE_Y
+PILLAR_COMMIT_DURATION = 0.025   # seconds to keep steering the last avoid
+                                # angle after a pillar gets too close --
+                                # tune this against your robot's speed:
+                                # too short = still clips it, too long =
+                                # misses/cuts off the next pillar
+
+class ObstacleTracker:
+    def __init__(self):
+        self.old_angle = default_servo
+        self.old_is_green = False
+        self.crash_lock = None
+
+    def check_inner_wall_crash(self, direction, polygon_image, display_frame, is_corner=False):
+        """3 points near the side wall on the INSIDE of the turn (the
+        side matching `direction`). Returns True if ANY of the 3 see
+        black (wall), meaning the robot is riding too close to that
+        wall.
+
+        When is_corner is True (wall-follow just detected a sudden
+        error spike), an extra pair of points further out/earlier in
+        the turn is added, so a real corner trips this check a frame
+        or two sooner than the base 3 points would alone.
+        """
+        if direction == Direction.RIGHT:
+            detection_points = [
+                (PIC_HEIGHT - 140, PIC_WIDTH - 195),
+                (PIC_HEIGHT - 110, PIC_WIDTH - 170),
+                (PIC_HEIGHT - 80, PIC_WIDTH - 145),
+            ]
+            corner_extra_points = [
+                (PIC_HEIGHT - 110, PIC_WIDTH - 220),
+                (PIC_HEIGHT - 95, PIC_WIDTH - 205),
+            ]
+        else:
+            detection_points = [
+                (PIC_HEIGHT - 140, 225),
+                (PIC_HEIGHT - 110, 200),
+                (PIC_HEIGHT - 80, 175),
+            ]
+            corner_extra_points = [
+                (PIC_HEIGHT - 110, 250),
+                (PIC_HEIGHT - 95, 235),
+            ]
+
+        if is_corner:
+            detection_points = detection_points + corner_extra_points
+
+        crashed = False
+        for y, x in detection_points:
+            in_bounds = 0 <= y < PIC_HEIGHT and 0 <= x < PIC_WIDTH
+            point_crashed = in_bounds and polygon_image[y, x] == 0
+            if point_crashed:
+                crashed = True
+            if in_bounds:
+                color = (0, 255, 255) if is_corner else CRASH_POINT_COLOR
+                cv2.circle(display_frame, (x, y), 5, color, -1)
+        return crashed
+
+    def check_outer_wall_crash(self, direction, polygon_image, display_frame, is_corner=False):
+        """Single point straight ahead, plus an extra further-out point
+        when is_corner is True, for the same early-trip reason as
+        check_inner_wall_crash above."""
+        if direction == Direction.RIGHT:
+            detection_points = [(PIC_WIDTH - 370, PIC_HEIGHT - 155)]
+            corner_extra_points = [(PIC_WIDTH - 380, PIC_HEIGHT - 185)]
+        else:
+            detection_points = [(PIC_WIDTH - 280, PIC_HEIGHT - 155)]
+            corner_extra_points = [(PIC_WIDTH - 260, PIC_HEIGHT - 185)]
+
+        if is_corner:
+            detection_points = detection_points + corner_extra_points
+
+        crashed = False
+        for x, y in detection_points:
+            in_bounds = 0 <= y < PIC_HEIGHT and 0 <= x < PIC_WIDTH
+            point_crashed = in_bounds and polygon_image[y, x] == 0
+            if point_crashed:
+                crashed = True
+            if in_bounds:
+                color = (0, 255, 255) if is_corner else CRASH_POINT_COLOR
+                cv2.circle(display_frame, (x, y), 5, color, -1)
+        return crashed
+
+    def find_closest_pillar(self, lab_img, polygon_mask, floor_binary, display_frame):
+        """
+        Ported from the reference repo's filter_pillars()/closest-distance
+        loop in run(): scan the red and green masks, keep every contour
+        above PILLAR_AREA_THRESHOLD, and track whichever one's center is
+        closest (straight-line distance) to a fixed point directly in
+        front of the robot (bottom-center of the frame).
+
+        Unlike the reference repo this has NO ROI (it scans the whole
+        polygon-masked frame, exactly like the rest of this file does for
+        walls) and NO minimum-y gate -- there's no "too far away, ignore
+        it" cutoff. Whatever red or green blob is nearest wins, full
+        stop, every frame.
+        """
+        green_mask = calculate_color_mask(lab_img, "green")
+        red_mask = calculate_color_mask(lab_img, "red")
+        green_mask = cv2.bitwise_and(green_mask, green_mask, mask=polygon_mask)
+        red_mask = cv2.bitwise_and(red_mask, red_mask, mask=polygon_mask)
+
+        robot_point = (PIC_WIDTH // 2, PIC_HEIGHT)  # bottom-center of frame
+
+        closest_distance = float("inf")
+        closest = None  # (x_center, y_center, w, h, is_green)
+
+        for mask, is_green in ((green_mask, True), (red_mask, False)):
+            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            for cnt in contours:
+                area = cv2.contourArea(cnt)
+                if area <= PILLAR_AREA_THRESHOLD:
+                    continue
+
+                x, y, w, h = cv2.boundingRect(cnt)
+                x_center = x + w // 2
+                y_center = y + h // 2
+
+                distance = math.dist((x_center, y_center), robot_point)
+                if distance >= closest_distance:
+                    continue
+
+                closest_distance = distance
+                closest = (x_center, y_center, w, h, is_green)
+
+        if closest is None:
+            return None
+
+        x_center, y_center, w, h, is_green = closest
+
+        top_left = (x_center - w // 2, y_center - h // 2)
+        bottom_right = (x_center + w // 2, y_center + h // 2)
+        cv2.rectangle(display_frame, top_left, bottom_right,
+                       (0, 255, 0) if is_green else (0, 0, 255), 2)
+
+        return x_center, y_center, is_green
+
+    def obstacle_angle(self, direction, lab_img, polygon_mask, polygon_image, display_frame, is_corner=False):
+        """
+        Priority order:
+
+          1. Crash avoidance -- checked and applied FIRST, every frame,
+             and directly overrides steering (no passive "warning"
+             state):
+               - Outer dot sees black -> hard-steer INTO the turn
+                 direction (left if going counterclockwise / direction
+                 LEFT, right if going clockwise / direction RIGHT) until
+                 the outer dot clears.
+               - Any of the 3 inner dots sees black -> hard-steer AWAY
+                 from that inner wall (right if counterclockwise, left
+                 if clockwise) until all 3 inner dots clear.
+               - Outer takes priority if both trip in the same frame,
+                 since it's the more urgent straight-ahead collision.
+               - Once a lock engages it stays locked (ignoring the other
+                 check) until its own trigger clears, so recovery isn't
+                 cut short mid-turn.
+          2. Otherwise: normal pillar detection/avoidance.
+        """
+        inner_crash = self.check_inner_wall_crash(direction, polygon_image, display_frame, is_corner)
+        outer_crash = self.check_outer_wall_crash(direction, polygon_image, display_frame, is_corner)
+
+        turn_into_corner = (MAX_ANGLE-3) if direction == Direction.LEFT else (MIN_ANGLE+3)
+        turn_away_from_wall = (MIN_ANGLE+3) if direction == Direction.LEFT else (MAX_ANGLE-3)
+
+        # crash avoidance always wins outright, and cancels any pillar commit
+        if self.crash_lock == "outer":
+            if outer_crash:
+                return turn_into_corner
+            self.crash_lock = None
+        elif self.crash_lock == "inner":
+            if inner_crash:
+                return turn_away_from_wall
+            self.crash_lock = None
+
+        if outer_crash:
+            self.crash_lock = "outer"
+            return turn_into_corner
+        if inner_crash:
+            self.crash_lock = "inner"
+            return turn_away_from_wall
+
+        # ---- pillar commit: once a pillar got too close, hold the last
+        # avoid angle for a fixed duration instead of handing control
+        # back to wall-follow the instant detection drops out. We also
+        # skip find_closest_pillar entirely while committed, so the
+        # robot can't re-latch onto the tail of the pillar it's passing
+        # -- it just drives the commit angle blind until it's clear,
+        # then goes looking for the next block.
+
+        #if time.time() < self.commit_until:
+         #   return self.old_angle
+
+        found = self.find_closest_pillar(lab_img, polygon_mask, polygon_image, display_frame)
+        if found is None:
+            return None
+        x_center, y_center, is_green = found
+
+        if y_center > TOO_LOW_Y:
+            if y_center > TOO_CLOSE_Y:
+                # right on top of it -- stop tracking, commit to the pass
+                #self.commit_until = time.time() + PILLAR_COMMIT_DURATION
+                #return self.old_angle
+                return None
+            return self.old_angle
+
+        if is_green:
+            cv2.line(display_frame, (x_center, y_center), (RIGHT_OBSTACLE_X_THRESHOLD, PIC_HEIGHT), (0, 255, 0), 2)
+            rad_angle = np.arctan2(y_center - PIC_HEIGHT, x_center - RIGHT_OBSTACLE_X_THRESHOLD)
+        else:
+            cv2.line(display_frame, (x_center, y_center), (LEFT_OBSTACLE_X_THRESHOLD, PIC_HEIGHT), (0, 0, 255), 2)
+            rad_angle = np.arctan2(y_center - PIC_HEIGHT, x_center - LEFT_OBSTACLE_X_THRESHOLD)
+
+        object_angle_deg = 90 + np.degrees(rad_angle)
+
+        if is_green:
+            servo_angle = default_servo - ((object_angle_deg + OBJECT_LINE_ANGLE_THRESHOLD) * GREEN_OBSTACLE_KP)
+        else:
+            servo_angle = default_servo - ((object_angle_deg - OBJECT_LINE_ANGLE_THRESHOLD) * RED_OBSTACLE_KP)
+
+        servo_angle = max(MIN_ANGLE, min(MAX_ANGLE, servo_angle))
+        self.old_angle = servo_angle
+        self.old_is_green = is_green
+        return servo_angle
+
+
+# =========================================================================
+# CORNER / TURN (LAP-COUNTING) STATE MACHINE
+# =========================================================================
+# Debounce constants for the marker-crossing detector in run(). A
+# crossing only STARTS once the direction-relevant line has been seen
+# above LINE_AREA_ENTER_THRESHOLD for ENTRY_CONFIRM_FRAMES straight
+# frames (filters single-frame noise), and only COUNTS/resets once the
+# line has dropped below the lower LINE_AREA_EXIT_THRESHOLD for
+# EXIT_CONFIRM_FRAMES straight frames AND at least TURN_MIN_DURATION has
+# passed since it was first seen.
+#
+# TURN_MIN_DURATION and TURN_COOLDOWN are deliberately set close to (or
+# a bit above) how long a real corner takes your robot to drive through
+# at speed -- this, combined with the enter/exit dead-band above, is
+# what stops a single physical corner from being counted twice (a brief
+# mid-corner dip in the marker mask can no longer both (a) cross the
+# lower exit threshold long enough to "finish" the quarter AND (b) still
+# leave enough real corner left over for the marker to climb back over
+# the higher enter threshold and register as a second, new quarter).
+# TURN_MAX_DURATION is a hard safety valve so a stuck detection can't
+# wedge the whole counter forever. RETUNE TURN_MIN_DURATION/
+# TURN_COOLDOWN against your actual corner-traversal time -- if you're
+# still seeing double (or missed) counts, watch the printed marker_area
+# / [lap] log while driving one lap manually and adjust these numbers
+# and/or the two area thresholds above.
+ENTRY_CONFIRM_FRAMES = 3
+EXIT_CONFIRM_FRAMES = 6
+TURN_MIN_DURATION = 1.0
+TURN_MAX_DURATION = 4.0
+TURN_COOLDOWN = 2.0
+
+
+def crop_image(img, x_start, x_end, y_start, y_end):
+    return img[y_start:y_end, x_start:x_end]
+
+
+def main():
+    t1 = threading.Thread(target=motor_drive, name='motor')
+    t2 = threading.Thread(target=servo_move, name='servo')
+    t1.start()
+    t2.start()
+    run()
+    t1.join()
+    t2.join()
+
+
+def run():
+    picam2 = Picamera2()
+    sensor_mode = picam2.sensor_modes[1]
+    sensor_width, sensor_height = sensor_mode["size"]
+    config = picam2.create_video_configuration(
+        raw={"size": (sensor_width, sensor_height)},
+        main={"format": "RGB888", "size": (CAMERA_PIC_WIDTH, CAMERA_PIC_HEIGHT)},
+        controls={"FrameRate": 30}
+    )
+    picam2.configure(config)
+    picam2.start()
+    for _ in range(10):
+        picam2.capture_array()
+
+    # Direction is no longer hardcoded -- it's determined once by the
+    # exit-parking calibration below, then locked for the rest of the run.
+    direction = None
+    direction_locked = False
+    motor_started = False
+
+    # Three-point exit-turn maneuver, runs once right after direction is
+    # locked and before the main wall-follow loop takes over. See the
+    # docstring section "Exit-turn maneuver" and check_top_wall() above.
+    exit_maneuver_state = "turning"   # "turning" -> "counter_turn" -> "backing_up" -> "done"
+    exit_phase_deadline = 0.0         # time.time() deadline for the timed phases
+
+    tracker = ObstacleTracker()
+
+    turn_state = "idle"
+    turn_counter = 0
+    confirm_count = 0
+    exit_confirm_count = 0
+    turn_start_time = 0.0
+    turn_cooldown_until = 0.0
+
+    prevang = None
+    servo_angle_queue.put(to_physical_angle(default_servo))
+
+    while True:
+        raw_frame = picam2.capture_array()
+        frame = crop_image(raw_frame, 0, CAMERA_PIC_WIDTH, CAMERA_PIC_HEIGHT - PIC_HEIGHT, CAMERA_PIC_HEIGHT)
+
+        lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+
+        blue_mask = calculate_color_mask(lab, "blue")
+        orange_mask = calculate_color_mask(lab, "orange")
+        green_mask = calculate_color_mask(lab, "green")
+        red_mask = calculate_color_mask(lab, "red")
+
+        colormask_image = frame.copy()
+        non_wall_mask = cv2.bitwise_or(cv2.bitwise_or(blue_mask, orange_mask),
+                                       cv2.bitwise_or(green_mask, red_mask))
+        colormask_image[non_wall_mask > 0] = (255, 255, 255)
+
+        grayscale_image = cv2.cvtColor(colormask_image, cv2.COLOR_BGR2GRAY)
+        blurred_image = cv2.bilateralFilter(grayscale_image, 9, 75, 75)
+        _, binary_image = cv2.threshold(blurred_image, GRAY_THRESHOLD, 255, cv2.THRESH_BINARY)
+        clean_image = cv2.morphologyEx(binary_image, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8))
+
+        polygon_image, polygon_points = draw_polygon(clean_image, clean_image)
+        polygon_mask = np.zeros_like(clean_image)
+        if polygon_points is not None:
+            cv2.fillPoly(polygon_mask, [polygon_points], 255)
+            cv2.polylines(frame, [polygon_points], True, (0, 0, 255), 2, lineType=cv2.LINE_AA)
+
+        if not motor_started:
+            motor_command_queue.put("drive")
+            motor_started = True
+            continue
+
+        # ---- EXIT-PARKING DIRECTION CALIBRATION -----------------------
+        # Runs once, before anything else (lap counting, wall-follow,
+        # obstacle avoidance). Drives straight while checking two fixed
+        # points near the left/right edges of the floor mask. Whichever
+        # side sees the wall locks in the OPPOSITE direction for the
+        # rest of the run, prints it once, and this block never runs
+        # again -- everything below proceeds exactly as it did before,
+        # just using the now-locked `direction`.
+        if not direction_locked:
+            detected = detect_exit_parking_direction(polygon_image, frame)
+            if detected is not None:
+                direction = detected
+                direction_locked = True
+                print(f"[exit-parking] direction locked: {direction.name}")
+            else:
+                servo_angle_queue.put(to_physical_angle(default_servo))
+                cv2.imshow("frame", frame)
+                cv2.imshow("polygon mask", polygon_mask)
+                key = cv2.waitKey(1) & 0xFF
+                if key == ord('q'):
+                    motor_command_queue.put("stop")
+                    servo_angle_queue.put(None)
+                    break
+                continue
+
+        # ---- EXIT-TURN MANEUVER (three-point turn) --------------------
+        # Runs once, right after direction locks and before the main
+        # lap-counting/wall-follow/obstacle loop below ever executes.
+        # All logical angles here still use the ORIGINAL (pre-servo-flip)
+        # convention -- to_physical_angle() handles the mirroring at the
+        # very end, same as everywhere else in this file.
+        if exit_maneuver_state != "done":
+            hard_into_direction = MAX_ANGLE if direction == Direction.LEFT else MIN_ANGLE
+            hard_away_from_direction = MIN_ANGLE if direction == Direction.LEFT else MAX_ANGLE
+
+            if exit_maneuver_state == "turning":
+                # Steer hard into the locked direction and drive forward,
+                # watching the top-of-frame dot for the front wall closing in.
+                motor_command_queue.put("drive")
+                servo_angle_queue.put(to_physical_angle(hard_into_direction))
+                if check_top_wall(polygon_image, frame):
+                    print("[exit-maneuver] front wall detected -> counter-turn")
+                    exit_maneuver_state = "counter_turn"
+                    exit_phase_deadline = time.time() + EXIT_COUNTER_TURN_DURATION
+
+            elif exit_maneuver_state == "counter_turn":
+                # Steer hard the OTHER way for a fixed duration, still
+                # driving forward, to swing the back end around.
+                motor_command_queue.put("drive")
+                servo_angle_queue.put(to_physical_angle(hard_away_from_direction))
+                if time.time() >= exit_phase_deadline:
+                    print("[exit-maneuver] counter-turn done -> backing up")
+                    exit_maneuver_state = "backing_up"
+                    exit_phase_deadline = time.time() + EXIT_BACKUP_DURATION
+
+            elif exit_maneuver_state == "backing_up":
+                # Wheels straight, reverse the motor for a fixed duration.
+                motor_command_queue.put("reverse")
+                servo_angle_queue.put(to_physical_angle(default_servo))
+                if time.time() >= exit_phase_deadline:
+                    print("[exit-maneuver] backup done -> main loop taking over")
+                    exit_maneuver_state = "done"
+                    motor_command_queue.put("drive")
+
+            cv2.imshow("frame", frame)
+            cv2.imshow("polygon mask", polygon_mask)
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord('q'):
+                motor_command_queue.put("stop")
+                servo_angle_queue.put(None)
+                break
+            continue
+
+        # ---- lap-counting marker: LEFT direction only ever watches the
+        # BLUE line, RIGHT direction only ever watches the ORANGE line --
+        # the other color is ignored entirely for counting purposes, so
+        # a stray glimpse of it can never add a false quarter. The mask
+        # is ANDed against the current track polygon (not a fixed ROI
+        # box) so color detected outside the drivable area is ignored
+        # too. Hysteresis (separate enter/exit thresholds) + longer
+        # min-duration/cooldown -- see the comment on the constants
+        # above -- is what prevents a single physical corner from being
+        # counted twice. This block is purely a counter -- it never
+        # touches steering.
+        now = time.time()
+        marker_mask = blue_mask if direction == Direction.LEFT else orange_mask
+        marker_mask = cv2.bitwise_and(marker_mask, marker_mask, mask=polygon_mask)
+        marker_area = cv2.countNonZero(marker_mask)
+
+        if turn_state == "idle":
+            if now >= turn_cooldown_until:
+                confirm_count = confirm_count + 1 if marker_area > LINE_AREA_ENTER_THRESHOLD else 0
+                if confirm_count >= ENTRY_CONFIRM_FRAMES:
+                    turn_state = "turning"
+                    turn_start_time = now
+                    exit_confirm_count = 0
+                    confirm_count = 0
+        else:
+            turn_elapsed = now - turn_start_time
+            exit_confirm_count = exit_confirm_count + 1 if marker_area < LINE_AREA_EXIT_THRESHOLD else 0
+            should_exit = (turn_elapsed >= TURN_MIN_DURATION and exit_confirm_count >= EXIT_CONFIRM_FRAMES) \
+                or (turn_elapsed >= TURN_MAX_DURATION)
+            if should_exit:
+                turn_counter += 1
+                print(f"[lap] quarter {turn_counter}/{TOTAL_TURNS} complete "
+                      f"({turn_counter // 4} lap(s) + {turn_counter % 4} quarter(s))")
+                turn_state = "idle"
+                turn_cooldown_until = now + TURN_COOLDOWN
+                confirm_count = 0
+                exit_confirm_count = 0
+
+        # ---- crash-avoidance / pillar-avoidance angle (may override
+        # wall-follow entirely) ----
+
+        wall_angle, wall_is_corner = wall_follow_angle(polygon_image, direction, frame)
+
+        # Straight two-way choice: crash/pillar override wins if present,
+        # otherwise wall-follow drives. wall_is_corner (from wall-follow's
+        # own PD-error spike detector) is passed in so the crash-avoidance
+        # dots can add their extra, further-out points and trip a frame
+        # or two sooner during a real corner.
+        obstacle_angle = tracker.obstacle_angle(direction, lab, polygon_mask, polygon_image, frame, wall_is_corner)
+
+        final_angle = obstacle_angle if obstacle_angle is not None else wall_angle
+
+        target_angle = max(MIN_ANGLE, min(MAX_ANGLE, final_angle))
+
+        # ---- slew-rate limit: WALL-FOLLOW ONLY. Crash avoidance and
+        # pillar avoidance must react the instant the angle is computed --
+        # slew-limiting those made the robot lag behind its own
+        # calculated angle. Only plain wall-follow gets eased, to take
+        # the edge off minor point-to-point wobble.
+        #
+        # NOTE: this all still operates in the ORIGINAL (logical) angle
+        # convention -- prevang, target_angle, delta, MIN_ANGLE/MAX_ANGLE
+        # clamping are untouched by the servo flip. Only the final value
+        # handed to the hardware queue below gets mirrored.
+        #if obstacle_angle is not None or prevang is None:
+         #   angle = round(target_angle)
+        #else:
+        #    delta = max(-MAX_ANGLE_STEP, min(MAX_ANGLE_STEP, target_angle - prevang))
+         #   angle = round(prevang + delta)
+        #angle = max(MIN_ANGLE, min(MAX_ANGLE, angle))
+        angle = round(target_angle)
+        angle = max(MIN_ANGLE, min(MAX_ANGLE, angle))
+
+        if prevang is None or prevang != angle:
+            servo_angle_queue.put(to_physical_angle(angle))
+            prevang = angle
+
+        cv2.imshow("frame", frame)
+        cv2.imshow("polygon mask", polygon_mask)
+
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord('q'):
+            motor_command_queue.put("stop")
+            servo_angle_queue.put(None)
+            break
+
+        if turn_counter >= TOTAL_TURNS:
+            print(f"Completed {TOTAL_TURNS} quarters ({LAPS_TARGET} laps), stopping.")
+            motor_command_queue.put("stop")
+            servo_angle_queue.put(None)
+            break
+
+    picam2.stop()
+    cv2.destroyAllWindows()
+    ser.close()
+
+
+if __name__ == "__main__":
+    main()
