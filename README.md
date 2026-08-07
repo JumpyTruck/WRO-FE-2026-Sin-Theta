@@ -53,8 +53,7 @@ The final robot measures:
 
 These dimensions were selected to provide a compact footprint while maintaining enough internal space for all electronic components and ensuring stable handling during high-speed cornering.
 
-📄 **More about our design decisions:**  
-[Robot Dimensions](mobility/README.md#robot-dimensions)
+[More about Robot Dimensions](mobility/README.md#robot-dimensions)
 
 ---
 
@@ -67,8 +66,7 @@ These dimensions were selected to provide a compact footprint while maintaining 
 
 Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared motor. After evaluating multiple options, this combination provided the best balance of speed, torque, simplicity, and reliability for the competition.
 
-📄 **Motor selection, calculations, and testing:**  
-[Drive Motor & Driver](mobility/README.md#drive-system)
+[More about Motor and Motor Driver](mobility/README.md#drive-system)
 
 ---
 
@@ -97,9 +95,6 @@ To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann st
 
 </div>
 
-📄 **Complete steering development and calculations:**  
-[Steering System](mobility/README.md#steering-system)
-
 ---
 
 ## Chassis Design
@@ -119,8 +114,7 @@ The chassis consists of three modular 3D-printed layers that simplify assembly a
 
 The modular construction allows individual sections to be removed without completely disassembling the robot, making repairs and modifications significantly easier during development.
 
-📄 **Complete chassis design:**  
-[More Pictures](mobility/README.md#chassis)
+[More Pictures of Robot](mobility/README.md#chassis)
 
 ---
 
