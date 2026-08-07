@@ -100,7 +100,7 @@ To improve cornering accuracy and reduce tire scrub, the robot uses a 100% Acker
 
 *Insert steering calculation / diagram here*
 
-With a wheel base length of 7.18" and a front axle/track width of 3.00", the appropriate angle to meet the 100% ackermann geometry is ~12 degree, as is delineated in the below sketch. For reference, a 100% ackermann means the imaginary lines visualized from either steering knuckle meet directly at the centre of the rear axle.
+With a wheel base length of 7.18" and a front axle/track width of 3.00", the appropriate angle to meet the 100% ackermann geometry is ~12 degrees, as is delineated in the below sketch. For reference, a 100% ackermann means the imaginary lines visualized from either steering knuckle meet directly at the centre of the rear axle.
 
 *I will insert image later*
 
