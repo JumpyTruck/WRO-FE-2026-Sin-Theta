@@ -14,19 +14,23 @@ We tested different steering mechanisms to improve turning accuracy and reduce d
 
 <table>
 <tr>
-<td align="center" width="50%">
+<td align="center" width="33%">
 <b>Previous Design — Parallel Beam Steering</b><br><br>
 <img width="220" src="https://github.com/user-attachments/assets/73cccba8-f506-4c5d-ad07-ef9bd6d4d4c9"><br><br>
 Both wheels turned at the same angle, causing drift as the inner and outer wheels followed different turning paths.
 </td>
-<td align="center" width="50%">
-<b>Final Design — Ackermann Steering</b><br><br>
+<td align="center" width="33%">
+<b>Initial Design — Ackermann Steering</b><br><br>
 <img width="220" src="https://github.com/user-attachments/assets/56d586ea-e4fe-49f3-8ea5-3422533bf388"><br><br>
 Each wheel follows its own turning radius, reducing wheel slip and improving cornering accuracy.
 </td>
+<td align="center" width="33%">
+<b>Final Design — Simplified Ackermann Steering</b><br><br>
+<img width="220" src="https://mail.google.com/mail/u/0?ui=2&ik=eaf9bbb9dd&attid=0.1&permmsgid=msg-a:r-1511007950328765484&th=19fdcd3f600ac688&view=att&disp=safe&realattid=19fdcd3844517111d7f1&zw"><br><br>
+A 100% Ackermann at 12 Degrees, with a simplified design featuring an inversely mounted servo motor, allowing the two corner-step pieces to no longer be necessary, reducing the number of parts from 7 to 5 pieces, furthermore creating greater freedom of movement to this increase steering angle.
+</td>
 </tr>
 </table>
-
 ---
 
 ###### **1.3 Rear Differential**
