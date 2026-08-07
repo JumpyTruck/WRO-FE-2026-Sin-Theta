@@ -78,7 +78,7 @@ Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared 
 | Servo | MG90S Metal Gear Servo |
 
 **Steering Motor: Servo motor for precise and simple steering**
-[More about Servo Motor](schemes#13-steering-servo-mg90s)
+  [More about Servo Motor](schemes#13-steering-servo-mg90s)
 
 
 To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann steering geometry. The steering mechanism was redesigned through multiple iterations before reaching the final geometry shown below.
