@@ -1,4 +1,4 @@
-# WRO-FE-2026-sinθ 
+# WRO-FE-2026-Sinθ 
 
 ## The Robot
 
