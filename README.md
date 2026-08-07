@@ -83,6 +83,8 @@ Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared 
 
 To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann steering geometry. The steering mechanism was redesigned through multiple iterations before reaching the final geometry shown below.
 
+[Why We Chose Ackermann](models#12-steering-system)
+
 <div align="center">
 
 **Steering Animation**
@@ -98,8 +100,6 @@ To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann st
 *Insert steering calculation / diagram here*
 
 </div>
-
-[Why We Chose Ackerman](models#12-steering-system)
 
 [Steering CAD](mobility/README.md#chassis)
 
