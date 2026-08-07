@@ -36,7 +36,7 @@
 
 # Mobility Management
 
-The mobility system was designed to maximize steering precision, stability, and reliability while remaining compact enough to navigate the WRO Future Engineers field. Every mechanical component was selected after multiple iterations and testing to improve turning performance, simplify maintenance, and increase consistency during competition.
+The mobility system was designed to maximize steering precision, stability, and reliability while remaining compact enough to navigate the WRO Future Engineers Game Mat. Every mechanical component was selected after multiple iterations and testing to improve turning performance, simplify maintenance, and increase consistency during competition.
 
 ---
 
@@ -82,7 +82,7 @@ Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared 
 [More about Servo Motor](schemes#13-steering-servo-mg90s)
 
 
-To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann steering geometry. The steering mechanism was redesigned through multiple iterations before reaching the final geometry shown below.
+To improve cornering accuracy and reduce tire scrub, the robot uses a 100% Ackermann steering geometry. The steering mechanism was redesigned through multiple iterations before reaching the final geometry shown below.
 
 [Why We Chose Ackermann](models#12-steering-system)
 
@@ -100,6 +100,10 @@ To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann st
 
 *Insert steering calculation / diagram here*
 
+With a wheel base length of 7.18" and a front axle/track width of 3.00", the appropriate angle to meet the 100% ackermann geometry is ~12 degree, as is delineated in the below sketch. For reference, a 100% ackermann means the imaginary lines visualized from either steering knuckle meet directly at the centre of the rear axle.
+
+*I will insert image later*
+
 </div>
 
 [Steering CAD](mobility/README.md#chassis)
@@ -108,7 +112,7 @@ To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann st
 
 ## Chassis Assembly
 
-The chassis consists of three modular 3D-printed layers that simplify assembly and maintenance while providing rigid mounting locations for every component.
+The chassis consists of three modular 3D-printed layers that simplify assembly and maintenance while providing rigid mounting locations for every component. This open-architecture design allows us to easily update and iterate upon our designs, while simultaneously allowing us to quickly repair our robot.
 
 <div align="center">
 
@@ -140,7 +144,7 @@ The modular construction allows individual sections to be removed without comple
 
 ## Development Process
 
-The final mobility system is the result of numerous design iterations involving the chassis, steering mechanism, and component placement. Each revision focused on improving steering precision, reducing weight, increasing rigidity, and simplifying assembly.
+The final mobility system is the result of numerous design iterations involving the chassis, steering mechanism, and component placement. Each revision focused on improving steering precision, reducing weight, increasing rigidity, maximizing efficiency, and simplifying assembly.
 
 *Insert timeline or iteration image here.*
 
