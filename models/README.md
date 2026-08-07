@@ -47,7 +47,7 @@ Before designing our chassis, we sketched out different vehicle layouts and prop
 
 ---
 
-#### 2\. Structural Design Process
+#### 2\. Structural Design Process - Main Chassis Base
 
 After finalizing the main mechanical choices, we developed multiple chassis iterations to optimize component placement, structural strength, and weight distribution.
 
@@ -83,9 +83,14 @@ The initial robot brings together every mechanical improvement: the optimized ch
 
 <img width="252" alt="IMG_1967" src="https://github.com/user-attachments/assets/0cca0d85-2654-46ef-bd2c-4e263146fa95">
 
----
+#### 3\. Structural Design Process - Second Story Plate
 
-###### **2.5 Iteration 4 - Final Optimized Chassis/Robot Assembly**
+The second story (or second plate) is the holder for the slave controller, responsible for orchestrating the movements of the motor and servo, by combining together instructions from the Raspberry Pi 4b, sending them through the motor driver and independent voltage regulators, and thus interpreting digital signals into physical movement.
+
+###### **3.1 Initial Design**
+
+---
+#### 4\. **4.0 Iteration 4 - Final Optimized Chassis/Robot Assembly**
 The final chassis and robot design harmonizes multiple minor improvements to maximize our robots capabilities and efficiency.
 Changes:
   - The rear standoffs have been repositioned further back to reduce rubbing frictions between themselves and the metal driving axles.
