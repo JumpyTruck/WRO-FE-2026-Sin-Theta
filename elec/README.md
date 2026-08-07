@@ -70,4 +70,4 @@ A custom-designed PCB organizes wiring between components, giving cleaner cable 
 #### 3\. Electrical Integration
 All components are integrated into the final chassis as a compact, reliable system: the Raspberry Pi handles high-level decision-making, while the ESP32 manages real-time motor and steering control.
 
-<img width="215" alt="elec" src="https://github.com/user-attachments/assets/ce538aed-06b1-4c1c-95ff-e8c79c9cbd87" />
+<img width="250" alt="elec" src="https://github.com/user-attachments/assets/ce538aed-06b1-4c1c-95ff-e8c79c9cbd87" />
