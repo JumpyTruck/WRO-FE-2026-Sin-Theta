@@ -83,6 +83,8 @@ The initial robot brings together every mechanical improvement: the optimized ch
 
 <img width="252" alt="IMG_1967" src="https://github.com/user-attachments/assets/0cca0d85-2654-46ef-bd2c-4e263146fa95">
 
+---
+
 #### 3\. Structural Design Process - Second Story Plate
 
 The second story (or second plate) is the holder for the slave controller, responsible for orchestrating the movements of the motor and servo, by combining together instructions from the Raspberry Pi 4b, sending them through the motor driver and independent voltage regulators, and thus interpreting digital signals into physical movement.
