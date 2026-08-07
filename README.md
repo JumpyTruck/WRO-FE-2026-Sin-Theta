@@ -106,7 +106,7 @@ To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann st
 
 ---
 
-## Chassis Design
+## Chassis Assembly
 
 The chassis consists of three modular 3D-printed layers that simplify assembly and maintenance while providing rigid mounting locations for every component.
 
