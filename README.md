@@ -53,7 +53,7 @@ The final robot measures:
 
 These dimensions were selected to provide a compact footprint while maintaining enough internal space for all electronic components and ensuring stable handling during high-speed cornering.
 
-[More about Robot Dimensions](models/README.md#1.4 Design Inspiration & Chassis Dimensions) 
+[More about Robot Dimensions](models/README.md#1.4-Design-Inspiration-&-Chassis-Dimensions) 
 
 ---
 
