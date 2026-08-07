@@ -69,8 +69,8 @@ We increased the overall size and added standoff mounting holes so a second plat
 
 ---
 
-###### **2.3 Iteration 3 — Final Optimized Chassis**
-The final chassis fits all required components with an improved layout. The motor mount was redesigned with a top opening so the motor slides in like a "hat" mount, simplifying assembly. The battery pack sits centered on the chassis for a balanced centre of gravity.
+###### **2.3 Iteration 3 — Initial Complete Chassis**
+The initial complete chassis fits all required components with an improved layout. The motor mount was redesigned with a top opening so the motor slides in like a "hat" mount, simplifying assembly. The battery pack sits centered on the chassis for a balanced centre of gravity.
 
 **Improvements:** room for all electronics and structural parts, simpler motor mounting, centered battery placement, and better stability under acceleration and turning.
 
@@ -78,7 +78,18 @@ The final chassis fits all required components with an improved layout. The moto
 
 ---
 
-###### **2.4 Final Robot Assembly**
-The final robot brings together every mechanical improvement: the optimized chassis, Ackermann steering, rear differential, SPIKE Prime wheels, and integrated electronics mounting — built for reliability, balanced weight, and precise movement throughout the WRO Future Engineers challenge.
+###### **2.4 Initial Robot Assembly**
+The initial robot brings together every mechanical improvement: the optimized chassis, Ackermann steering, rear differential, SPIKE Prime wheels, and integrated electronics mounting — built for reliability, balanced weight, and precise movement throughout the WRO Future Engineers challenge.
 
 <img width="252" alt="IMG_1967" src="https://github.com/user-attachments/assets/0cca0d85-2654-46ef-bd2c-4e263146fa95">
+
+---
+
+###### **2.5 Iteration 4 - Final Optimized Chassis/Robot Assembly**
+The final chassis and robot design harmonizes multiple minor improvements to maximize our robots capabilities and efficiency.
+Changes:
+  > The rear standoffs have been repositioned further back to reduce rubbing frictions between themselves and the metal driving axles.
+  > The frontal area of the chassis has been redesigned to accommodate the newly improved steering design.
+  > The battery holder has had its corners removed to prevent rubbing friction with the front SPIKE wheels.
+  > Nylon spacers feature at the front and rear axles to improve the wheels' stability, while reducing friction and catching, additionally rubber outer elements are added to improve the efficiency of rotating motion transferred into the wheels while keeping them firmly secured.
+  > The portion too which the steering assembly attaches to in the front has been raised by 3/4" to generate positive rake (changing from the previous negative rake) in order to increase stability, improve the camera's view, as well as too reduce stress on the chassis.<img width="2292" height="3058" alt="PXL_20260730_192531841 MP" src="https://github.com/user-attachments/assets/dd5e9801-0620-4be2-9a9e-7f1922619b95" />
