@@ -88,10 +88,10 @@ The initial robot brings together every mechanical improvement: the optimized ch
 ###### **2.5 Iteration 4 - Final Optimized Chassis/Robot Assembly**
 The final chassis and robot design harmonizes multiple minor improvements to maximize our robots capabilities and efficiency.
 Changes:
-  > The rear standoffs have been repositioned further back to reduce rubbing frictions between themselves and the metal driving axles.
-  > The frontal area of the chassis has been redesigned to accommodate the newly improved steering design.
-  > The battery holder has had its corners removed to prevent rubbing friction with the front SPIKE wheels.
-  > Nylon spacers feature at the front and rear axles to improve the wheels' stability, while reducing friction and catching, additionally rubber outer elements are added to improve the efficiency of rotating motion transferred into the wheels while keeping them firmly secured.
-  > The portion too which the steering assembly attaches to in the front has been raised by 3/4" to generate positive rake (changing from the previous negative rake) in order to increase stability, improve the camera's view, as well as too reduce stress on the chassis.
+  - The rear standoffs have been repositioned further back to reduce rubbing frictions between themselves and the metal driving axles.
+  - The frontal area of the chassis has been redesigned to accommodate the newly improved steering design.
+  - The battery holder has had its corners removed to prevent rubbing friction with the front SPIKE wheels.
+  - Nylon spacers feature at the front and rear axles to improve the wheels' stability, while reducing friction and catching, additionally rubber outer elements are added to improve the efficiency of rotating motion transferred into the wheels while keeping them firmly secured.
+  - The portion too which the steering assembly attaches to in the front has been raised by 3/4" to generate positive rake (changing from the previous negative rake) in order to increase stability, improve the camera's view, as well as too reduce stress on the chassis.
 
 <img width="2292" height="3058" alt="PXL_20260730_192531841 MP" src="https://github.com/user-attachments/assets/dd5e9801-0620-4be2-9a9e-7f1922619b95" />
