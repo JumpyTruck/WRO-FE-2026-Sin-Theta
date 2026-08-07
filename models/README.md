@@ -26,7 +26,7 @@ Each wheel follows its own turning radius, reducing wheel slip and improving cor
 </td>
 <td align="center" width="33%">
 <b>Final Design — Simplified Ackermann Steering</b><br><br>
-<img width="220" src="[https://mail.google.com/mail/u/0?ui=2&ik=eaf9bbb9dd&attid=0.1&permmsgid=msg-a:r-1511007950328765484&th=19fdcd3f600ac688&view=att&disp=safe&realattid=19fdcd3844517111d7f1&zw](https://github.com/user-attachments/assets/786d707b-36d0-486a-b7bc-ed254cc347fb)"><br><br>
+<img width="220" src="[https://github.com/user-attachments/assets/786d707b-36d0-486a-b7bc-ed254cc347fb]"><br><br>
 A 100% Ackermann at 12 Degrees, with a simplified design featuring an inversely mounted servo motor, allowing the two corner-step pieces to no longer be necessary, reducing the number of parts from 7 to 5 pieces, furthermore creating greater freedom of movement to this increase steering angle.
 </td>
 </tr>
