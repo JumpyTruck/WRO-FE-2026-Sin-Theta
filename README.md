@@ -120,19 +120,18 @@ The chassis consists of three modular 3D-printed layers that simplify assembly a
 The modular construction allows individual sections to be removed without completely disassembling the robot, making repairs and modifications significantly easier during development.
 
 📄 **Complete chassis design:**  
-[Chassis Design](mobility/README.md#chassis)
+[More Pictures](mobility/README.md#chassis)
 
 ---
 
 ## Wheels & Differential
 
-The robot uses LEGO SPIKE Prime wheels for their compact size, consistent grip, and lightweight construction. Power is transferred through a rear differential, allowing both drive wheels to rotate at different speeds while cornering, improving stability and reducing mechanical stress.
 
-📄 **Wheel selection:**  
-[Wheel Choice](mobility/README.md#wheels)
+📄 **Wheel selection: The robot uses LEGO SPIKE Prime wheels for their compact size, consistent grip, and lightweight construction**  
+[More about Wheel Choice](mobility/README.md#wheels)
 
-📄 **Differential design:**  
-[Differential](mobility/README.md#differential)
+📄 **Differential design:  Power is transferred through a rear metal differential, allowing both drive wheels to rotate at different speeds while cornering, improving stability and reducing mechanical stress.**  
+[More about Differential](mobility/README.md#differential)
 
 ---
 
