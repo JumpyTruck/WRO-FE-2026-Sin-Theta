@@ -95,6 +95,8 @@ To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann st
 
 </div>
 
+[Steering CAD](mobility/README.md#chassis)
+
 ---
 
 ## Chassis Design
@@ -114,7 +116,7 @@ The chassis consists of three modular 3D-printed layers that simplify assembly a
 
 The modular construction allows individual sections to be removed without completely disassembling the robot, making repairs and modifications significantly easier during development.
 
-[More Pictures of Robot](mobility/README.md#chassis)
+[Pictures of Custom Mounts](mobility/README.md#chassis)
 
 ---
 
