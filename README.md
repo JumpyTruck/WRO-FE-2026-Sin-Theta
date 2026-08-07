@@ -112,7 +112,7 @@ The chassis consists of three modular 3D-printed layers that simplify assembly a
 
 <div align="center">
 
-<img width="1248" height="700" alt="firstplate" src="https://github.com/user-attachments/assets/6b5c874b-507a-4f07-a8a0-cc10f899f87c" />
+<img width="1245" height="700" alt="firstplaterenamed" src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" />
 
 <img width="1248" height="700" alt="secondplate" src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" />
 
