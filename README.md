@@ -53,7 +53,7 @@ The final robot measures:
 
 These dimensions were selected to provide a compact footprint while maintaining enough internal space for all electronic components and ensuring stable handling during high-speed cornering.
 
-[More about Robot Dimensions](models/README.md#1.4-Design-Inspiration-&-Chassis-Dimensions) 
+[More about Robot Dimensions Choice](models/README.md#14-design-inspiration--chassis-dimensions) 
 
 ---
 
@@ -66,7 +66,7 @@ These dimensions were selected to provide a compact footprint while maintaining 
 
 Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared motor. After evaluating multiple options, this combination provided the best balance of speed, torque, simplicity, and reliability for the competition.
 
-[More about Motor and Motor Driver](mobility/README.md#drive-system)
+[More about Motor and Motor Driver Choice](schemes#1-motorization--power-system)
 
 ---
 
@@ -76,6 +76,10 @@ Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared 
 |-----------|---------------|
 | Steering Type | Ackermann Steering |
 | Servo | MG90S Metal Gear Servo |
+
+**Steering Motor: Servo motor for precise and simple steering**
+[More about Servo Motor](schemes#13-steering-servo-mg90s)
+
 
 To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann steering geometry. The steering mechanism was redesigned through multiple iterations before reaching the final geometry shown below.
 
@@ -94,6 +98,8 @@ To improve cornering accuracy and reduce tire scrub, the robot uses Ackermann st
 *Insert steering calculation / diagram here*
 
 </div>
+
+[Why We Chose Ackerman](models#12-steering-system)
 
 [Steering CAD](mobility/README.md#chassis)
 
@@ -123,11 +129,11 @@ The modular construction allows individual sections to be removed without comple
 ## Wheels & Differential
 
 
-📄 **Wheel selection: The robot uses LEGO SPIKE Prime wheels for their compact size, consistent grip, and lightweight construction**  
-[More about Wheel Choice](mobility/README.md#wheels)
+**Wheel selection: The robot uses LEGO SPIKE Prime wheels for their compact size, consistent grip, and lightweight construction**  
+[More about Wheel Choice](models#1-mechanical-design-choices)
 
-📄 **Differential design:  Power is transferred through a rear metal differential, allowing both drive wheels to rotate at different speeds while cornering, improving stability and reducing mechanical stress.**  
-[More about Differential](mobility/README.md#differential)
+**Differential design:  Power is transferred through a rear metal differential, allowing both drive wheels to rotate at different speeds while cornering, improving stability and reducing mechanical stress.**  
+[More about Differential Choice](models#13-rear-differential)
 
 ---
 
@@ -137,5 +143,5 @@ The final mobility system is the result of numerous design iterations involving 
 
 *Insert timeline or iteration image here.*
 
-📄 **Complete development history:**  
+**Complete development history:**  
 [Mechanical Development](mobility/README.md#development)
