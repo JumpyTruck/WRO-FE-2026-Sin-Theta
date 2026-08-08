@@ -1,36 +1,53 @@
-### Mechanical Design Process
+### Current Mechanical Design
 
-#### 1\. Mechanical Design Choices
+#### 1\. Chassis
+The chassis the "backbone" of our robot, from which everything is built around, featuring a modular base that allows parts to be continuously iterated upon and easily replaced, making maintenance and updates a simple process.
 
-###### **1.1 Wheel Selection**
-We chose **SPIKE Prime wheels (56mm diameter, 14mm thickness)** for the balance they strike between speed, torque, and stability. They're compact enough to keep the robot lightweight while still giving sufficient grip and clearance on the WRO mat.
+###### **1.1 Steering Assembly Holder**
+The front of the chassis is defined by a raised trapezoid-like section, featured with four mounting holes, from which the steering system is mounted. It is "insert measuremnt" thick, which not only allows for greater strength, it generates a positive rake (the front axle is lower in reference from the rear axle) which creates better stability in high-speed turning, while additionally providing a better angle for our camera to observe the game field.
 
 <img width="280" alt="spike_wheels" src="https://github.com/user-attachments/assets/873b32bb-68e5-45ca-adc8-cf2fd2dda6f8">
 
 ---
 
-###### **1.2 Steering System**
-We tested different steering mechanisms to improve turning accuracy and reduce drifting.
+###### **1.2 Battery Holder**
+Our 12.8V [battery](schemes/README.md#14-battery-pack) is quite large heavy, demanding careful placement in our robot to ensure even balance and stability. Our [motor](schemes/README.md#11-dc-motor-selection) is hefty and powerful, and with it being rear-mounted [read more about motor mounting decision](models/README.md#13-motor-mount), it is necessary for the battery to be front-mounted. Furthermore, the battery being mounted as low as possible (over a mounting position akin to the pcb holder, to conserve length) helps to reduce the chance of tipping/rolling, increasing overall stability. 
 
-<table>
-<tr>
-<td align="center" width="33%">
-<b>Previous Design — Parallel Beam Steering</b><br><br>
-<img width="220" src="https://github.com/user-attachments/assets/73cccba8-f506-4c5d-ad07-ef9bd6d4d4c9"><br><br>
-Both wheels turned at the same angle, causing drift as the inner and outer wheels followed different turning paths.
-</td>
-<td align="center" width="33%">
-<b>Initial Design — Ackermann Steering</b><br><br>
-<img width="220" src="https://github.com/user-attachments/assets/56d586ea-e4fe-49f3-8ea5-3422533bf388"><br><br>
-Each wheel follows its own turning radius, reducing wheel slip and improving cornering accuracy.
-</td>
-<td align="center" width="33%">
-<b>Final Design — Simplified Ackermann Steering</b><br><br>
-<img width="220" src="https://github.com/user-attachments/assets/786d707b-36d0-486a-b7bc-ed254cc347fb"><br><br>
-A 100% Ackermann at 12 Degrees, with a simplified design featuring an inversely mounted servo motor, allowing the two corner-step pieces to no longer be necessary, reducing the number of parts from 7 to 5 pieces, furthermore creating greater freedom of movement to this increase steering angle.
-</td>
-</tr>
-</table>
+Additionally, the battery holder has it front corners cut off 4/5 of the way up to reduced the rubbing friction from the front tires as they spin, thus increasing efficiency and limiting wear.
+
+<img width="280" alt="spike_wheels" src="https://github.com/user-attachments/assets/873b32bb-68e5-45ca-adc8-cf2fd2dda6f8">
+
+---
+
+###### **1.3 Motor Mount**
+The [motor](schemes/README.md#11-dc-motor-selection) is the heart of our robot, enabling to navigate the course, thus ensuring its ideal placement was of the utmost importance. The motor mount is placed in the mid-to-rear of the chassis with a rear wheel drive (akin to a M/R Car). This "mid-engine" layout allows easier turning (with the main weight placed in the rear) as well as greater efficiency as it form the shortest distance possible from the motor to the wheels, limiting losses to the drivetrain.
+
+The motor itself is mounted through an array of mounting points found on its front face, that are mirrored onto the mount for attachment. Furthermore, the mount itself is split into an upper and a lower half which allows the motor to be placed, and then covered by the top half to be held in place by four long screws.
+
+<img width="280" alt="spike_wheels" src="https://github.com/user-attachments/assets/873b32bb-68e5-45ca-adc8-cf2fd2dda6f8">
+
+---
+
+###### **1.4 Rear Axle Mounting Points**
+The final, rear-most section of the chassis is defined by a myriad of cut-outs and mounting points, made to allow the differential space to spin freely, as well as places to attach the various supports for the rear axle assembly.
+
+<img width="280" alt="spike_wheels" src="https://github.com/user-attachments/assets/873b32bb-68e5-45ca-adc8-cf2fd2dda6f8">
+
+---
+
+###### **1.5 Miscellaneous**
+**Mounting Points**
+Four mounting holes can be find directly before the battery holder as well as in between the mounting points for the rear axle assembly, larger then the other M3 screw-sized holes, are made for (insert measurement) VEX Standoffs upon which the [PCB Holder](models/README.md#21-pcb-holder-second-story) will be placed.
+
+**General Shape**
+The general shape of the chassis is a rectangle (insert dimensions) with cutaways at the mid-front, forming a trapezoid --> small rectangle --> large rectangle transition, necessary to provide the front wheels space to move and steer.
+
+---
+
+#### 2\. Steering System - 100% Ackermann
+<img width="660" src="https://github.com/user-attachments/assets/786d707b-36d0-486a-b7bc-ed254cc347fb"><br><br>
+The steering system utilized on our robot is a 100% ackermann steering (working out to about a 12 degree angle, see below image) which helps to prevent tire scrubbing, increasing overall robot efficiency, with the inner wheel steering more than the outer wheel. The steering knuckles are (insert dimesnsions) long, the longest possible to allow for the most room for movement, all to maximize steering angle (insert degree). The steering assembly is made up of around 
+
 ---
 
 ###### **1.3 Rear Differential**
@@ -102,3 +119,11 @@ Changes:
   - The portion too which the steering assembly attaches to in the front has been raised by 3/4" to generate positive rake (changing from the previous negative rake) in order to increase stability, improve the camera's view, as well as too reduce stress on the chassis.
 
 <img width="2292" height="3058" alt="PXL_20260730_192531841 MP" src="https://github.com/user-attachments/assets/dd5e9801-0620-4be2-9a9e-7f1922619b95" />
+
+###### **1.1 Wheel Selection**
+We chose **SPIKE Prime wheels (56mm diameter, 14mm thickness)** for the balance they strike between speed, torque, and stability. They're compact enough to keep the robot lightweight while still giving sufficient grip and clearance on the WRO mat.
+
+<img width="280" alt="spike_wheels" src="https://github.com/user-attachments/assets/873b32bb-68e5-45ca-adc8-cf2fd2dda6f8">
+
+---
+
