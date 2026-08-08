@@ -66,6 +66,94 @@ These dimensions were selected to provide a compact footprint while maintaining 
 
 Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared motor. After evaluating multiple options, this combination provided the best balance of speed, torque, simplicity, and reliability for the competition.
 
+The motor provides sufficient torque for the robot's mass while maintaining
+the speed required for the competition course. Its integrated encoder also
+provides speed and distance feedback for autonomous control.
+
+### Motor Torque Calculation
+
+The selected motor has a **rated torque of 1.8 kg·cm at 285 RPM** and a
+**stall torque of 4 kg·cm**.
+
+For our 56 mm diameter wheels:
+
+\[
+r = \frac{56}{2} = 28\text{ mm} = 0.028\text{ m}
+\]
+
+Converting the motor's rated torque:
+
+\[
+T_{rated} = 1.8 \times 0.0981
+\]
+
+\[
+T_{rated} = 0.1766\text{ N·m}
+\]
+
+To verify that the motor is sufficient, we used a design acceleration target
+of **2.0 m/s²** for our 1.001 kg robot.
+
+The force required to achieve this acceleration is:
+
+\[
+F = ma
+\]
+
+\[
+F = (1.001)(2.0)
+\]
+
+\[
+F = 2.002\text{ N}
+\]
+
+The corresponding wheel torque required is:
+
+\[
+T_{required} = Fr
+\]
+
+\[
+T_{required} = (2.002)(0.028)
+\]
+
+\[
+T_{required} = 0.0561\text{ N·m}
+\]
+
+To account for losses through the differential, bearings, tires, and other
+drivetrain components, we conservatively assume **70% drivetrain efficiency**:
+
+\[
+T_{actual\ required} =
+\frac{0.0561}{0.70}
+\]
+
+\[
+T_{actual\ required} \approx 0.0801\text{ N·m}
+\]
+
+Comparing this with the motor's rated torque:
+
+\[
+\text{Torque Margin} =
+\frac{0.1766}{0.0801}
+\]
+
+\[
+\boxed{\text{Torque Margin} \approx 2.20\times}
+\]
+
+Therefore, the motor's rated torque is approximately **2.2 times greater than
+the torque required** to achieve our 2.0 m/s² design acceleration after
+allowing for drivetrain losses.
+
+This provides sufficient torque for reliable acceleration while leaving
+additional torque available for normal drivetrain losses and changes in
+operating conditions.
+
+
 [More about Motor and Motor Driver Choice](schemes#1-motorization--power-system)
 
 ---
