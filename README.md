@@ -46,10 +46,10 @@ The final robot measures:
 
 | Specification | Value |
 |--------------|------:|
-| Length | XXX mm |
-| Width | XXX mm |
-| Height | XXX mm |
-| Weight | ~800 g |
+| Length | 230 mm |
+| Width | 105 mm |
+| Height | 256 mm |
+| Weight | 1001 g |
 
 These dimensions were selected to provide a compact footprint while maintaining enough internal space for all electronic components and ensuring stable handling during high-speed cornering.
 
