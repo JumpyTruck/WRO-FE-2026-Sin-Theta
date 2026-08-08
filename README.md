@@ -75,7 +75,7 @@ Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared 
 | Component | Selected Part |
 |-----------|---------------|
 | Steering Type | Ackermann Steering |
-| Servo | MG90S Metal Gear Servo |
+| Servo | Coreless Servo Black |
 
 **Steering Motor: Servo motor for precise and simple steering**
 
