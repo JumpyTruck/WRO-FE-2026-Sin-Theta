@@ -4,7 +4,7 @@
 The chassis the "backbone" of our robot, from which everything is built around, featuring a modular base that allows parts to be continuously iterated upon and easily replaced, making maintenance and updates a simple process.
 
 ###### **1.1 Steering Assembly Holder**
-The front of the chassis is defined by a raised trapezoid-like section, featured with four mounting holes, from which the steering system is mounted. It is "insert measuremnt" thick, which not only allows for greater strength, it generates a positive rake (the front axle is lower in reference from the rear axle) which creates better stability in high-speed turning, while additionally providing a better angle for our camera to observe the game field.
+The front of the chassis is defined by a raised trapezoid-like section, featured with four mounting holes, from which the steering system is mounted. It is "insert measuremnt" thick, which not only allows for greater strength, it generates a positive rake (the front axle is lower in reference from the rear axle) which creates better stability in high-speed turning, while additionally providing a better angle for our camera to observe the game field. Additionally, it has the cutout in the middle to allow space for the servo motor.
 
 <img width="280" alt="spike_wheels" src="https://github.com/user-attachments/assets/873b32bb-68e5-45ca-adc8-cf2fd2dda6f8">
 
@@ -35,7 +35,14 @@ The final, rear-most section of the chassis is defined by a myriad of cut-outs a
 
 ---
 
-###### **1.5 Miscellaneous**
+###### **1.5 Rear Differential**
+A metal differential drives the rear wheels, letting them rotate at different speeds through turns. We chose metal over 3D-printed gears for smoother cornering and better durability, and over LEGO-based alternatives for a lower centre of gravity.
+
+<img width="336" alt="IMG_2312" src="https://github.com/user-attachments/assets/91a28dd0-2991-4b22-a469-cf7e6f4bac3d">
+
+---
+
+###### **1.6 Miscellaneous**
 **Mounting Points**
 Four mounting holes can be find directly before the battery holder as well as in between the mounting points for the rear axle assembly, larger then the other M3 screw-sized holes, are made for (insert measurement) VEX Standoffs upon which the [PCB Holder](models/README.md#21-pcb-holder-second-story) will be placed.
 
@@ -46,84 +53,75 @@ The general shape of the chassis is a rectangle (insert dimensions) with cutaway
 
 #### 2\. Steering System - 100% Ackermann
 <img width="660" src="https://github.com/user-attachments/assets/786d707b-36d0-486a-b7bc-ed254cc347fb"><br><br>
-The steering system utilized on our robot is a 100% ackermann steering (working out to about a 12 degree angle, see below image) which helps to prevent tire scrubbing, increasing overall robot efficiency, with the inner wheel steering more than the outer wheel. The steering knuckles are (insert dimesnsions) long, the longest possible to allow for the most room for movement, all to maximize steering angle (insert degree). The steering assembly is made up of around 
+###### **2.1 Steering Holder**
+The steering holder is what all the parts of the steering assembly attach too, with an attachment point for the servo motor to fit inverted (to level the servo output with the steering knuckles), cutaways on either side for the steering knuckles, as well as a large swept cut out portion in the front to allow the servo output to move with freedom. It features a strong and sturdy design, with six "arms" to keep it strong, minimize weight, and to increase the coincident surface area between itself and the chassis, helping to stay sturdy and rooted down.
 
 ---
 
-###### **1.3 Rear Differential**
-A metal differential drives the rear wheels, letting them rotate at different speeds through turns. We chose metal over 3D-printed gears for smoother cornering and better durability, and over LEGO-based alternatives for a lower centre of gravity.
-
-<img width="336" alt="IMG_2312" src="https://github.com/user-attachments/assets/91a28dd0-2991-4b22-a469-cf7e6f4bac3d">
+###### **2.2 Steering Knuckle**
+The steering knuckle is the main point of the steering assembly, from which the wheels attach and the steering motion is incurred. In order to complete the 100% Ackermann Design (to reduce tire scrubbing and increase turning efficiency; inside turns more than the outside), the knuckles maintain a 12 degree angle pointing inwards toward the centre of the rear axle (thus 100% Ackermann). They are (insert dimension) long to provide as much space as possible for steering motion, to increase steering angle as much as possible. Additionally, thin 1/8th inch nylon spacers are placed on the inside of the wheel to reduce friction between the spinning wheels and 3d printed surfaces.
 
 ---
 
-###### **1.4 Design Inspiration & Chassis Dimensions**
-Before designing our chassis, we sketched out different vehicle layouts and proportions, drawing inspiration from Formula One cars — a longer, narrower body for better stability and smoother, more controlled turning. Overall dimensions were chosen to stay compact while fitting the Raspberry Pi, custom PCB, DC motor, battery, and sensors, keeping a balanced centre of gravity without sacrificing agility.
-
-<img width="252" alt="IMG_1527" src="https://github.com/user-attachments/assets/17898f3a-5b99-4380-ab8f-eba7226495c5">
+###### **2.3 Steering T**
+This piece slips on top of the servo motor output to increase its overall length as well as to increase the mesh between the servo output (secured with two screws) and the steering bar (attached with an M3 screw).
 
 ---
 
-#### 2\. Structural Design Process - Main Chassis Base
-
-After finalizing the main mechanical choices, we developed multiple chassis iterations to optimize component placement, structural strength, and weight distribution.
-
-###### **2.1 Iteration 1 — Initial Frame Design**
-The first prototype was a basic structural frame with mounting points for the DC motor and servo. It didn't include mounting points for a second plate, making it hard to securely attach the Raspberry Pi, custom PCB, and camera.
-
-**Issues:** no space for standoffs between plates, limited room for future components.
-
-<img width="336" alt="IMG_2297" src="https://github.com/user-attachments/assets/c09e16ee-0dce-4a40-99b6-c4569ce3b0a5">
+###### **2.4 Steering Bar**
+The steering bar connects across both steering knuckles with an attachment point in the centre for the steering T, converting the servo output to actual steering through the knuckles.
 
 ---
 
-###### **2.2 Iteration 2 — Expanded Frame Design**
-We increased the overall size and added standoff mounting holes so a second plate could hold the electronics. This introduced a new problem: no room left for the battery pack.
-
-**Issues:** improved structural support, but insufficient space for the battery, leading to uneven weight distribution.
-
-<img width="336" alt="IMG_2298" src="https://github.com/user-attachments/assets/b72d6ca1-537b-4b37-b571-bb60e22433d7">
+#### 3\. Rear Axle Assembly
+###### **3.1 Motor Adapter**
+This piece is an adapter for the "D"-Shape Motor output into the Square-cut input for the differential input gear, with slots that "hug" both the input and the output to increase mesh as much to possible, thus increasing motor --> wheel efficiency.
 
 ---
 
-###### **2.3 Iteration 3 — Initial Complete Chassis**
-The initial complete chassis fits all required components with an improved layout. The motor mount was redesigned with a top opening so the motor slides in like a "hat" mount, simplifying assembly. The battery pack sits centered on the chassis for a balanced centre of gravity.
-
-**Improvements:** room for all electronics and structural parts, simpler motor mounting, centered battery placement, and better stability under acceleration and turning.
-
-<img width="336" alt="IMG_2299" src="https://github.com/user-attachments/assets/d65b5031-916f-4674-9e84-d1f3296ae2f0">
+###### **3.2 Input Gear Holder**
+The input gear holder is a stand that keep the differential input gear in place, for optimal mesh with the differential, and reduced slippage.
 
 ---
 
-###### **2.4 Initial Robot Assembly**
-The initial robot brings together every mechanical improvement: the optimized chassis, Ackermann steering, rear differential, SPIKE Prime wheels, and integrated electronics mounting — built for reliability, balanced weight, and precise movement throughout the WRO Future Engineers challenge.
-
-<img width="252" alt="IMG_1967" src="https://github.com/user-attachments/assets/0cca0d85-2654-46ef-bd2c-4e263146fa95">
+###### **3.3 Differential Holder**
+These simple stands hold the differential in place, mounted on the differential's ball bearing to reduce rolling friction as much as possible.
 
 ---
 
-#### 3\. Structural Design Process - Second Story Plate
+###### **3.4 Axle Supports**
+The same design for the differential holder and input gear holder, only with adjusted slots to hold a different set of ball bearing, through which our custom metal axles feed through, to reduce sagging, increase strength, and reduce friction.
 
+---
+
+###### **3.5 Axles**
+These custom metal 3d printed axles are specially designed to perfectly convert the differential output into the LEGO axle necessary to drive the SPIKE Prime wheels, which are accompanied by LEGO rubber elements connected to the axle and then the wheel itself with a peg to ensure the wheel stays on snug, as well as to ensure as much rotation is transferred to the wheels as possible.
+
+---
+
+#### 3\. PCB Holder/Second Story Plate
 The second story (or second plate) is the holder for the slave controller, responsible for orchestrating the movements of the motor and servo, by combining together instructions from the Raspberry Pi 4b, sending them through the motor driver and independent voltage regulators, and thus interpreting digital signals into physical movement.
 
-###### **3.1 Initial Design**
+The plate itself is a series of cut walls the form together two conjoined rectangles. The main rectangle accommodates the custom [PCB](schemes), with small cuts on either side for the USB --> Micro USB wire via which the Serial information is transmitted. The second, outer rectangle serves a double purpose: first to give a home to the independent servo voltage regulator, and second if we ever need to switch back to our original PCB, helping to maintain modularity and flexibility in our design.
+
+Additionally, it maintains flared edges to which four mounting points designed for VEX Standoffs attach to; this is where the [Raspberry Pi Holder](models/#4-raspbeery-pi-4b-holder-third-story-plate) attaches atop.
 
 ---
-#### 4\. **4.0 Iteration 4 - Final Optimized Chassis/Robot Assembly**
-The final chassis and robot design harmonizes multiple minor improvements to maximize our robots capabilities and efficiency.
-Changes:
-  - The rear standoffs have been repositioned further back to reduce rubbing frictions between themselves and the metal driving axles.
-  - The frontal area of the chassis has been redesigned to accommodate the newly improved steering design.
-  - The battery holder has had its corners removed to prevent rubbing friction with the front SPIKE wheels.
-  - Nylon spacers feature at the front and rear axles to improve the wheels' stability, while reducing friction and catching, additionally rubber outer elements are added to improve the efficiency of rotating motion transferred into the wheels while keeping them firmly secured.
-  - The portion too which the steering assembly attaches to in the front has been raised by 3/4" to generate positive rake (changing from the previous negative rake) in order to increase stability, improve the camera's view, as well as too reduce stress on the chassis.
 
-<img width="2292" height="3058" alt="PXL_20260730_192531841 MP" src="https://github.com/user-attachments/assets/dd5e9801-0620-4be2-9a9e-7f1922619b95" />
+#### 4\. Raspberry Pi 4b Holder/Third Story Plate
+This is the topmost part of our robot, a spot at which not only the Raspberry Pi 4b sits, but the camera as well. It is a simple rectangle with the mounting points on the outer edges, accompanied by a simple wrap-around wall to hold the Raspberry Pi, except with two wall knocked off to maintain access to connection points.
 
-###### **1.1 Wheel Selection**
+Additionally, jetting out infront is the rising (insert dimension) mounting points for the camera holder, providing the camera with a high-up view, allowing it to get the optimal view of the game mat.
+
+---
+
+#### 5\. Camera Mount
+In our design, the camera mount is its own independent and modualar piece, allowing for quick and easy adjustments to camera mounting angle if necessary. For now, it is angled to 135 degrees and has four mounting points for our [camera](schemes).
+
+---
+
+#### 6\. Wheel Selection
 We chose **SPIKE Prime wheels (56mm diameter, 14mm thickness)** for the balance they strike between speed, torque, and stability. They're compact enough to keep the robot lightweight while still giving sufficient grip and clearance on the WRO mat.
 
 <img width="280" alt="spike_wheels" src="https://github.com/user-attachments/assets/873b32bb-68e5-45ca-adc8-cf2fd2dda6f8">
-
----
 
