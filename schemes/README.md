@@ -16,10 +16,10 @@ The **Adafruit DRV8871** drives the DC motor with the current the Arduino Nano c
 
 ---
 
-###### **1.3 Steering Servo: MG90S**
-The **MG90S** metal-gear servo handles our Ackermann steering. It offers precise angle control, fast response, and enough torque for the steering mechanism, and its compact size fit our chassis without issue. We'd also used it in past projects, which sped up integration and tuning.
+###### **1.3 Steering Servo: Coreless Black Servo**
+The **Coreless Black Servo** metal-gear servo handles our Ackermann steering. It offers precise angle control, fast response, and enough torque for the steering mechanism, and its compact size fit our chassis without issue. We'd also used it in past projects, which sped up integration and tuning.
 
-<img width="215" alt="servoimg" src="https://github.com/user-attachments/assets/c92c68c5-6e68-4848-8911-8e2b599aeef9">
+<img width="215" alt="newservo" src="https://github.com/user-attachments/assets/9455e3b6-741a-4784-834f-df74e1c16b89" />
 
 ---
 
