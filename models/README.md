@@ -11,7 +11,7 @@ The front of the chassis is defined by a raised trapezoid-like section, featured
 ---
 
 ###### **1.2 Battery Holder**
-Our 12.8V [battery](schemes/README.md#14-battery-pack) is quite large heavy, demanding careful placement in our robot to ensure even balance and stability. Our [motor](schemes/README.md#11-dc-motor-selection) is hefty and powerful, and with it being rear-mounted [read more about motor mounting decision](models/README.md#13-motor-mount), it is necessary for the battery to be front-mounted. Furthermore, the battery being mounted as low as possible (over a mounting position akin to the pcb holder, to conserve length) helps to reduce the chance of tipping/rolling, increasing overall stability. 
+Our 12.8V [battery](schemes/README.md#14-battery-pack) is (add Dimentions), and weighs (add weight), demanding careful placement in our robot to ensure even balance and stability. Our [motor](schemes/README.md#11-dc-motor-selection) is hefty and powerful, and with it being rear-mounted [read more about motor mounting decision](models/README.md#13-motor-mount), it is necessary for the battery to be front-mounted. Furthermore, the battery being mounted as low as possible (over a mounting position akin to the pcb holder, to conserve length) helps to reduce the chance of tipping/rolling, increasing overall stability. 
 
 Additionally, the battery holder has it front corners cut off 4/5 of the way up to reduced the rubbing friction from the front tires as they spin, thus increasing efficiency and limiting wear.
 
