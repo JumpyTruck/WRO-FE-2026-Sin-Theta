@@ -62,7 +62,7 @@ These dimensions were selected to provide a compact footprint while maintaining 
 | Component | Selected Part |
 |-----------|---------------|
 | Drive Motor | 12V DC Geared Motor |
-| Motor Driver | DRV8871 |
+| Motor Driver | Adafruit DRV8871 |
 
 Our drivetrain uses a rear-wheel-drive configuration powered by a 12V DC geared motor. After evaluating multiple options, this combination provided the best balance of speed, torque, simplicity, and reliability for the competition.
 
