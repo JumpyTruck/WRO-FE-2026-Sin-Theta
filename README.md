@@ -427,22 +427,6 @@ The final manoeuvre uses **encoder-based movements** to control the distance tra
 
 ---
 
-# Autonomous Navigation Flowcharts
-
-## Obstacle Course
-
-<div align="center">
-
-**Obstacle Course Flowchart**
-
-<img width="1000" alt="Obstacle Course Flowchart" src="INSERT_IMAGE_URL" />
-
-</div>
-
-
-
----
-
 ## Autonomous Navigation Flowcharts
 
 ### Obstacle Course
