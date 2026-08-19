@@ -241,7 +241,9 @@ The final mobility system is the result of numerous design iterations involving 
 
 # Obstacle Management
 
-Intro / overall strategy
+The obstacle management system combines **computer vision, wall following, obstacle detection, crash protection, lap tracking, and autonomous parking** to navigate the WRO Future Engineers course.
+
+The Raspberry Pi processes the camera feed and determines the robot's position relative to the walls and obstacles. Steering commands are then sent to the motor controller in real time.
 
 ---
 
@@ -250,10 +252,44 @@ Intro / overall strategy
 ### Camera View
 [Raw camera image]
 
-### Colour Segmentation
-[Original] [Black Mask] [Blue Mask] [Orange Mask]
+The Raspberry Pi camera provides the main visual information for navigation. Each frame is cropped to the relevant area and converted to the **LAB colour space**.
 
-Short explanation of HSV masking, ROI, contours, and target point.
+Separate masks are created for the course colours:
+
+**Blue · Orange · Green · Red · Pink**
+
+The masks are cleaned using morphological operations to remove noise and fill small gaps.
+
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center">
+      <b>Original Image</b><br><br>
+      <img width="300" src="INSERT_IMAGE_URL" />
+    </td>
+    <td align="center">
+      <b>Blue Mask</b><br><br>
+      <img width="300" src="INSERT_IMAGE_URL" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <b>Green / Red Mask</b><br><br>
+      <img width="300" src="INSERT_IMAGE_URL" />
+    </td>
+    <td align="center">
+      <b>Black Wall Mask</b><br><br>
+      <img width="300" src="INSERT_IMAGE_URL" />
+    </td>
+  </tr>
+</table>
+
+</div>
+
+The coloured regions are removed from the wall image. The remaining image is converted to grayscale and thresholded to detect the black walls.
+
+A polygon is then created around the detected track area. This acts as a **region of interest (ROI)**, ensuring that navigation calculations only use the relevant part of the image.
 
 ---
 
