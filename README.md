@@ -295,7 +295,6 @@ A polygon is then created around the detected track area. This acts as a **regio
 
 ## Wall Following
 
-<div align="center">
 
 **Wall Following**
 
@@ -326,46 +325,121 @@ This allows the robot to continuously correct its position while following eithe
 
 ## Obstacle Navigation
 
-[Top-down obstacle diagram]
+**Obstacle Detection**
 
-Explain:
-1. Detect obstacle
-2. Determine which side to pass
-3. Move away from wall
-4. Navigate around obstacle
-5. Reacquire wall
-6. Return to normal racing
+<img width="800" alt="Obstacle Detection" src="INSERT_IMAGE_URL" />
 
-[Obstacle navigation images / sequence]
+</div>
+
+The robot detects obstacles using the **green and red pillars** on the course.
+
+The camera searches for coloured contours and selects the closest valid pillar. Its position is then used to calculate the angle required to safely pass the obstacle.
+
+<div align="center">
+
+**Obstacle Navigation**
+
+`Detect → Calculate Angle → Steer Around → Clear → Resume Wall Following`
+
+<img width="750" alt="Obstacle Navigation Sequence" src="INSERT_IMAGE_URL" />
+
+</div>
+
+While an obstacle is being avoided, the obstacle steering angle takes priority over the normal wall-following angle.
+
+Once the obstacle is cleared, the robot automatically returns to wall following.
+
 
 ---
 
 ## Crash Detection
 
-[Robot top-view diagram with detection points]
+**Crash Detection Points**
 
-Explain each crash detection point and what it protects:
-- Front
-- Rear
-- Left side
-- Right side
-- Inner/outer wall
+<img width="750" alt="Crash Detection Points" src="INSERT_IMAGE_URL" />
+
+</div>
+
+Several virtual detection points are placed within the camera image to prevent the robot from getting too close to the walls.
+
+- **Inner wall points** detect the inside wall while cornering.
+- **Outer wall point** detects when the outer wall becomes too close.
+
+If a point reaches the detected wall region, the robot enters a crash-protection state.
+
+For an inner-wall warning, the wall-following controller is damped to make the steering correction smoother. If the outer wall is too close, the robot applies a stronger correction away from the wall.
 
 ---
 
 ## Lap Counter
 
-[Counter / lap diagram]
+**Lap Tracking**
 
-Explain how a lap is detected and counted, and when the robot resets/updates its navigation state.
+<img width="700" alt="Lap Counter" src="INSERT_IMAGE_URL" />
+
+</div>
+
+The robot tracks **quarter-laps** rather than counting an entire lap at once.
+
+The appropriate **blue or orange marker** is monitored depending on the robot's direction. A marker must be detected for several consecutive frames before a turn is registered, reducing false detections.
+
+After the marker disappears for the required number of frames, the quarter-lap is counted.
+
+A cooldown is then applied to prevent the same marker from being counted twice.
+
+The robot is configured for:
+
+\[
+3\text{ laps} \times 4 = 12\text{ quarter-laps}
+\]
+
+Once the required number of turns is completed, the robot switches to the parking sequence.
 
 ---
 
 ## Parking
 
-[Parking diagram / images]
+**Parking Detection**
 
-Explain parking detection, alignment, stopping condition, and final position.
+<img width="750" alt="Parking Detection" src="INSERT_IMAGE_URL" />
+
+</div>
+
+After completing the required laps, the robot searches for the **pink parking block**.
+
+The pink block is detected using a colour mask and contour detection. Its position in the camera image is then used to steer the robot toward the parking area.
+
+<div align="center">
+
+**Parking Sequence**
+
+`Lap Complete → Find Pink → Align → Approach → Stop`
+
+<img width="750" alt="Parking Sequence" src="INSERT_IMAGE_URL" />
+
+</div>
+
+While approaching the parking area, the robot continues checking for nearby obstacles. If an obstacle is closer than the pink block, obstacle avoidance takes priority.
+
+Once the pink block reaches the required distance and horizontal alignment, the robot stops and begins the final parking manoeuvre.
+
+The final manoeuvre uses **encoder-based movements** to control the distance travelled during each forward, reverse, and turning movement.
+
+---
+
+# Autonomous Navigation Flowcharts
+
+## Obstacle Course
+
+<div align="center">
+
+**Obstacle Course Flowchart**
+
+<img width="1000" alt="Obstacle Course Flowchart" src="INSERT_IMAGE_URL" />
+
+</div>
+
+
 
 ---
 
