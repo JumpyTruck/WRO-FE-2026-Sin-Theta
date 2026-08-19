@@ -238,3 +238,84 @@ The final mobility system is the result of numerous design iterations involving 
 
 **Complete development history:**  
 [Mechanical Development](mobility/README.md#development)
+
+# Obstacle Management
+
+Intro / overall strategy
+
+---
+
+## Camera-Based Detection
+
+### Camera View
+[Raw camera image]
+
+### Colour Segmentation
+[Original] [Black Mask] [Blue Mask] [Orange Mask]
+
+Short explanation of HSV masking, ROI, contours, and target point.
+
+---
+
+## Wall Following
+
+[Diagram / robot + wall]
+
+Explain TOF sensors, wall distance, PID/PD control, and how the robot maintains its position.
+
+---
+
+## Obstacle Navigation
+
+[Top-down obstacle diagram]
+
+Explain:
+1. Detect obstacle
+2. Determine which side to pass
+3. Move away from wall
+4. Navigate around obstacle
+5. Reacquire wall
+6. Return to normal racing
+
+[Obstacle navigation images / sequence]
+
+---
+
+## Crash Detection
+
+[Robot top-view diagram with detection points]
+
+Explain each crash detection point and what it protects:
+- Front
+- Rear
+- Left side
+- Right side
+- Inner/outer wall
+
+---
+
+## Lap Counter
+
+[Counter / lap diagram]
+
+Explain how a lap is detected and counted, and when the robot resets/updates its navigation state.
+
+---
+
+## Parking
+
+[Parking diagram / images]
+
+Explain parking detection, alignment, stopping condition, and final position.
+
+---
+
+## Autonomous Navigation Flowcharts
+
+### Obstacle Course
+
+[Obstacle flowchart]
+
+### Open Course
+
+[Open-course flowchart]
