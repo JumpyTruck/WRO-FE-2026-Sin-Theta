@@ -295,9 +295,32 @@ A polygon is then created around the detected track area. This acts as a **regio
 
 ## Wall Following
 
-[Diagram / robot + wall]
+<div align="center">
 
-Explain TOF sensors, wall distance, PID/PD control, and how the robot maintains its position.
+**Wall Following**
+
+<img width="750" alt="Wall Following" src="INSERT_IMAGE_URL" />
+
+</div>
+
+The robot uses the detected black wall to maintain a consistent position around the course.
+
+Multiple points along the wall are sampled and averaged to obtain a stable wall position. This position is compared with a predefined target point.
+
+\[
+Error = Error_x + Error_y
+\]
+
+A **PD controller** converts this error into a steering correction:
+
+\[
+Control = K_p(Error) + K_d(Error - PreviousError)
+\]
+
+The resulting correction is converted into a servo angle and limited to the robot's steering range.
+
+This allows the robot to continuously correct its position while following either the left or right wall.
+
 
 ---
 
