@@ -30,7 +30,7 @@ Its MOSFET switching design also produces a much smaller voltage drop and far le
 
 At 12.8 V, the driver itself draws **<0.05 A normal / <0.1 A peak (0.64 W)**.
 
-<img width="200" alt="motordruiv" src="IMAGE">
+<img width="215" alt="motordruiv" src="https://github.com/user-attachments/assets/d05e2549-1e0a-40ec-896a-dc80a04603e4" />
 
 ---
 
@@ -114,7 +114,7 @@ The **Raspberry Pi 4B** is our main controller, handling camera input, object an
 
 At 5 V, it draws **0.70 A normal / 1.20 A peak (3.50 W)** together with the camera module.
 
-<img width="220" alt="raspberrypi4bimg" src="IMAGE">
+<img width="215" alt="raspberrypi4bimg" src="https://github.com/user-attachments/assets/65d65b6f-2e5f-429d-ac70-4b5c2403fa05" />
 
 ---
 
@@ -130,7 +130,7 @@ Its compact **45 × 18 mm** size and **1–3 second code upload time** also suit
 
 At 5 V, it draws **0.05 A normal / 0.10 A peak (0.25 W)**.
 
-<img width="220" alt="arduinonano" src="IMAGE">
+<img width="215" alt="arduinonano" src="https://github.com/user-attachments/assets/12157369-6e84-4ef4-8d9e-b78c3604fbd9" />
 
 ---
 
