@@ -1,14 +1,14 @@
 # Electrical Design Process
 
-This section explains how we designed and integrated the robot's electrical system. It covers the selection of the motor, steering servo, battery, voltage regulators, controllers, camera, and custom PCB. Each component was selected based on the robot's power requirements, performance, reliability, size, and compatibility with the rest of the system. The section also documents the power budget and the final electrical integration of all components.
+This section explains the design and integration of our robot's electrical system. It covers how we selected the motor, steering system, power components, vision system, controllers, and custom PCB based on performance, reliability, power requirements, and the limited space within our chassis. It also includes our power budget and final electrical integration.
 
 ---
 
-## 1. Motor & Drive Power
+## 1. Motor & Drive System
 
-### 1.1 DC Motor Selection
+### **1.1 DC Motor Selection**
 
-We use a **12V 37D metal gearmotor with an 11PPR encoder**, running at **510 RPM**. We required 300–500 RPM at the motor, which — with our 56 mm diameter wheels (≈175.93 mm circumference) — gives a theoretical wheel speed of roughly **0.88–1.47 m/s**: fast enough for the course without making acceleration, braking, and precise positioning difficult.
+We use a **12V 37D metal gearmotor with an 11PPR encoder**, running at **510 RPM**. We required 300–500 RPM at the motor, which — with our 56 mm diameter wheels (≈175.93 mm circumference) — gives a theoretical wheel speed of roughly **0.88–1.47 m/s**. This is fast enough for the course without making acceleration, braking, and precise positioning difficult.
 
 We also required a minimum torque of **≥1.5–2.0 kg·cm** to overcome the robot's weight, rolling resistance, and drivetrain friction while leaving margin for acceleration, without running the motor near its stall torque, which causes excess current draw and heat.
 
@@ -22,13 +22,13 @@ At 12.8 V, the motor draws **0.40 A normal / 1.00 A peak (5.12 W)**.
 
 ---
 
-### 1.2 Motor Driver — Adafruit DRV8871
+### **1.2 Motor Driver — Adafruit DRV8871**
 
-The **Adafruit DRV8871** drives the DC motor with the current the Arduino Nano cannot supply directly.
+The **Adafruit DRV8871** drives the DC motor with the current the Arduino Nano cannot supply directly. It operates on **6.5–45 V**, allowing it to run directly from our **12.8 V battery**.
 
-It operates on **6.5–45 V**, allowing it to run directly from our **12.8 V battery**. Its **3.6 A continuous / 6 A peak** current rating comfortably exceeds our battery's ~2 A maximum output, so the driver is never the bottleneck.
+Its **3.6 A continuous / 6 A peak** current rating comfortably exceeds our battery's ~2 A maximum output, so the driver is never the bottleneck.
 
-The DRV8871 provides:
+It provides:
 
 - PWM-based speed control
 - Forward/reverse direction control
@@ -45,9 +45,9 @@ At 12.8 V, the driver itself draws **<0.05 A normal / <0.1 A peak (0.64 W)**.
 
 ---
 
-## 2. Steering & Servo Power
+## 2. Steering System
 
-### 2.1 Steering Servo
+### **2.1 Steering Servo**
 
 Our original **5 V steering servo** did not produce enough torque to reliably turn the steering mechanism under load. Repeated stalling stressed and eventually damaged its internal components.
 
@@ -55,11 +55,11 @@ We replaced it with an **8.4 V high-torque coreless servo**, which provides prec
 
 At 8.4 V, the servo draws **0.50 A normal / 3.0–5.0 A peak (4.2–25.2 W)**.
 
-<img width="215" alt="newservo" src="https://github.com/user-attachments/assets/9455e3b6-741a-4784-834f-df74e1c16b89">
+<img width="215" alt="newservo" src="IMAGE">
 
 ---
 
-### 2.2 UBEC — 8.4 V 10 A
+### **2.2 UBEC — 8.4 V 10 A**
 
 A dedicated **8.4 V 10 A UBEC** regulates battery power specifically for the steering servo.
 
@@ -75,7 +75,7 @@ Input draw is **0.33 A normal / 3.5 A peak**, delivering **2.8 W output**.
 
 ## 3. Main Power System
 
-### 3.1 Battery Pack
+### **3.1 Battery Pack**
 
 Power comes from an **IFR 18650 4S1P 12.8 V 2000 mAh Li-ion battery pack** (a Lefant/OKP Life replacement pack originally designed for robot vacuums).
 
@@ -89,7 +89,7 @@ Normal draw is **1.2 A / 2.0 A peak (15.36 W)**.
 
 ---
 
-### 3.2 5 V DC-DC Buck Converter
+### **3.2 5 V DC-DC Buck Converter**
 
 Our components operate at different voltages, so a **switching buck converter** steps the 12.8 V battery voltage down to **5 V** for the Arduino Nano, Raspberry Pi, sensors, and other 5 V electronics.
 
@@ -103,42 +103,9 @@ Output is **0.8 A normal / 1.5 A peak (4.0 W)**.
 
 ---
 
-## 4. Control & Processing Electronics
+## 4. Vision System
 
-### 4.1 Main Controller — Raspberry Pi 4B
-
-The **Raspberry Pi 4B** is our main controller. It handles:
-
-- Camera input
-- Object and line detection
-- Navigation calculations
-- Communication with the motor controller
-
-At 5 V, it draws **0.70 A normal / 1.20 A peak (3.50 W)** together with the camera module.
-
-<img width="220" alt="raspberrypi4bimg" src="IMAGE">
-
----
-
-### 4.2 Motor Controller — Arduino Nano
-
-The **Arduino Nano** acts as a dedicated motor controller. It handles DC motor speed and servo steering while receiving commands from the Raspberry Pi over serial communication.
-
-Separating motor control from the Raspberry Pi prevents delays caused by image processing from directly affecting real-time motor and steering control.
-
-We initially used an **ESP32** in this role, but its **3.3 V PWM logic** did not reliably trigger the DRV8871. The Nano outputs a **5 V PWM signal**, matching what the DRV8871 needs for reliable operation.
-
-Its compact **45 × 18 mm** size and **1–3 second code upload time** also suited our board and testing needs.
-
-At 5 V, it draws **0.05 A normal / 0.10 A peak (0.25 W)**.
-
-<img width="220" alt="arduinonano" src="IMAGE">
-
----
-
-## 5. Vision System
-
-### 5.1 Raspberry Pi Camera Module 3 Wide
+### **4.1 Raspberry Pi Camera Module 3 Wide**
 
 The **Raspberry Pi Camera Module 3 Wide** was chosen for its wider field of view, giving the robot better line and object detection coverage during autonomous navigation.
 
@@ -152,18 +119,41 @@ Because the PiCam already provides the visual information required by our comput
 
 ---
 
+## 5. Control & Processing Electronics
+
+### **5.1 Main Controller — Raspberry Pi 4B**
+
+The **Raspberry Pi 4B** is our main controller, handling camera input, object and line detection, navigation calculations, and communication with the motor controller.
+
+At 5 V, it draws **0.70 A normal / 1.20 A peak (3.50 W)** together with the camera module.
+
+<img width="220" alt="raspberrypi4bimg" src="IMAGE">
+
+---
+
+### **5.2 Motor Controller — Arduino Nano**
+
+The **Arduino Nano** acts as a dedicated motor controller, handling DC motor speed and servo steering while receiving commands from the Raspberry Pi over serial communication.
+
+Separating motor control from the Raspberry Pi prevents delays caused by image processing from directly affecting real-time motor and steering control.
+
+We initially used an **ESP32** in this role, but its **3.3 V PWM logic** did not reliably trigger the DRV8871. The Nano outputs a **5 V PWM signal**, matching what the DRV8871 needs for reliable operation.
+
+Its compact **45 × 18 mm** size and **1–3 second code upload time** also suited our board and testing needs.
+
+At 5 V, it draws **0.05 A normal / 0.10 A peak (0.25 W)**.
+
+<img width="220" alt="arduinonano" src="IMAGE">
+
+---
+
 ## 6. Custom PCB & Electrical Organization
 
-### 6.1 Custom PCB
+### **6.1 Custom PCB**
 
-A custom-designed PCB organizes the wiring between components, providing:
+A custom-designed PCB organizes the wiring between components, providing cleaner cable management, reliable electrical connections, a compact fit inside the chassis, and easier debugging.
 
-- Cleaner cable management
-- Reliable electrical connections
-- A compact fit inside the chassis
-- Easier debugging
-
-The PCB includes a dedicated **servo port** with power, ground, and PWM. This is isolated from the main power rail after servo current spikes were found to cause shutdowns elsewhere.
+It includes a dedicated **servo port** with power, ground, and PWM, isolated from the main power rail after servo current spikes were found to cause shutdowns elsewhere.
 
 It also includes a dedicated **motor encoder port** for wheel encoder feedback, enabling closed-loop control of distance and speed.
 
