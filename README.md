@@ -251,11 +251,11 @@ The Raspberry Pi processes the camera feed and determines the robot's position r
 
 The Raspberry Pi camera provides the main visual information for navigation. Each frame is cropped to the relevant area and converted to the **LAB colour space**.
 
-Separate masks are created for the course colours:
+Separate masks are created for the following colours:
 
 **Blue · Orange · Green · Red · Pink**
 
-The masks are cleaned using morphological operations to remove noise and fill small gaps.
+The masks are cleaned to remove noise and fill small gaps.
 
 <div align="center">
 
@@ -303,13 +303,13 @@ A **region of interest (ROI)** is then created around the detected track area, e
 
 **Wall Following**
 
-<img width="750" alt="Wall Following" src="INSERT_IMAGE_URL" />
+<img width="500" alt="FEimg" src="https://github.com/user-attachments/assets/71d8c4d7-c344-44a5-b27f-b8d5bb6ba5d7" />
 
 </div>
 
-The robot uses the detected black wall to maintain a consistent position around the course.
+The robot uses the detected black wall to maintain a consistent position around from the inner wall throughout the run.
 
-Multiple points along the wall are sampled and averaged to obtain a stable wall position. This position is compared with a predefined target point.
+Multiple points along the wall are sampled and averaged to obtain a stable, lowest wall position (red dot). This position is compared with a predefined target point (green dot).
 
 \[
 Error = Error_x + Error_y
@@ -332,7 +332,8 @@ This allows the robot to continuously correct its position while following eithe
 
 **Obstacle Detection**
 
-<img width="800" alt="Obstacle Detection" src="INSERT_IMAGE_URL" />
+<img width="500" alt="FEimg" src="https://github.com/user-attachments/assets/be98f36b-2717-4bc4-b87e-b4253ca3bc0f" />
+
 
 </div>
 
@@ -361,7 +362,8 @@ Once the obstacle is cleared, the robot automatically returns to wall following.
 
 **Crash Detection Points**
 
-<img width="750" alt="Crash Detection Points" src="INSERT_IMAGE_URL" />
+<img width="500" src="https://github.com/user-attachments/assets/a9bca404-32dc-4746-820b-9545ce8e3fe2" />
+
 
 </div>
 
