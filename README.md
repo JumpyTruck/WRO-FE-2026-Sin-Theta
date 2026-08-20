@@ -249,9 +249,6 @@ The Raspberry Pi processes the camera feed and determines the robot's position r
 
 ## Camera-Based Detection
 
-### Camera View
-[Raw camera image]
-
 The Raspberry Pi camera provides the main visual information for navigation. Each frame is cropped to the relevant area and converted to the **LAB colour space**.
 
 Separate masks are created for the course colours:
@@ -266,21 +263,29 @@ The masks are cleaned using morphological operations to remove noise and fill sm
   <tr>
     <td align="center">
       <b>Original Image</b><br><br>
-      <img width="300" src="INSERT_IMAGE_URL" />
+      <img width="300" alt="FEimg" src="https://github.com/user-attachments/assets/67cfe969-abe5-4fab-a21a-e3281df701fa" />
     </td>
     <td align="center">
-      <b>Blue Mask</b><br><br>
-      <img width="300" src="INSERT_IMAGE_URL" />
+      <b>Mat ROI</b><br><br>
+      <img width="300" alt="roi_image" src="https://github.com/user-attachments/assets/70c2e6a1-26c4-4923-b3e5-98dfb3129433" />
+    </td>
+    <td align="center">
+      <b>Obstacles</b><br><br>
+      <img width="300" alt="obstaclemask" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267" />
     </td>
   </tr>
   <tr>
     <td align="center">
-      <b>Green / Red Mask</b><br><br>
-      <img width="300" src="INSERT_IMAGE_URL" />
+      <b>Blue Line</b><br><br>
+      <img width="300" alt="blueline" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e" />
     </td>
     <td align="center">
-      <b>Black Wall Mask</b><br><br>
-      <img width="300" src="INSERT_IMAGE_URL" />
+      <b>Orange Line</b><br><br>
+      <img width="300" alt="orangeline" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce" />
+    </td>
+    <td align="center">
+      <b>Parking</b><br><br>
+      <img width="300" alt="pinkparking" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479" />
     </td>
   </tr>
 </table>
