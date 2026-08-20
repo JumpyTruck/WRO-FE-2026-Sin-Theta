@@ -363,7 +363,7 @@ Once the obstacle is cleared, the robot automatically returns to wall following.
 
 Several virtual detection points are placed within the camera image to prevent the robot from getting too close to the walls.
 
-- **Inner wall points** detect the inside wall while cornering.
+- **Inner wall line** detect the inside wall while cornering.
 - **Outer wall point** detects when the outer wall becomes too close.
 
 If a point reaches the detected wall region, the robot enters a crash-protection state.
