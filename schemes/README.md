@@ -1,4 +1,4 @@
-# ⚡ Electrical Design Process
+# Electrical Design Process
 
 This section explains how we designed and integrated the robot's electrical system. It covers the selection of the motor, steering servo, battery, voltage regulators, controllers, camera, and custom PCB. Each component was selected based on the robot's power requirements, performance, reliability, size, and compatibility with the rest of the system. The section also documents the power budget and the final electrical integration of all components.
 
