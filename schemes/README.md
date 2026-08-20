@@ -16,7 +16,7 @@ The built-in encoder lets the controller measure actual wheel rotation in ticks 
 
 Its metal gearbox reduces the motor's raw speed into usable torque, while its compact 37D form factor and compatibility with our **56 mm × 14 mm wheels** fit our chassis (max **300 × 200 × 300 mm**) alongside the battery, PCB, sensors, and steering system.
 
-At 12.8 V, the motor draws **0.40 A normal / 1.00 A peak (5.12 W)**.
+**Current Draw:** 0.40 A (normal) / 1.00 A (peak) @ 12.8 V (5.12 W)
 
 <img width="215" alt="motorimg" src="IMAGE">
 
@@ -39,7 +39,7 @@ It provides:
 
 Its MOSFET switching design also produces a much smaller voltage drop and far less heat than a bipolar H-bridge driver such as the L298N's ~2 V drop. This allows the motor to receive nearly the full battery voltage while keeping the driver compact enough for our limited space.
 
-At 12.8 V, the driver itself draws **<0.05 A normal / <0.1 A peak (0.64 W)**.
+**Current Draw:** <0.05 A (normal) / <0.10 A (peak) @ 12.8 V (0.64 W)
 
 <img width="200" alt="motordruiv" src="IMAGE">
 
@@ -53,21 +53,21 @@ Our original **5 V steering servo** did not produce enough torque to reliably tu
 
 We replaced it with an **8.4 V high-torque coreless servo**, which provides precise angle control, fast response, and enough torque to steer without stalling. Its compact size also fits our chassis without issue.
 
-At 8.4 V, the servo draws **0.50 A normal / 3.0–5.0 A peak (4.2–25.2 W)**.
+**Current Draw:** 0.50 A (normal) / 3.0–5.0 A (peak) @ 8.4 V (4.2–25.2 W)
 
 <img width="215" alt="newservo" src="IMAGE">
 
 ---
 
-### **2.2 UBEC — 8.4 V 10 A**
+### **2.2 UBEC — 8.4 V 10A**
 
-A dedicated **8.4 V 10 A UBEC** regulates battery power specifically for the steering servo.
+A dedicated **8.4 V 10A UBEC** regulates battery power specifically for the steering servo.
 
 The previous 5 V servo's current spikes were pulling power from the rest of the electronics, causing other components to brown out under load. The UBEC gives the servo its own regulated, high-current supply independent of the main electronics.
 
 This allows the high-torque servo to operate without stalling and prevents its current spikes from affecting the rest of the system.
 
-Input draw is **0.33 A normal / 3.5 A peak**, delivering **2.8 W output**.
+**Input Draw:** 0.33 A (normal) / 3.5 A (peak), delivering 2.8 W output.
 
 <img width="220" alt="ubec" src="IMAGE">
 
@@ -77,27 +77,27 @@ Input draw is **0.33 A normal / 3.5 A peak**, delivering **2.8 W output**.
 
 ### **3.1 Battery Pack**
 
-Power comes from an **IFR 18650 4S1P 12.8 V 2000 mAh Li-ion battery pack** (a Lefant/OKP Life replacement pack originally designed for robot vacuums).
+Power comes from an **IFR 18650 4S1P 12.8V 2000mAh Li-ion battery pack** (a Lefant/OKP Life replacement pack originally designed for robot vacuums).
 
 Its **4S1P configuration** (four cells in series) gives a stable **12.8 V nominal output**, directly matching the operating voltage of our DC motor and DRV8871 motor driver.
 
 Its **2000 mAh (2 Ah)** capacity comfortably powers the motor, Raspberry Pi, sensors, and control electronics for a full run without a significant voltage drop, while maintaining a compact and lightweight form factor.
 
-Normal draw is **1.2 A / 2.0 A peak (15.36 W)**.
+**Current Draw:** 1.2 A (normal) / 2.0 A (peak) (15.36 W)
 
 <img width="220" alt="batteryimg" src="IMAGE">
 
 ---
 
-### **3.2 5 V DC-DC Buck Converter**
+### **3.2 5V DC-DC Buck Converter**
 
 Our components operate at different voltages, so a **switching buck converter** steps the 12.8 V battery voltage down to **5 V** for the Arduino Nano, Raspberry Pi, sensors, and other 5 V electronics.
 
-We originally used a **linear 7805 regulator** for this conversion, but it dissipated roughly **15.6 W** while stepping 12.8 V down to 5 V at ~2 A. This caused its temperature to reach **150–175 °C**, triggering thermal shutdown after only a few corner turns.
+We originally used a **linear 7805 regulator** for this conversion, but it dissipated roughly **15.6 W** while stepping 12.8 V down to 5 V at ~2 A. This caused its temperature to reach **150–175°C**, triggering thermal shutdown after only a few corner turns.
 
 The switching buck converter performs the same voltage conversion far more efficiently, protecting components from excessive heat and keeping performance consistent throughout a run.
 
-Output is **0.8 A normal / 1.5 A peak (4.0 W)**.
+**Output:** 0.8 A (normal) / 1.5 A (peak) @ 5 V (4.0 W)
 
 <img width="350" alt="buck_converter" src="IMAGE">
 
@@ -125,7 +125,7 @@ Because the PiCam already provides the visual information required by our comput
 
 The **Raspberry Pi 4B** is our main controller, handling camera input, object and line detection, navigation calculations, and communication with the motor controller.
 
-At 5 V, it draws **0.70 A normal / 1.20 A peak (3.50 W)** together with the camera module.
+**Current Draw:** 0.70 A (normal) / 1.20 A (peak) @ 5 V (3.50 W), including the camera module.
 
 <img width="220" alt="raspberrypi4bimg" src="IMAGE">
 
@@ -141,7 +141,7 @@ We initially used an **ESP32** in this role, but its **3.3 V PWM logic** did not
 
 Its compact **45 × 18 mm** size and **1–3 second code upload time** also suited our board and testing needs.
 
-At 5 V, it draws **0.05 A normal / 0.10 A peak (0.25 W)**.
+**Current Draw:** 0.05 A (normal) / 0.10 A (peak) @ 5 V (0.25 W)
 
 <img width="220" alt="arduinonano" src="IMAGE">
 
@@ -163,19 +163,19 @@ It also includes a dedicated **motor encoder port** for wheel encoder feedback, 
 
 ## 7. Power Budget
 
-The following table summarizes the expected normal and peak electrical requirements of the robot.
+The table below summarizes the normal and peak electrical requirements of each component in our robot.
 
-| Component | Input Voltage | Normal Current | Peak Current | Power Consumption (P = V×I) |
-|---|---:|---:|---:|---:|
-| 12.8 V 2000 mAh 4S1P Li-ion Battery | 12.8 V | 1.2 A | 2.0 A | 15.36 W |
-| DRV8871 Motor Driver | 12.8 V | <0.05 A | <0.1 A | 0.64 W |
-| 12 V 37D Metal Gear Motor | 12.8 V | 0.40 A | 1.00 A | 5.12 W |
-| 5 V DC-DC Buck Converter | 12.8 V → 5 V | 0.8 A (out) | 1.5 A (out) | 4.0 W (out) |
-| Arduino Nano | 5 V | 0.05 A | 0.10 A | 0.25 W |
-| Raspberry Pi 4B + Pi Camera 3 Wide | 5 V | 0.70 A | 1.20 A | 3.50 W |
-| Motor Encoders | 5 V | 0.02 A | 0.03 A | 0.10 W |
-| 8.4 V 10 A UBEC | 12.8 V → 8.4 V | 0.33 A (in) | 3.5 A (in) | 2.8 W (out) |
-| 8.4 V High-Torque Coreless Servo | 8.4 V | 0.50 A | 3.0–5.0 A | 4.2–25.2 W |
+| Component | Input Voltage | Normal Current | Peak Current | Power Consumption |
+| :--- | :---: | :---: | :---: | :---: |
+| **12.8 V 2000 mAh 4S1P Li-ion Battery** | 12.8 V | 1.2 A | 2.0 A | 15.36 W |
+| **DRV8871 Motor Driver** | 12.8 V | <0.05 A | <0.10 A | 0.64 W |
+| **12 V 37D Metal Gear Motor** | 12.8 V | 0.40 A | 1.00 A | 5.12 W |
+| **5 V DC-DC Buck Converter** | 12.8 V → 5 V | 0.8 A (out) | 1.5 A (out) | 4.0 W (out) |
+| **Arduino Nano** | 5 V | 0.05 A | 0.10 A | 0.25 W |
+| **Raspberry Pi 4B + Pi Camera 3 Wide** | 5 V | 0.70 A | 1.20 A | 3.50 W |
+| **Motor Encoders** | 5 V | 0.02 A | 0.03 A | 0.10 W |
+| **8.4 V 10A UBEC** | 12.8 V → 8.4 V | 0.33 A (in) | 3.5 A (in) | 2.8 W (out) |
+| **8.4 V High-Torque Coreless Servo** | 8.4 V | 0.50 A | 3.0–5.0 A | 4.2–25.2 W |
 
 ---
 
