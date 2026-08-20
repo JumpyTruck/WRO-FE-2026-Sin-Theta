@@ -25,7 +25,7 @@ Our original 5 V steering servo did not produce enough torque to reliably turn t
 
 At 8.4 V, the servo draws **0.50 A normal / 3.0–5.0 A peak (4.2–25.2 W)**.
 
-<img width="215" alt="newservo" src="IMAGE">
+<img width="215" alt="newservo" src="https://github.com/user-attachments/assets/9455e3b6-741a-4784-834f-df74e1c16b89" />
 
 ---
 
