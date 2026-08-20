@@ -341,13 +341,9 @@ The robot detects **green and red obstacles** on the course.
 
 The camera searches for coloured contours and selects the closest valid pillar and draws a box around the obstacle. Its position is then used to calculate the angle required to safely pass the obstacle.
 
-<div align="center">
-
 **Obstacle Navigation**
 
 `Detect → Calculate Angle → Steer Around → Clear → Resume Wall Following`
-
-</div>
 
 While an obstacle is being avoided, the obstacle steering angle takes priority over the normal wall-following angle.
 
