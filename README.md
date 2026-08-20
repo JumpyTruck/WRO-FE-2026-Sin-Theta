@@ -337,17 +337,15 @@ This allows the robot to continuously correct its position while following eithe
 
 </div>
 
-The robot detects obstacles using the **green and red pillars** on the course.
+The robot detects **green and red obstacles** on the course.
 
-The camera searches for coloured contours and selects the closest valid pillar. Its position is then used to calculate the angle required to safely pass the obstacle.
+The camera searches for coloured contours and selects the closest valid pillar and draws a box around the obstacle. Its position is then used to calculate the angle required to safely pass the obstacle.
 
 <div align="center">
 
 **Obstacle Navigation**
 
 `Detect → Calculate Angle → Steer Around → Clear → Resume Wall Following`
-
-<img width="750" alt="Obstacle Navigation Sequence" src="INSERT_IMAGE_URL" />
 
 </div>
 
