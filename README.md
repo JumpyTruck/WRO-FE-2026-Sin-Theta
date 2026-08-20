@@ -294,7 +294,7 @@ The masks are cleaned using morphological operations to remove noise and fill sm
 
 The coloured regions are removed from the wall image. The remaining image is converted to grayscale and thresholded to detect the black walls.
 
-A polygon is then created around the detected track area. This acts as a **region of interest (ROI)**, ensuring that navigation calculations only use the relevant part of the image.
+A **region of interest (ROI)** is then created around the detected track area, ensuring that navigation calculations only use the relevant part of the image.
 
 ---
 
