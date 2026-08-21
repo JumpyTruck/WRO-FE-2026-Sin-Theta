@@ -263,29 +263,29 @@ The masks are cleaned to remove noise and fill small gaps.
   <tr>
     <td align="center">
       <b>Original Image</b><br><br>
-      <img width="500" alt="FEimg" src="https://github.com/user-attachments/assets/67cfe969-abe5-4fab-a21a-e3281df701fa" />
+      <img width="1000" alt="FEimg" src="https://github.com/user-attachments/assets/67cfe969-abe5-4fab-a21a-e3281df701fa" />
     </td>
     <td align="center">
       <b>Mat ROI</b><br><br>
-      <img width="500" alt="roi_image" src="https://github.com/user-attachments/assets/70c2e6a1-26c4-4923-b3e5-98dfb3129433" />
+      <img width="1000" alt="roi_image" src="https://github.com/user-attachments/assets/70c2e6a1-26c4-4923-b3e5-98dfb3129433" />
     </td>
     <td align="center">
       <b>Obstacles</b><br><br>
-      <img width="500" alt="obstaclemask" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267" />
+      <img width=1000" alt="obstaclemask" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267" />
     </td>
   </tr>
   <tr>
     <td align="center">
       <b>Blue Line</b><br><br>
-      <img width="500" alt="blueline" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e" />
+      <img width="1000" alt="blueline" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e" />
     </td>
     <td align="center">
       <b>Orange Line</b><br><br>
-      <img width="500" alt="orangeline" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce" />
+      <img width="1000" alt="orangeline" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce" />
     </td>
     <td align="center">
       <b>Parking</b><br><br>
-      <img width="500" alt="pinkparking" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479" />
+      <img width="1000" alt="pinkparking" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479" />
     </td>
   </tr>
 </table>
