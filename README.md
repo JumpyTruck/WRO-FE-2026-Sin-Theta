@@ -1,5 +1,14 @@
 # WRO-FE-2026-Sinθ 
 
+# Introduction
+## The Team
+
+## Performance Videos
+
+### Open Challenge
+
+### Obstacle Challenge
+
 ## The Robot
 
 <table align="center">
