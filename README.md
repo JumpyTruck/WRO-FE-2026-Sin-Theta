@@ -378,13 +378,11 @@ After completing the required laps, the robot searches for the **pink parking bl
 
 The pink block is detected using a colour mask and contour detection. Its position in the camera image is then used to steer the robot toward the parking area.
 
-<div align="center">
 
 **Parking Sequence**
 
 `Lap Complete → Find Pink → Approach → Align→ Park`
 
-</div>
 
 The parking approach depends on the **direction of the track**. The robot uses two different parking strategies:
 
@@ -394,7 +392,7 @@ The parking approach depends on the **direction of the track**. The robot uses t
   <tr>
     <td align="center" width="50%">
 
-**Left Direction**
+**Counter Clockwise**
 
 <br>
 
@@ -408,7 +406,7 @@ After completing **12 quarters**, the robot detects and follows the pink parking
 
 <td align="center" width="50%">
 
-**Right Direction**
+**Clockwise**
 
 <br>
 
