@@ -382,7 +382,7 @@ The pink block is detected using a colour mask and contour detection. Its positi
 
 **Parking Sequence**
 
-`Lap Complete → Find Pink → Align → Approach → Stop`
+`Lap Complete → Find Pink → Approach → Align→ Park`
 
 </div>
 
