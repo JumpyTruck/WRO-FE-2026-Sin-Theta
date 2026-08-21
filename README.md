@@ -297,13 +297,6 @@ A **region of interest (ROI)** is then created around the detected track area, e
 
 ## Wall Following
 
-
-**Wall Following**
-
-<img width="500" alt="FEimg" src="https://github.com/user-attachments/assets/71d8c4d7-c344-44a5-b27f-b8d5bb6ba5d7" />
-
-</div>
-
 The robot uses the detected black wall to maintain a consistent position around from the inner wall throughout the run.
 
 Multiple points along the wall are sampled and averaged to obtain a stable, lowest wall position (red dot). This position is compared with a predefined target point (green dot).
