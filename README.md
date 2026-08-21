@@ -265,7 +265,7 @@ The masks are cleaned to remove noise and fill small gaps.
 <br><br>
 
 <b>Mat ROI</b><br><br>
-<img width="500" alt="roi_image" src="https://github.com/user-attachments/assets/70c2e6a1-26c4-4923-b3e5-98dfb3129433" />
+<img width="500" alt="roi_img" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e" />
 
 <br><br>
 
