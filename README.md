@@ -34,7 +34,7 @@
   </tr>
 </table>
 
-# Mobility Management
+# Mobility & Mechanical Design
 
 The mobility system was designed to maximize steering precision, stability, and reliability while remaining compact enough to navigate the WRO Future Engineers Game Mat. Every mechanical component was selected after multiple iterations and testing to improve turning performance, simplify maintenance, and increase consistency during competition.
 
@@ -239,7 +239,7 @@ The final mobility system is the result of numerous design iterations involving 
 **Complete development history:**  
 [Mechanical Development](mobility/README.md#development)
 
-# Obstacle Management
+# Software Architecture & Obstacle Strategy
 
 The obstacle management system combines **computer vision, wall following, obstacle detection, crash protection, lap tracking, and autonomous parking** to navigate the WRO Future Engineers course.
 
@@ -439,4 +439,9 @@ The final manoeuvre uses **encoder-based movements** to control the distance tra
 ### Obstacle Course
 
 [Obstacle flowchart]
+
+
+# Systems Thinking & Engineering Decisions
+
+# Reproducibility & Github Organization
 
