@@ -384,11 +384,51 @@ The pink block is detected using a colour mask and contour detection. Its positi
 
 `Lap Complete → Find Pink → Align → Approach → Stop`
 
+</div>
+
+The parking approach depends on the **direction of the track**. The robot uses two different parking strategies:
+
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+
+**Left Direction**
+
+<br>
+
+After completing **12 quarters**, the robot detects and follows the pink parking block. It aligns itself with the parking area and continues the approach until the required position is reached.
+
+<br><br>
+
+<img width="100%" alt="left parking approach" src="YOUR_LEFT_PARKING_GIF_URL" />
+
+</td>
+
+<td align="center" width="50%">
+
+**Right Direction**
+
+<br>
+
+After completing **13 quarters**, the robot performs a **U-turn** to face the parking area. It then detects and follows the pink parking block before completing the final parking manoeuvre.
+
+<br><br>
+
+<img width="100%" alt="right parking approach" src="YOUR_RIGHT_PARKING_GIF_URL" />
+
+</td>
+  </tr>
+</table>
+
+</div>
+
 While approaching the parking area, the robot continues checking for nearby obstacles. If an obstacle is closer than the pink block, obstacle avoidance takes priority.
 
 Once the pink block reaches the required distance and horizontal alignment, the robot stops and begins the final parking manoeuvre.
 
-The final manoeuvre uses **encoder-based movements** to control the distance travelled during each forward, reverse, and turning movement.
+The final manoeuvre uses **encoder-based movements** to control the distance travelled during each forward, reverse, and turning movement. This allows the robot to perform the parking sequence consistently in both directions.
 
 ---
 
