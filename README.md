@@ -329,14 +329,9 @@ This allows the robot to continuously correct its position while following eithe
 
 **Obstacle Detection**
 
-<img width="500" alt="FEimg" src="https://github.com/user-attachments/assets/be98f36b-2717-4bc4-b87e-b4253ca3bc0f" />
-
-
-</div>
-
 The robot detects **green and red obstacles** on the course.
 
-The camera searches for coloured contours and selects the closest valid pillar and draws a box around the obstacle. Its position is then used to calculate the angle required to safely pass the obstacle.
+The camera seaches for coloured contours and selects the closest valid pillar and draws a box around the obstacle. Its position is then used to calculate the angle required to safely pass the obstacle.
 
 **Obstacle Navigation**
 
@@ -351,13 +346,6 @@ Once the obstacle is cleared, the robot automatically returns to wall following.
 
 ## Crash Detection
 
-**Crash Detection Points**
-
-<img width="500" src="https://github.com/user-attachments/assets/a9bca404-32dc-4746-820b-9545ce8e3fe2" />
-
-
-</div>
-
 Several virtual detection points are placed within the camera image to prevent the robot from getting too close to the walls.
 
 - **Inner wall line** detect the inside wall while cornering.
@@ -370,12 +358,6 @@ For an inner-wall warning, the wall-following controller is damped to make the s
 ---
 
 ## Lap Counter
-
-**Lap Tracking**
-
-<img width="700" alt="Lap Counter" src="INSERT_IMAGE_URL" />
-
-</div>
 
 The robot tracks **quarter-laps** rather than counting an entire lap at once.
 
@@ -399,10 +381,6 @@ Once the required number of turns is completed, the robot switches to the parkin
 
 **Parking Detection**
 
-<img width="750" alt="Parking Detection" src="INSERT_IMAGE_URL" />
-
-</div>
-
 After completing the required laps, the robot searches for the **pink parking block**.
 
 The pink block is detected using a colour mask and contour detection. Its position in the camera image is then used to steer the robot toward the parking area.
@@ -412,10 +390,6 @@ The pink block is detected using a colour mask and contour detection. Its positi
 **Parking Sequence**
 
 `Lap Complete → Find Pink → Align → Approach → Stop`
-
-<img width="750" alt="Parking Sequence" src="INSERT_IMAGE_URL" />
-
-</div>
 
 While approaching the parking area, the robot continues checking for nearby obstacles. If an obstacle is closer than the pink block, obstacle avoidance takes priority.
 
@@ -427,10 +401,11 @@ The final manoeuvre uses **encoder-based movements** to control the distance tra
 
 ## Autonomous Navigation Flowcharts
 
+### Open Course
+
+[Open-course flowchart]
+
 ### Obstacle Course
 
 [Obstacle flowchart]
 
-### Open Course
-
-[Open-course flowchart]
