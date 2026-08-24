@@ -44,7 +44,7 @@
 </table>
 
 
-## Mechanical Design
+## Mobility & Mechanical Design
 
 This section covers how our robot moves: the chassis structure, drivetrain, steering geometry, and wheels/differential. Each part was chosen and iterated on to maximize turning precision, stability, and reliability while keeping the robot compact enough for the WRO Future Engineers mat. Calculations behind our steering geometry and part choices are included below so the design can be understood and reproduced.
 
