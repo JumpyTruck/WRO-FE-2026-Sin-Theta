@@ -19,7 +19,6 @@ This page covers the mechanical design of our robot — the reasoning behind our
 <img width="300" alt="metal diff" src="https://github.com/user-attachments/assets/f853ef5c-e624-475d-b8e8-77dcb57b81c6" />
 
 - **Steering — Why Ackermann:** Last year we used parallel steering, which scrubbed tires through corners since both wheels turned on the same radius. Switched to Ackermann so each wheel turns its own correct radius.
-- 
 
 <table>
   <tr>
