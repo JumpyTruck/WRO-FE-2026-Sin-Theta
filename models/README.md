@@ -128,7 +128,7 @@ Tall post that raises the camera above the top plate for a clear view of the mat
   <tr>
     <td align="center">
       <strong>Camera Stand — CAD</strong><br>
-      <img width="700" alt="Camera Stand" src="https://github.com/user-attachments/assets/0fb52232-c7e7-4082-a227-116c1d599b54" />
+      <img width="300" alt="Camera Stand" src="https://github.com/user-attachments/assets/0fb52232-c7e7-4082-a227-116c1d599b54" />
     </td>
   </tr>
 </table>
