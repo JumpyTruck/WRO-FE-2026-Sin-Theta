@@ -133,7 +133,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Camera Assembly — Installed</strong><br>
-      <img width="450" alt="Camera Installed" src="https://github.com/user-attachments/assets/7ab8521f-9aae-4e9b-af35-603a02cd1b36" />
+      <img width="300" alt="IMG_2587" src="https://github.com/user-attachments/assets/6a2fb953-50d7-4fd2-96f9-598022c47596" />
     </td>
   </tr>
 </table>
@@ -173,7 +173,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Steering Assembly — Installed</strong><br>
-      <img width="700" alt="Steering System Assembled" src="https://github.com/user-attachments/assets/95cc98a0-8e0c-4256-b780-9a4fee2df02b" />
+      <img width="700" alt="IMG_2589" src="https://github.com/user-attachments/assets/9723fcb5-6dab-4963-b5df-81f603e60325" />
     </td>
   </tr>
 </table>
