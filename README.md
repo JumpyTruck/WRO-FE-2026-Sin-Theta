@@ -165,7 +165,7 @@ This is our PCB and how it works:
 
 ---
 
-### 3. Servo UBEC
+### 3. UBEC Voltage Regulator
 
 - 2 to 8S LiPo UBEC rated for 8A, regulating the 12.8V battery rail down to 8.4V for the steering servo
 - Runs on a completely separate power path from the buck converter and logic electronics
@@ -214,10 +214,6 @@ This is our PCB and how it works:
 - Motor Encoder Port: routes the drive motor's encoder signal back to the Nano so it can measure actual speed/distance and correct for it, powered from the 5V buck converter rail
 - Servo Port: a dedicated 3-wire connector (power, ground, PWM) that keeps the UBEC's power and the Nano's control signal cleanly routed to the servo
 - M1/M2 Motor Output Ports: carry the DRV8871's high-current outputs straight from the battery rail to the motor, bypassing the 5V logic electronics entirely
-
-| Component | Voltage | Normal Current | Peak Current | Power |
-|---|---|---|---|---|
-| 9g Coreless Servo | 8.4V | 0.50A | 3.0–5.0A | 4.2–25.2W |
 
 ---
 
