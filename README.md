@@ -1,6 +1,8 @@
 # WRO-FE-2026-Sinθ 
 
-# Introduction
+## Introduction
+Hello! This is our second year competing in WRO Future Engineers. Last year, two of us competed together on Team VHR Motors, and one of us was on Team The Robertos. This year we've come together to form Team Sinθ!
+
 ## The Team
 
 ## Performance Videos
