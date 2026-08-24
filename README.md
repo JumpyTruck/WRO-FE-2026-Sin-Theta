@@ -403,7 +403,7 @@ if close_enough and aligned:
 
 ### Obstacle Course
 
-<img width="1000 alt="Obstacle Flowchart" src="https://github.com/user-attachments/assets/c1e98583-360a-493a-97bb-4f39abc578ab" />
+<img width="1000" alt="Obstacle Flowchart" src="https://github.com/user-attachments/assets/c1e98583-360a-493a-97bb-4f39abc578ab" />
 
 ---
 ## Systems Thinking & Engineering Decisions
