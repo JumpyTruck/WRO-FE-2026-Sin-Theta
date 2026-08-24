@@ -251,7 +251,7 @@ Every frame is turned into a few simpler images that the rest of the code uses:
 |---|---|
 | **Frame** | The raw camera view, cropped to the useful area |
 | **Masks** | One black/white mask per colour: blue, orange, green, red, pink |
-| **Polygon image** | Walls = black, drivable floor = white |
+| **Mask ROI** | Walls = black, drivable floor = white |
 
 ```python
 frame = crop_image(raw_frame, 0, CAMERA_PIC_WIDTH, CAMERA_PIC_HEIGHT - PIC_HEIGHT, CAMERA_PIC_HEIGHT)
