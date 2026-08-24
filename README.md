@@ -164,13 +164,6 @@ This is our PCB and how it works:
 - Also reads the motor encoder to close the loop on speed and distance
 - Runs entirely off the 5V buck converter rail, drawing very little current itself
 
-| Specification | Value |
-|---|---|
-| Input Voltage | 5V |
-| Normal Current | 0.05A |
-| Peak Current | 0.10A |
-| Power | 0.25W |
-
 ---
 
 ### 5. Motor Driver (DRV8871)
