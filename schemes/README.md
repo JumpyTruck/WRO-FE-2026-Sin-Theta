@@ -131,7 +131,7 @@ Its compact **45 × 18 mm** size and **1–3 second code upload time** also suit
 
 At 5 V, it draws **0.05 A normal / 0.10 A peak (0.25 W)**.
 
-<img width="215" alt="arduinonano" src="https://github.com/user-attachments/assets/12157369-6e84-4ef4-8d9e-b78c3604fbd9" />
+<img width="475" alt="Arduino Nano IMAGE" src="https://github.com/user-attachments/assets/33e53114-9511-4d03-8f85-871dba0240ff" />
 
 ---
 
