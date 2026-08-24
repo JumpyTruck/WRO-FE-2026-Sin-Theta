@@ -148,23 +148,9 @@ It also includes a dedicated **motor encoder port** for wheel encoder feedback, 
 
 ---
 
-#### 7. Power Budget
 
-| Component | Input Voltage | Normal Current | Peak Current | Power Consumption (P = V×I) |
-|---|---|---|---|---|
-| 12.8 V 2000 mAh 4S1P Li-ion Battery | 12.8 V | 1.2 A | 2.0 A | 15.36 W |
-| DRV8871 Motor Driver | 12.8 V | <0.05 A | <0.1 A | 0.64 W |
-| 12 V 37D Metal Gear Motor | 12.8 V | 0.40 A | 1.00 A | 5.12 W |
-| 5 V DC-DC Buck Converter | 12.8 V → 5 V | 0.8 A (out) | 1.5 A (out) | 4.0 W (out) |
-| Arduino Nano | 5 V | 0.05 A | 0.10 A | 0.25 W |
-| Raspberry Pi 4B + Pi Camera 3 Wide | 5 V | 0.70 A | 1.20 A | 3.50 W |
-| Motor Encoders | 5 V | 0.02 A | 0.03 A | 0.10 W |
-| 8.4 V 10 A UBEC | 12.8 V → 8.4 V | 0.33 A (in) | 3.5 A (in) | 2.8 W (out) |
-| 8.4 V High-Torque Coreless Servo | 8.4 V | 0.50 A | 3.0–5.0 A | 4.2–25.2 W |
 
----
-
-#### 8. Final Electrical Integration
+#### 7. Final Electrical Integration
 
 All components are integrated into the final chassis as a compact, reliable system. The Raspberry Pi handles high-level decision-making from the camera feed, while the Arduino Nano manages real-time motor and steering control.
 
