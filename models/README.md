@@ -140,7 +140,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Camera Mount — CAD</strong><br>
-      <img width="700" alt="Camera Mount" src="https://github.com/user-attachments/assets/b8cfc0db-c4f3-4c5e-a724-af3557645aaf" />
+      <img width="300" alt="Camera Mount" src="https://github.com/user-attachments/assets/52265d96-f9a8-422e-a230-17455cd757dd" />
     </td>
   </tr>
 </table>
