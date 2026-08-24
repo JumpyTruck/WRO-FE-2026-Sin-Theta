@@ -172,13 +172,6 @@ This is our PCB and how it works:
 - This isolation means sudden current spikes from the servo (e.g., steering under load) can't drag down or brown out the 5V logic rail
 - Rated well above the servo's normal draw to comfortably absorb its peak current demands
 
-| Specification | Value |
-|---|---|
-| Input Voltage | 12.8V |
-| Output Voltage | 8.4V |
-| Input Current (Normal / Peak) | 0.33A / 3.5A |
-| Output Power | 2.8W |
-
 ---
 
 ### 4. Arduino Nano
