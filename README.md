@@ -82,7 +82,7 @@ The motor's integrated encoder gives us speed and distance feedback, which we us
 
 ### 3) Steering System
 
-To reduce tire scrub and improve cornering accuracy, we use 100% Ackermann steering geometry instead of a simple parallel-arm setup. In 100% Ackermann steering, the imaginary lines extended from each front steering knuckle meet exactly at the center of the rear axle, so every wheel is always turning on its own correct radius.
+To reduce tire scrub and improve cornering accuracy, we use 100% Ackermann steering geometry instead of a simple parallel-arm setup. In 100% Ackermann steering, the inner wheel turns more than the outer wheel so every wheel is always turning on its own correct radius.
 
 | Component | Selected Part |
 |---|---|
