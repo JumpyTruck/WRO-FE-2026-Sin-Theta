@@ -141,12 +141,6 @@ This is our PCB and how it works:
 - Feeds three separate paths directly at 12.8V: the DRV8871 motor driver, the 5V buck converter, and the servo UBEC
 - Chosen for a good balance of energy density, weight, and safe handling compared to a LiPo pack of similar capacity
 
-| Specification | Value |
-|---|---|
-| Configuration | 4S1P |
-| Nominal Voltage | 12.8V |
-| Capacity | 2000mAh |
-
 ---
 
 ### 2. 5V Buck Converter
