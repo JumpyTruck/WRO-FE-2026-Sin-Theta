@@ -209,7 +209,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 
 ### 2.4 Rear Axle Assembly
 - Motor adapter: matches motor's D-shaft to the differential's square input.
-- Differential holder: seats diff on its bearing, low friction.
+- Gear holder: connects to the differential to hold it in place, and also supports the axles through bearings so they stay aligned and don't shift.
 - Axle supports: same idea, different bearing, stops sagging.
 - Axles: custom metal axles adapt diff output to LEGO wheels.
 
@@ -220,7 +220,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
       <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
     <td align="center">
-      <strong>Differential Holder</strong><br>
+      <strong>Gear Holder</strong><br>
       <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
   </tr>
