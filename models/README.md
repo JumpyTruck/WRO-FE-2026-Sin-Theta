@@ -178,12 +178,6 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 <table>
   <tr>
     <td align="center">
-      <strong>Full Steering Assembly — CAD</strong><br>
-      <img width="700" alt="Steering System Assembly CAD" src="https://github.com/user-attachments/assets/f8af694e-dbb9-4029-b93e-0bb59a70d9d0" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
       <strong>Full Steering Assembly — Installed</strong><br>
       <img width="700" alt="Steering System Assembled" src="https://github.com/user-attachments/assets/95cc98a0-8e0c-4256-b780-9a4fee2df02b" />
     </td>
@@ -219,12 +213,6 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 </table>
 
 <table>
-  <tr>
-    <td align="center">
-      <strong>Full Rear Axle Assembly — CAD</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="700">
-    </td>
-  </tr>
   <tr>
     <td align="center">
       <strong>Full Rear Axle Assembly — Installed</strong><br>
