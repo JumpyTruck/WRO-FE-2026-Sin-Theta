@@ -145,13 +145,6 @@ This is our PCB and how it works:
 - A switching (buck) design rather than a linear regulator, so it can supply a higher output current with much less wasted heat
 - Centralizing all 5V logic onto one converter keeps the wiring simple and avoids multiple separate regulators on the board
 
-| Specification | Value |
-|---|---|
-| Input Voltage | 12.8V |
-| Output Voltage | 5V |
-| Output Current (Normal / Peak) | 0.8A / 1.5A |
-| Output Power | 4.0W |
-
 ---
 
 ### 3. UBEC Voltage Regulator
