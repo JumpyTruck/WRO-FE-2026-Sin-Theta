@@ -205,13 +205,6 @@ This is our PCB and how it works:
 - Its logic/control side is fed low-current PWM signals from the Nano, keeping the high-current motor path electrically separate from the sensitive logic side
 - Handles both direction and speed control for the drive motor from a single set of PWM inputs
 
-| Specification | Value |
-|---|---|
-| Input Voltage | 12.8V |
-| Normal Current | < 0.05A |
-| Peak Current | < 0.1A |
-| Power | 0.64W |
-
 ---
 
 ### 6. Servo
