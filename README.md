@@ -61,7 +61,7 @@ Before picking any components, we set target dimensions that would keep the robo
 | Height | 256 mm |
 | Weight | 1001 g |
 
-[Why We Chose These Dimensions](models/README.md#14-design-inspiration--chassis-dimensions)
+[Why We Chose These Dimensions](models/README.md#1-basic-design-choices)
 
 ---
 
@@ -106,7 +106,7 @@ This gives a target steering angle of ~12° at full lock to achieve true 100% Ac
 
 </div>
 
-[Why We Chose Ackermann](models#12-steering-system) · [Steering CAD](mobility/README.md#chassis)
+[Why We Chose Ackermann](models/README.md#1-basic-design-choices)
 
 ---
 
@@ -122,26 +122,19 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 </div>
 
-[Pictures of Custom Mounts](mobility/README.md#chassis)
+[Pictures of Custom Mounts](models/README.md#2-the-build)
 
 ---
 
 ### 5) Wheels & Differential
 
 - **Wheels:** LEGO SPIKE Prime wheels — compact, consistent grip, and lightweight.
-[Why We Chose These Wheels](models#1-mechanical-design-choices)
+[Why We Chose These Wheels](models/README.md#1-basic-design-choices)
 
 - **Differential:** Rear metal differential, allowing both drive wheels to rotate at different speeds while cornering. This reduces mechanical stress and improves stability through turns.
-[Why We Chose This Differential](models#13-rear-differential)
+[Why We Chose This Differential](models/README.md#1-basic-design-choices)
 
 ---
-
-### 6) Development Process
-
-Our mobility system went through many iterations of the chassis, steering mechanism, and component placement. Each revision aimed to improve steering precision, reduce weight, increase rigidity, and simplify assembly.
-
-*(insert iteration/timeline image here)*
-
 
 # Software Architecture & Obstacle Strategy
 
