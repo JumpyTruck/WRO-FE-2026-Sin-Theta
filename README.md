@@ -304,7 +304,7 @@ The robot builds a simple **right triangle** between itself and the pillar, then
 - **C** – straight below the pillar
 
 <div align="center">
-<img width="450" src="https://github.com/user-attachments/assets/fda923f3-9adc-4583-a4ff-ac1dff17bb7b"/>
+  <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
 </div>
 
 - The angle **θ** (between the base line and the line to the pillar) comes from `arctan2`:
