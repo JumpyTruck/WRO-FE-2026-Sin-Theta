@@ -71,7 +71,7 @@ Our drivetrain needed enough torque to move the robot's mass while staying fast 
 
 | Component | Selected Part |
 |---|---|
-| Drive Motor | 12V DC Geared Motor |
+| DC Motor | 12V DC Geared Motor |
 | Motor Driver | Adafruit DRV8871 |
 
 The motor's integrated encoder gives us speed and distance feedback, which we use for autonomous control. After comparing this against other motor/driver combinations, this pairing gave us the best balance of torque, speed, and simplicity.
