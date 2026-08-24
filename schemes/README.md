@@ -154,44 +154,7 @@ The previous 5 V servo's current spikes were pulling power from the rest of the 
 
 Input draw is **0.33 A normal / 3.5 A peak**, delivering **2.8 W output**.
 
-<table>
-  <tr>
-    <!-- Left Column: UBEC Image -->
-    <td valign="top" width="40%">
-      <img width="215" alt="UBEC Voltage Regulator" src="https://github.com/user-attachments/assets/0ef4501f-e443-4287-9e23-1b13522f4785" />
-    </td>
-    <!-- Right Column: Specs Table -->
-    <td valign="top" width="60%">
-      <table>
-        <thead>
-          <tr>
-            <th>Specification</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Input Voltage</td>
-            <td>12.8V</td>
-          </tr>
-          <tr>
-            <td>Output Voltage</td>
-            <td>8.4V</td>
-          </tr>
-          <tr>
-            <td>Input Current (Normal / Peak)</td>
-            <td>0.33A / 3.5A</td>
-          </tr>
-          <tr>
-            <td>Output Power</td>
-            <td>2.8W</td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-</table>
-
+<img width="475" alt="UBEC Voltage Regulator IMAGE" src="https://github.com/user-attachments/assets/bea16464-2fdd-4aaa-bb4b-1065c5692b5d" />
 
 ---
 
