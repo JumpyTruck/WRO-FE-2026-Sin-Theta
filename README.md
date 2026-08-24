@@ -113,7 +113,7 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 </div>
 
-[Pictures of Custom Mounts](models/README.md#2-the-build)
+[More Pictures and Info Here](models/README.md#2-the-build)
 
 ---
 
