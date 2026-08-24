@@ -50,7 +50,7 @@ Three stacked, modular plates — any layer pulls off without touching the other
   <tr>
     <td align="center">
       <strong>Base Plate — CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Main_Chassis__Base_Plate_.png" width="700">
+      <img width="700" alt="Main Chassis (Base Plate)" src="https://github.com/user-attachments/assets/38c17ae5-48fb-4a5f-99c4-94e593c554bb" />
     </td>
   </tr>
   <tr>
@@ -68,7 +68,7 @@ Clamps over the motor, bolts into the lower half.
   <tr>
     <td align="center">
       <strong>Motor Mount Top — CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Top_Motor_Holder.png" width="700">
+      <img width="700" alt="Top Motor Holder" src="https://github.com/user-attachments/assets/0b3a8db0-7c20-4b12-8429-7e93e67acfcd" />
     </td>
   </tr>
   <tr>
@@ -88,7 +88,7 @@ Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses th
   <tr>
     <td align="center">
       <strong>Second Story — CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Second_Plate.png" width="700">
+      <img width="700" alt="Second Plate" src="https://github.com/user-attachments/assets/5adabe70-5d12-4f0e-9ed6-e42ea3047273" />
     </td>
   </tr>
   <tr>
@@ -108,7 +108,7 @@ Holds the Pi and camera mount. Partial wraparound wall, open sides for cables.
   <tr>
     <td align="center">
       <strong>Third Story — CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Third_Plate.png" width="700">
+      <img width="700" alt="Third Plate" src="https://github.com/user-attachments/assets/e4239b84-6903-4bcc-9b0e-34eacd87c8df" />
     </td>
   </tr>
   <tr>
@@ -122,13 +122,13 @@ Holds the Pi and camera mount. Partial wraparound wall, open sides for cables.
 ---
 
 **Camera Mount**
-Standalone piece so angle adjusts without touching the top plate. Set to 135°.
+Standalone piece so angle adjusts without touching the top plate. Set to 155°.
 
 <table>
   <tr>
     <td align="center">
       <strong>Camera Mount — CAD</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="700">
+      <img width="700" alt="Third Plate" src="https://github.com/user-attachments/assets/b8cfc0db-c4f3-4c5e-a724-af3557645aaf" />
     </td>
   </tr>
   <tr>
@@ -143,29 +143,29 @@ Standalone piece so angle adjusts without touching the top plate. Set to 135°.
 
 ### 2.3 Steering Assembly
 - Steering holder: everything mounts here, servo inverted to line up with knuckles.
-- Steering knuckle: fixed at ~12° Ackermann angle, nylon spacers cut friction.
+- Steering Arm: fixed at ~12° Ackermann angle, nylon spacers cut friction.
 - Steering T: extends servo output to the steering bar.
-- Steering bar: links both knuckles, converts servo rotation into steering.
+- Steering Cross Link: links both knuckles, converts servo rotation into steering.
 
 <table>
   <tr>
     <td align="center">
-      <strong>Steering Holder</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Servo_Holder.png" width="380">
+      <strong>Servo Holder</strong><br>
+      <img width="380" alt="Servo Holder" src="https://github.com/user-attachments/assets/a51595f1-feec-459c-8b97-6e5466f72686" />
     </td>
     <td align="center">
-      <strong>Steering Knuckle</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Ackermann_Steering_Arm.png" width="380">
+      <strong>Steering Arm</strong><br>
+      <img width="380" alt="Ackermann Steering Arm" src="https://github.com/user-attachments/assets/c73a7ff1-f0e3-4ab9-9cf1-06bbb7221dc9" />
     </td>
   </tr>
   <tr>
     <td align="center">
       <strong>Steering T</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Steering_T.png" width="380">
+      <img width="380" alt="Steering T" src="https://github.com/user-attachments/assets/33989ee2-ef4d-4845-90af-049db58e81f0" />
     </td>
     <td align="center">
-      <strong>Steering Bar</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Steering_Cross_Link.png" width="380">
+      <strong>Steering Cross Link</strong><br>
+      <img width="380" alt="Steering Cross Link" src="https://github.com/user-attachments/assets/1e36fc58-8f50-45b8-b875-371926bcabe4" />
     </td>
   </tr>
 </table>
