@@ -44,37 +44,7 @@ We replaced it with an **8.4 V high-torque coreless servo**, which offers precis
 
 At 8.4 V, the servo draws **0.50 A normal / 3.0–5.0 A peak (4.2–25.2 W)**.
 
-<table>
-  <tr>
-    <!-- Left Column: Servo Image -->
-    <td valign="top" width="30%">
-      <img width="215" alt="newservo" src="https://github.com/user-attachments/assets/9455e3b6-741a-4784-834f-df74e1c16b89">
-    </td>
-    <!-- Right Column: Specs Table -->
-    <td valign="top" width="70%">
-      <table>
-        <thead>
-          <tr>
-            <th>Component</th>
-            <th>Voltage</th>
-            <th>Normal Current</th>
-            <th>Peak Current</th>
-            <th>Power</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>9g Coreless Servo</td>
-            <td>8.4V</td>
-            <td>0.50A</td>
-            <td>3.0–5.0A</td>
-            <td>4.2–25.2W</td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-</table>
+<img width="475" alt="Servo IMAGE" src="https://github.com/user-attachments/assets/09a086c6-a752-4dd3-b5c4-4e279bc26f29" />
 
 ---
 
