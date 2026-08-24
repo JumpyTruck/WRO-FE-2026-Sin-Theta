@@ -54,12 +54,7 @@ This section covers how our robot moves: the chassis structure, drivetrain, stee
 
 ### 1) Robot Dimensions & Weight
 The robot was sized to fit all electrical components while keeping the robot compact.
-| Specification | Value |
-|---|---:|
-| Length | 230 mm |
-| Width | 105 mm |
-| Height | 256 mm |
-| Weight | 1001 g |
+<img width="1448" height="1086" alt="Camera Dimensions Image" src="https://github.com/user-attachments/assets/df89dbee-9f2c-427c-88de-a55c871200e3"/>
 
 [Why We Chose These Dimensions](models/README.md#1-basic-design-choices)
 
