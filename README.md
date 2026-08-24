@@ -128,20 +128,150 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 ---
 ## Power & Sensor Architecture
 
-#### Power Budget
+# Power and Sensor Management
 
-| Component | Input Voltage | Normal Current | Peak Current | Power Consumption (P = V×I) |
+This is our PCB and how it works:
+- An Arduino Nano handles low-level, time-sensitive motor and servo control — converting high-level commands into precise PWM signals in real time
+- A Raspberry Pi 4B handles high-level perception and decision-making, using a single camera to read the environment and plan the robot's next move
+- The Pi and Nano communicate over a serial connection, so the perception/decision code and the motor control code can be developed and updated independently
+
+---
+
+## 1. Battery
+
+- 12.8V 2000mAh Li-ion battery pack (4S1P) — 4 cells in series for voltage, single parallel group for capacity
+- Acts as the single main power source for the entire board
+- Feeds three separate paths directly at 12.8V: the DRV8871 motor driver, the 5V buck converter, and the servo UBEC
+- Chosen for a good balance of energy density, weight, and safe handling compared to a LiPo pack of similar capacity
+
+| Specification | Value |
+|---|---|
+| Configuration | 4S1P |
+| Nominal Voltage | 12.8V |
+| Capacity | 2000mAh |
+
+---
+
+## 2. 5V Buck Converter
+
+- Steps the 12.8V battery rail down to a steady 5V supply
+- Powers the Arduino Nano, the motor encoder, and the rest of the shared logic electronics off a single regulated rail
+- A switching (buck) design rather than a linear regulator, so it can supply a higher output current with much less wasted heat
+- Centralizing all 5V logic onto one converter keeps the wiring simple and avoids multiple separate regulators on the board
+
+| Specification | Value |
+|---|---|
+| Input Voltage | 12.8V |
+| Output Voltage | 5V |
+| Output Current (Normal / Peak) | 0.8A / 1.5A |
+| Output Power | 4.0W |
+
+---
+
+## 3. Servo UBEC
+
+- 2 to 8S LiPo UBEC rated for 8A, regulating the 12.8V battery rail down to 8.4V for the steering servo
+- Runs on a completely separate power path from the buck converter and logic electronics
+- This isolation means sudden current spikes from the servo (e.g., steering under load) can't drag down or brown out the 5V logic rail
+- Rated well above the servo's normal draw to comfortably absorb its peak current demands
+
+| Specification | Value |
+|---|---|
+| Input Voltage | 12.8V |
+| Output Voltage | 8.4V |
+| Input Current (Normal / Peak) | 0.33A / 3.5A |
+| Output Power | 2.8W |
+
+---
+
+## 4. Arduino Nano
+
+- Acts as the "slave" controller in the system, taking direction from the Raspberry Pi rather than making decisions itself
+- Receives steering and speed values from the Pi over a serial connection every processing cycle
+- Converts those values into the correct PWM duty cycles for the motor driver and servo
+- Also reads the motor encoder to close the loop on speed and distance
+- Runs entirely off the 5V buck converter rail, drawing very little current itself
+
+| Specification | Value |
+|---|---|
+| Input Voltage | 5V |
+| Normal Current | 0.05A |
+| Peak Current | 0.10A |
+| Power | 0.25W |
+
+---
+
+## 5. Motor Driver (DRV8871)
+
+- Adafruit DRV8871 H-bridge motor driver, dedicated to driving the 12V 37D metal gear motor
+- Powered directly from the 12.8V battery rail on its motor-power side, so the motor gets full, unregulated battery voltage
+- Its logic/control side is fed low-current PWM signals from the Nano, keeping the high-current motor path electrically separate from the sensitive logic side
+- Handles both direction and speed control for the drive motor from a single set of PWM inputs
+
+| Specification | Value |
+|---|---|
+| Input Voltage | 12.8V |
+| Normal Current | < 0.05A |
+| Peak Current | < 0.1A |
+| Power | 0.64W |
+
+---
+
+## 6. Drive Motor and Servo
+
+- 12V 37D metal gear motor: the robot's drivetrain motor, driven through the DRV8871 and commanded by the Nano's PWM output
+- 9g coreless servo (full metal gear, 4 KG·cm torque): the steering actuator, powered by the dedicated UBEC and commanded directly by the Nano
+- Motor Encoder Port: routes the drive motor's encoder signal back to the Nano so it can measure actual speed/distance and correct for it, powered from the 5V buck converter rail
+- Servo Port: a dedicated 3-wire connector (power, ground, PWM) that keeps the UBEC's power and the Nano's control signal cleanly routed to the servo
+- M1/M2 Motor Output Ports: carry the DRV8871's high-current outputs straight from the battery rail to the motor, bypassing the 5V logic electronics entirely
+
+| Component | Voltage | Normal Current | Peak Current | Power |
 |---|---|---|---|---|
-| 12.8 V 2000 mAh 4S1P Li-ion Battery | 12.8 V | 1.2 A | 2.0 A | 15.36 W |
-| DRV8871 Motor Driver | 12.8 V | <0.05 A | <0.1 A | 0.64 W |
-| 12 V 37D Metal Gear Motor | 12.8 V | 0.40 A | 1.00 A | 5.12 W |
-| 5 V DC-DC Buck Converter | 12.8 V → 5 V | 0.8 A (out) | 1.5 A (out) | 4.0 W (out) |
-| Arduino Nano | 5 V | 0.05 A | 0.10 A | 0.25 W |
-| Raspberry Pi 4B + Pi Camera 3 Wide | 5 V | 0.70 A | 1.20 A | 3.50 W |
-| Motor Encoders | 5 V | 0.02 A | 0.03 A | 0.10 W |
-| 8.4 V 10 A UBEC | 12.8 V → 8.4 V | 0.33 A (in) | 3.5 A (in) | 2.8 W (out) |
-| 8.4 V High-Torque Coreless Servo | 8.4 V | 0.50 A | 3.0–5.0 A | 4.2–25.2 W |
+| 12V 37D Metal Gear Motor | 12.8V | 0.40A | 1.00A | 5.12W |
+| 9g Coreless Servo | 8.4V | 0.50A | 3.0–5.0A | 4.2–25.2W |
 
+---
+
+## 7. Raspberry Pi 4B + Camera
+
+- Raspberry Pi 4B: the robot's main processing unit, responsible for all high-level perception and decision-making
+- Pi Camera Module 3 Wide: captures the competition mat in real time and feeds it into the onboard computer vision pipeline
+- The vision pipeline identifies lane lines, obstacles, and track boundaries from each frame
+- Once a frame is processed, the Pi sends the resulting steering and speed values to the Nano over serial
+- Full camera-capture-to-command cycle runs at roughly 150ms, keeping the robot responsive while driving
+- Powered off the same 5V buck converter rail as the rest of the logic electronics
+
+| Specification | Value |
+|---|---|
+| Input Voltage | 5V |
+| Normal Current | 0.70A |
+| Peak Current | 1.20A |
+| Power | 3.50W |
+
+---
+
+## 8. Full Power Budget
+
+| Component | Input Voltage | Normal Current | Peak Current | Power |
+|---|---|---|---|---|
+| 12.8V 2000mAh 4S1P Li-ion Battery | 12.8V | 1.2A | 2.0A | 15.36W |
+| DRV8871 Motor Driver | 12.8V | < 0.05A | < 0.1A | 0.64W |
+| 12V 37D Metal Gear Motor | 12.8V | 0.40A | 1.00A | 5.12W |
+| 5V DC-to-DC Buck Converter | 12.8V → 5V | 0.8A (out) | 1.5A (out) | 4.0W (out) |
+| Arduino Nano | 5V | 0.05A | 0.10A | 0.25W |
+| Raspberry Pi 4B + Pi Camera 3 Wide | 5V | 0.70A | 1.20A | 3.50W |
+| Motor Encoder | 5V | 0.02A | 0.03A | 0.10W |
+| 2 to 8S LiPo UBEC 8A | 12.8V → 8.4V | 0.33A (in) | 3.5A (in) | 2.8W (out) |
+| 9g Coreless Servo | 8.4V | 0.50A | 3.0–5.0A | 4.2–25.2W |
+
+---
+
+## Bringing It All Together
+
+- A single 5V buck converter powers all shared logic electronics off one clean rail, instead of multiple separate regulators
+- A dedicated, isolated UBEC protects the board from servo current spikes so the rest of the electronics keep running smoothly
+- A clean split between the Nano (actuation) and the Pi (perception/decision-making) keeps each system simple, testable, and independently upgradable
+- Together, these choices give the robot a stable, competition-ready electrical system with reliable steering and motor control under load
 ---
 
 
