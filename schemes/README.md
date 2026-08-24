@@ -152,43 +152,7 @@ The switching buck converter performs the same conversion far more efficiently, 
 
 Output is **0.8 A normal / 1.5 A peak (4.0 W)**.
 
-<table>
-  <tr>
-    <!-- Left Column: Buck Converter Image -->
-    <td valign="top" width="40%">
-      <img width="215" alt="5V Dc to Dc Buck Converter" src="https://github.com/user-attachments/assets/8318240f-ecfa-4b5d-8d2f-a4acabd2b85e" />
-    </td>
-    <!-- Right Column: Specs Table -->
-    <td valign="top" width="60%">
-      <table>
-        <thead>
-          <tr>
-            <th>Specification</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Input Voltage</td>
-            <td>12.8V</td>
-          </tr>
-          <tr>
-            <td>Output Voltage</td>
-            <td>5V</td>
-          </tr>
-          <tr>
-            <td>Output Current (Normal / Peak)</td>
-            <td>0.8A / 1.5A</td>
-          </tr>
-          <tr>
-            <td>Output Power</td>
-            <td>4.0W</td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-</table>
+<img width="475" alt="5V dc to dc buck converter IMAGE" src="https://github.com/user-attachments/assets/902e4a4d-658e-41b0-8106-f455152bf21d" />
 
 ---
 
