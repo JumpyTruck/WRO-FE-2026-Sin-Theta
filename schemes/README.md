@@ -62,7 +62,43 @@ Its MOSFET switching design also produces a much smaller voltage drop and far le
 
 At 12.8 V, the driver itself draws **<0.05 A normal / <0.1 A peak (0.64 W)**.
 
-<img width="215" alt="motordruiv" src="https://github.com/user-attachments/assets/d05e2549-1e0a-40ec-896a-dc80a04603e4" />
+<table>
+  <tr>
+    <!-- Left Column: Motor Driver Image -->
+    <td valign="top" width="40%">
+      <img width="215" alt="motordruiv" src="https://github.com/user-attachments/assets/d05e2549-1e0a-40ec-896a-dc80a04603e4" />
+    </td>
+    <!-- Right Column: Specs Table -->
+    <td valign="top" width="60%">
+      <table>
+        <thead>
+          <tr>
+            <th>Specification</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Input Voltage</td>
+            <td>12.8V</td>
+          </tr>
+          <tr>
+            <td>Normal Current</td>
+            <td>&lt; 0.05A</td>
+          </tr>
+          <tr>
+            <td>Peak Current</td>
+            <td>&lt; 0.1A</td>
+          </tr>
+          <tr>
+            <td>Power</td>
+            <td>0.64W</td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>
 
 ---
 
