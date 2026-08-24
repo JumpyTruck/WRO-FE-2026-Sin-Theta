@@ -48,11 +48,15 @@ Three stacked, modular plates — any layer pulls off without touching the other
 
 <table>
   <tr>
-    <td align="center" width="50%"><strong>CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Main_Chassis__Base_Plate_.png" width="380">
+    <td align="center">
+      <strong>Base Plate — CAD</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Main_Chassis__Base_Plate_.png" width="700">
     </td>
-    <td align="center" width="50%"><strong>Installed</strong><br>
-      <img src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" width="380">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Base Plate — Installed</strong><br>
+      <img src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" width="700">
     </td>
   </tr>
 </table>
@@ -62,11 +66,15 @@ Clamps over the motor, bolts into the lower half.
 
 <table>
   <tr>
-    <td align="center" width="50%"><strong>CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Top_Motor_Holder.png" width="380">
+    <td align="center">
+      <strong>Motor Mount Top — CAD</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Top_Motor_Holder.png" width="700">
     </td>
-    <td align="center" width="50%"><strong>Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="380">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Motor Mount Top — Installed</strong><br>
+      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
     </td>
   </tr>
 </table>
@@ -78,11 +86,15 @@ Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses th
 
 <table>
   <tr>
-    <td align="center" width="50%"><strong>CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Second_Plate.png" width="380">
+    <td align="center">
+      <strong>Second Story — CAD</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Second_Plate.png" width="700">
     </td>
-    <td align="center" width="50%"><strong>Installed</strong><br>
-      <img src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" width="380">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Second Story — Installed</strong><br>
+      <img src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" width="700">
     </td>
   </tr>
 </table>
@@ -94,11 +106,15 @@ Holds the Pi and camera mount. Partial wraparound wall, open sides for cables.
 
 <table>
   <tr>
-    <td align="center" width="50%"><strong>CAD</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Third_Plate.png" width="380">
+    <td align="center">
+      <strong>Third Story — CAD</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Third_Plate.png" width="700">
     </td>
-    <td align="center" width="50%"><strong>Installed</strong><br>
-      <img src="https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5" width="380">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Third Story — Installed</strong><br>
+      <img src="https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5" width="700">
     </td>
   </tr>
 </table>
@@ -110,11 +126,15 @@ Standalone piece so angle adjusts without touching the top plate. Set to 135°.
 
 <table>
   <tr>
-    <td align="center" width="50%"><strong>CAD</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="380">
+    <td align="center">
+      <strong>Camera Mount — CAD</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="700">
     </td>
-    <td align="center" width="50%"><strong>Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="380">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Camera Mount — Installed</strong><br>
+      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
     </td>
   </tr>
 </table>
@@ -129,28 +149,38 @@ Standalone piece so angle adjusts without touching the top plate. Set to 135°.
 
 <table>
   <tr>
-    <td align="center" width="25%"><strong>Steering Holder</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Servo_Holder.png" width="180">
+    <td align="center">
+      <strong>Steering Holder</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Servo_Holder.png" width="380">
     </td>
-    <td align="center" width="25%"><strong>Steering Knuckle</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Ackermann_Steering_Arm.png" width="180">
+    <td align="center">
+      <strong>Steering Knuckle</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Ackermann_Steering_Arm.png" width="380">
     </td>
-    <td align="center" width="25%"><strong>Steering T</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Steering_T.png" width="180">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Steering T</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Steering_T.png" width="380">
     </td>
-    <td align="center" width="25%"><strong>Steering Bar</strong><br>
-      <img src="CAD_3D_Printed_Pieces/Steering_Cross_Link.png" width="180">
+    <td align="center">
+      <strong>Steering Bar</strong><br>
+      <img src="CAD_3D_Printed_Pieces/Steering_Cross_Link.png" width="380">
     </td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td align="center" width="50%"><strong>Full Assembly — CAD</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="380">
+    <td align="center">
+      <strong>Full Steering Assembly — CAD</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="700">
     </td>
-    <td align="center" width="50%"><strong>Full Assembly — Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="380">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Full Steering Assembly — Installed</strong><br>
+      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
     </td>
   </tr>
 </table>
@@ -168,28 +198,38 @@ Standalone piece so angle adjusts without touching the top plate. Set to 135°.
 
 <table>
   <tr>
-    <td align="center" width="25%"><strong>Motor Adapter</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="180">
+    <td align="center">
+      <strong>Motor Adapter</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
-    <td align="center" width="25%"><strong>Input Gear Holder</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="180">
+    <td align="center">
+      <strong>Input Gear Holder</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
-    <td align="center" width="25%"><strong>Differential Holder</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="180">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Differential Holder</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
-    <td align="center" width="25%"><strong>Axle Supports</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="180">
+    <td align="center">
+      <strong>Axle Supports</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td align="center" width="50%"><strong>Full Assembly — CAD</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="380">
+    <td align="center">
+      <strong>Full Rear Axle Assembly — CAD</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="700">
     </td>
-    <td align="center" width="50%"><strong>Full Assembly — Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="380">
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Full Rear Axle Assembly — Installed</strong><br>
+      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
     </td>
   </tr>
 </table>
