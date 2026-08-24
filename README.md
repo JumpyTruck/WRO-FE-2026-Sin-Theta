@@ -43,44 +43,107 @@
   </tr>
 </table>
 
+
 ## Mechanical Design
 
-Our mobility system was built to maximize steering precision, stability, and reliability while staying compact enough for the WRO Future Engineers mat. Every part below went through multiple iterations before we landed on the final version.
+This section covers how our robot moves: the chassis structure, drivetrain, steering geometry, and wheels/differential. Each part was chosen and iterated on to maximize turning precision, stability, and reliability while keeping the robot compact enough for the WRO Future Engineers mat. Calculations behind our steering geometry and part choices are included below so the design can be understood and reproduced.
 
-- **Dimensions:** 230mm length × 105mm width × 256mm height, 1001g total.
-Compact enough for tight turns and clean component packaging, while staying stable through high-speed cornering.
+---
+
+### 1) Robot Dimensions
+
+Before picking any components, we set target dimensions that would keep the robot compact for tight turns while still leaving room to mount every electronic component cleanly.
+
+| Specification | Value |
+|---|---:|
+| Length | 230 mm |
+| Width | 105 mm |
+| Height | 256 mm |
+| Weight | 1001 g |
+
 [Why We Chose These Dimensions](models/README.md#14-design-inspiration--chassis-dimensions)
 
-- **Drive Motor:** 12V DC geared motor with an integrated encoder, driven through an Adafruit DRV8871.
-Gives us the torque/speed balance we needed for the robot's weight, and the encoder feedback lets us track speed and distance for autonomous control.
+---
+
+### 2) Drive System
+
+Our drivetrain needed enough torque to move the robot's mass while staying fast enough for the competition mat, without adding unnecessary complexity.
+
+| Component | Selected Part |
+|---|---|
+| Drive Motor | 12V DC Geared Motor |
+| Motor Driver | Adafruit DRV8871 |
+
+The motor's integrated encoder gives us speed and distance feedback, which we use for autonomous control. After comparing this against other motor/driver combinations, this pairing gave us the best balance of torque, speed, and simplicity.
+
 [More on Motor & Driver Choice](schemes#1-motorization--power-system)
 
-- **Steering:** 100% Ackermann geometry, actuated by a coreless black servo.
-With a 7.18" wheelbase and 3.00" front track width, the geometry works out to ~12° at full lock. This keeps the inside and outside wheels turning on the correct radii, cutting down on tire scrub through corners.
-[Why We Chose Ackermann](models#12-steering-system) · [Steering CAD](mobility/README.md#chassis)
+---
+
+### 3) Steering System
+
+To reduce tire scrub and improve cornering accuracy, we use 100% Ackermann steering geometry instead of a simple parallel-arm setup. In 100% Ackermann steering, the imaginary lines extended from each front steering knuckle meet exactly at the center of the rear axle, so every wheel is always turning on its own correct radius.
+
+| Component | Selected Part |
+|---|---|
+| Steering Type | Ackermann Steering |
+| Servo | Coreless Servo (Black) |
+
+**Ackermann Angle Calculation**
+
+With a wheelbase of 7.18" and a front track width of 3.00", we calculated the required steering angle as follows:
+
+
+*(insert the full calculation sketch/derivation image here)*
+
+This gives a target steering angle of ~12° at full lock to achieve true 100% Ackermann geometry.
 
 <div align="center">
 
-![Chassis layer 1](https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a)
-![Chassis layer 2](https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d)
-![Chassis layer 3](https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5)
+*(insert Ackermann geometry diagram here — knuckle lines meeting at rear axle center)*
+
+*(insert steering CAD screenshot here)*
 
 </div>
 
-- **Chassis:** Three modular 3D-printed layers, bolted together with dedicated mounting points for every component.
-Any layer can be pulled off on its own, so a repair or a redesign never means tearing the whole robot apart.
-[Custom Mounts](mobility/README.md#chassis)
+[Why We Chose Ackermann](models#12-steering-system) · [Steering CAD](mobility/README.md#chassis)
 
-- **Wheels:** LEGO SPIKE Prime wheels.
-Small, consistent grip, and lightweight — no reason to machine our own when these already do the job.
+---
+
+### 4) Chassis Assembly
+
+The chassis is built from three modular 3D-printed layers, each with dedicated mounting points for the electronics, motor, and steering assembly. This open, layered design means any section can be pulled off individually for repairs or upgrades, without disassembling the whole robot.
+
+<div align="center">
+
+<img width="1245" height="700" alt="First plate" src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" />
+<img width="1248" height="700" alt="Second plate" src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" />
+<img width="1333" height="748" alt="Third plate" src="https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5" />
+
+</div>
+
+[Pictures of Custom Mounts](mobility/README.md#chassis)
+
+---
+
+### 5) Wheels & Differential
+
+- **Wheels:** LEGO SPIKE Prime wheels — compact, consistent grip, and lightweight.
 [Why We Chose These Wheels](models#1-mechanical-design-choices)
 
-- **Differential:** Rear metal differential.
-Lets the two rear wheels spin at different speeds through a turn, which reduces scrub and stress on the drivetrain.
+- **Differential:** Rear metal differential, allowing both drive wheels to rotate at different speeds while cornering. This reduces mechanical stress and improves stability through turns.
 [Why We Chose This Differential](models#13-rear-differential)
 
-- **Iterations:** The chassis, steering geometry, and mounts all went through several redesigns focused on precision, weight, rigidity, and ease of assembly.
+---
+
+### 6) Development Process
+
+Our mobility system went through many iterations of the chassis, steering mechanism, and component placement. Each revision aimed to improve steering precision, reduce weight, increase rigidity, and simplify assembly.
+
+*(insert iteration/timeline image here)*
+
 [Full Development History](mobility/README.md#development)
+
 
 # Software Architecture & Obstacle Strategy
 
