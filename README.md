@@ -128,8 +128,6 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 ---
 ## Power & Sensor Architecture
 
-# Power and Sensor Management
-
 This is our PCB and how it works:
 - An Arduino Nano handles low-level, time-sensitive motor and servo control — converting high-level commands into precise PWM signals in real time
 - A Raspberry Pi 4B handles high-level perception and decision-making, using a single camera to read the environment and plan the robot's next move
@@ -137,7 +135,7 @@ This is our PCB and how it works:
 
 ---
 
-## 1. Battery
+### 1. Battery
 
 - 12.8V 2000mAh Li-ion battery pack (4S1P) — 4 cells in series for voltage, single parallel group for capacity
 - Acts as the single main power source for the entire board
@@ -152,7 +150,7 @@ This is our PCB and how it works:
 
 ---
 
-## 2. 5V Buck Converter
+### 2. 5V Buck Converter
 
 - Steps the 12.8V battery rail down to a steady 5V supply
 - Powers the Arduino Nano, the motor encoder, and the rest of the shared logic electronics off a single regulated rail
@@ -168,7 +166,7 @@ This is our PCB and how it works:
 
 ---
 
-## 3. Servo UBEC
+### 3. Servo UBEC
 
 - 2 to 8S LiPo UBEC rated for 8A, regulating the 12.8V battery rail down to 8.4V for the steering servo
 - Runs on a completely separate power path from the buck converter and logic electronics
@@ -184,7 +182,7 @@ This is our PCB and how it works:
 
 ---
 
-## 4. Arduino Nano
+### 4. Arduino Nano
 
 - Acts as the "slave" controller in the system, taking direction from the Raspberry Pi rather than making decisions itself
 - Receives steering and speed values from the Pi over a serial connection every processing cycle
@@ -201,7 +199,7 @@ This is our PCB and how it works:
 
 ---
 
-## 5. Motor Driver (DRV8871)
+### 5. Motor Driver (DRV8871)
 
 - Adafruit DRV8871 H-bridge motor driver, dedicated to driving the 12V 37D metal gear motor
 - Powered directly from the 12.8V battery rail on its motor-power side, so the motor gets full, unregulated battery voltage
@@ -217,7 +215,7 @@ This is our PCB and how it works:
 
 ---
 
-## 6. Drive Motor and Servo
+### 6. Drive Motor and Servo
 
 - 12V 37D metal gear motor: the robot's drivetrain motor, driven through the DRV8871 and commanded by the Nano's PWM output
 - 9g coreless servo (full metal gear, 4 KG·cm torque): the steering actuator, powered by the dedicated UBEC and commanded directly by the Nano
@@ -232,7 +230,7 @@ This is our PCB and how it works:
 
 ---
 
-## 7. Raspberry Pi 4B + Camera
+### 7. Raspberry Pi 4B + Camera
 
 - Raspberry Pi 4B: the robot's main processing unit, responsible for all high-level perception and decision-making
 - Pi Camera Module 3 Wide: captures the competition mat in real time and feeds it into the onboard computer vision pipeline
@@ -250,7 +248,7 @@ This is our PCB and how it works:
 
 ---
 
-## 8. Full Power Budget
+### 8. Full Power Budget
 
 | Component | Input Voltage | Normal Current | Peak Current | Power |
 |---|---|---|---|---|
@@ -266,7 +264,7 @@ This is our PCB and how it works:
 
 ---
 
-## Bringing It All Together
+### Bringing It All Together
 
 - A single 5V buck converter powers all shared logic electronics off one clean rail, instead of multiple separate regulators
 - A dedicated, isolated UBEC protects the board from servo current spikes so the rest of the electronics keep running smoothly
