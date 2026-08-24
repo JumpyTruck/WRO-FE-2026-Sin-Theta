@@ -142,8 +142,6 @@ Our mobility system went through many iterations of the chassis, steering mechan
 
 *(insert iteration/timeline image here)*
 
-[Full Development History](mobility/README.md#development)
-
 
 # Software Architecture & Obstacle Strategy
 
