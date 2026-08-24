@@ -132,12 +132,6 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 <table>
   <tr>
     <td align="center">
-      <strong>Full Camera Assembly — CAD</strong><br>
-      <img width="450" alt="Camera Assembled" src="https://github.com/user-attachments/assets/2732a161-97c2-4bb2-9afc-127b1472e977" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
       <strong>Full Camera Assembly — Installed</strong><br>
       <img width="450" alt="Camera Installed" src="https://github.com/user-attachments/assets/7ab8521f-9aae-4e9b-af35-603a02cd1b36" />
     </td>
