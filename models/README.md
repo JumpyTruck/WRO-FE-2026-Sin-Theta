@@ -70,7 +70,7 @@ Clamps over the motor, bolts into the lower half.
   <tr>
     <td align="center">
       <strong>Motor Mount Top — Installed</strong><br>
-     <img width="700" alt="IMG_2589" src="https://github.com/user-attachments/assets/46870f8b-5dca-4ee4-91ce-d5cead7d3a7f" />
+     <img width="700" alt="IMG_2587" src="https://github.com/user-attachments/assets/36cc248f-2dff-4693-afb2-fa60fcd70212" />
     </td>
   </tr>
 </table>
