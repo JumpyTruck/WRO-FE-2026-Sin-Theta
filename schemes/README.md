@@ -146,7 +146,7 @@ At 8.4 V, the servo draws **0.50 A normal / 3.0–5.0 A peak (4.2–25.2 W)**.
 
 ---
 
-###### **2.2 Servo Power — 8.4 V 10 A UBEC**
+###### **2.2 UBEC Voltage Regulator**
 
 A dedicated **8.4 V 10 A UBEC** regulates battery power specifically for the steering servo.
 
@@ -154,7 +154,44 @@ The previous 5 V servo's current spikes were pulling power from the rest of the 
 
 Input draw is **0.33 A normal / 3.5 A peak**, delivering **2.8 W output**.
 
-<img width="220" alt="ubec" src="IMAGE">
+<table>
+  <tr>
+    <!-- Left Column: UBEC Image -->
+    <td valign="top" width="40%">
+      <img width="215" alt="UBEC Voltage Regulator" src="https://github.com/user-attachments/assets/0ef4501f-e443-4287-9e23-1b13522f4785" />
+    </td>
+    <!-- Right Column: Specs Table -->
+    <td valign="top" width="60%">
+      <table>
+        <thead>
+          <tr>
+            <th>Specification</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Input Voltage</td>
+            <td>12.8V</td>
+          </tr>
+          <tr>
+            <td>Output Voltage</td>
+            <td>8.4V</td>
+          </tr>
+          <tr>
+            <td>Input Current (Normal / Peak)</td>
+            <td>0.33A / 3.5A</td>
+          </tr>
+          <tr>
+            <td>Output Power</td>
+            <td>2.8W</td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>
+
 
 ---
 
