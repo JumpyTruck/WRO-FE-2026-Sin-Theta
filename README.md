@@ -401,6 +401,8 @@ if area_left == 0 and area_right == 0:
 
 ## Obstacle Navigation
 
+<img width="500" alt="anglecalculatorobstalce" src="https://github.com/user-attachments/assets/fda923f3-9adc-4583-a4ff-ac1dff17bb7b" />
+
 - Green and red pillars are detected by finding coloured contours inside the ROI and keeping the **closest one to the robot**.
 
 ```python
@@ -450,8 +452,6 @@ servo_angle = max(MIN_ANGLE, min(MAX_ANGLE, servo_angle))
 - While a pillar is being avoided, this obstacle angle **overrides** wall following. Once the pillar is no longer detected, control returns to wall following automatically.
 
 `Detect → Build Triangle → Calculate θ → Convert to Servo Angle → Steer Around → Clear → Resume Wall Following`
-
-<img width="500" alt="anglecalculatorobstalce" src="https://github.com/user-attachments/assets/fda923f3-9adc-4583-a4ff-ac1dff17bb7b" />
 
 ---
 
