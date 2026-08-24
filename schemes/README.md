@@ -16,7 +16,9 @@ The built-in encoder lets the controller measure actual wheel rotation in ticks 
 
 At 12.8 V, the motor draws **0.40 A normal / 1.00 A peak (5.12 W)**.
 
-<img width="215"  alt="12V 37D Metal Gearmotor w_ 11PPR Encoder" src="https://github.com/user-attachments/assets/0290c39f-8511-441a-8436-f74db4a68f9c" />
+<img width="215"  alt="12V 37D Metal Gearmotor w_ 11PPR Encoder" src="https://github.com/user-attachments/assets/0290c39f-8511-441a-8436-f74db4a68f9c" />       | Component | Voltage | Normal Current | Peak Current | Power |
+ |---|---|---|---|---|
+| 12V 37D Metal Gear Motor | 12.8V | 0.40A | 1.00A | 5.12W |
 
 
 ---
