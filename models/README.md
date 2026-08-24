@@ -12,7 +12,8 @@ The main README covers what our mobility system is; this page covers how we got 
 
 - **Wheel Choice:** SPIKE Prime wheels (56mm diameter, 14mm thick). Best balance of grip, clearance, and compactness — bigger hurts turning, smaller loses clearance.
 
-  *(insert wheel image)*
+<img width="300" alt="Spike Wheels" src="https://github.com/user-attachments/assets/c58cb594-1c2b-4eea-ad30-3101f6c1c34f" />
+
 
 - **Differential:** Went with metal over 3D-printed gears (wear fast, mesh poorly) or LEGO (bulkier, higher CG). Metal meshes smoother, lasts longer, and sits lower.
 
@@ -74,7 +75,7 @@ Clamps over the motor, bolts into the lower half.
   <tr>
     <td align="center">
       <strong>Motor Mount Top — Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
+      <img width="700" alt="Motor Mount Assembled" src="https://github.com/user-attachments/assets/dd8f58e4-6552-438a-b76a-c01ec3116b5f" />
     </td>
   </tr>
 </table>
@@ -192,13 +193,13 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Steering Assembly — CAD</strong><br>
-      <img width="700" alt="Steering System CAD" src="https://github.com/user-attachments/assets/96d6bfab-32d5-436f-b310-701a483543ce" />
+      <img width="700" alt="Steering System Assembly CAD" src="https://github.com/user-attachments/assets/f8af694e-dbb9-4029-b93e-0bb59a70d9d0" />
     </td>
   </tr>
   <tr>
     <td align="center">
       <strong>Full Steering Assembly — Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
+      <img width="700" alt="Steering System Assembled" src="https://github.com/user-attachments/assets/95cc98a0-8e0c-4256-b780-9a4fee2df02b" />
     </td>
   </tr>
 </table>
@@ -206,12 +207,6 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 [Steering CAD Files](./CAD_3D_Printed_Pieces/)
 
 ---
-
-
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
-    </td>
-  </tr>
-</table>
 
 ### 2.4 Rear Axle Assembly
 - Motor adapter: matches motor's D-shaft to the differential's square input.
@@ -224,17 +219,17 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Motor Adapter</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="380">
+      <img width="380" alt="Motor Adapter" src="https://github.com/user-attachments/assets/0ef57718-d420-4412-85b1-8dee268708e4" />
     </td>
     <td align="center">
       <strong>Gear Holder</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="380">
+      <img width="380" alt="Gear Holder" src="https://github.com/user-attachments/assets/59c8193e-ff14-4034-82f1-83f2f6086f7d" />
     </td>
   </tr>
   <tr>
     <td align="center" colspan="2">
       <strong>Axle Supports</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="380">
+      <img width="380" alt="Axle Support" src="https://github.com/user-attachments/assets/1f7bf237-cc1a-4aed-9857-74ee0228efb3" />
     </td>
   </tr>
 </table>
@@ -249,7 +244,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Rear Axle Assembly — Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
+      <img width="700" alt="Rear Axle Assembly" src="https://github.com/user-attachments/assets/3aeff81b-75b5-4ff3-892a-9b631c7bdd1b" />
     </td>
   </tr>
 </table>
