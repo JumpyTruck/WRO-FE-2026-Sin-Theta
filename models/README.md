@@ -18,7 +18,7 @@ The main README covers what our mobility system is; this page covers how we got 
 
   *(insert differential image)*
 
-- **Steering — Why Ackermann:** Last year used parallel steering, which scrubbed tires through corners since both wheels turned on the same radius. Switched to Ackermann so each wheel turns its own correct radius. Proved it out in LEGO before printing.
+- **Steering — Why Ackermann:** Last year we used parallel steering, which scrubbed tires through corners since both wheels turned on the same radius. Switched to Ackermann so each wheel turns its own correct radius.
 
   *(insert parallel vs Ackermann image)*
 
@@ -31,7 +31,7 @@ The main README covers what our mobility system is; this page covers how we got 
 ## 2. The Build
 
 ### 2.1 Structural Prototype
-LEGO prototype (beams + frames) to test steering/differential fit before printing. Confirmed motor placement and front clearance needs.
+We started from scratch, using a LEGO chassis mockup to get a feel for dimensions before committing to a final design. This let us test motor placement, steering clearance, and differential fit cheaply before locking in the printed chassis shape.
 
 *(insert prototype image)*
 
