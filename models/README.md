@@ -46,7 +46,7 @@ Three stacked, modular plates — any layer pulls off without touching the other
   <tr>
     <td align="center">
       <strong>Base Plate — CAD</strong><br>
-      <img width="700" alt="Main Chassis (Base Plate)" src="https://github.com/user-attachments/assets/38c17ae5-48fb-4a5f-99c4-94e593c554bb" />
+      <img width="700" alt="Main_Chassis__Base_Plate__flipped" src="https://github.com/user-attachments/assets/f41fe5ae-92ba-4795-a446-b5e35cf6c5ec" />
     </td>
   </tr>
   <tr>
@@ -84,7 +84,7 @@ Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses th
   <tr>
     <td align="center">
       <strong>Second Story — CAD</strong><br>
-      <img width="700" alt="Second Plate" src="https://github.com/user-attachments/assets/5adabe70-5d12-4f0e-9ed6-e42ea3047273" />
+      <img width="700" alt="Second_Plate_flipped" src="https://github.com/user-attachments/assets/b5c74f6a-45d7-4465-8d6a-10aeed772797" />
     </td>
   </tr>
   <tr>
@@ -98,13 +98,13 @@ Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses th
 ---
 
 **Third Story — Pi Holder**
-Holds the Pi. Partial wraparound wall, open sides for cables.
+Holds the Pi. Partial wraparound wall, open sides for cables, includes the Camera Stand which raises the camera for a clear view of the mat.
 
 <table>
   <tr>
     <td align="center">
       <strong>Third Story — CAD</strong><br>
-      <img width="700" alt="Third Plate" src="https://github.com/user-attachments/assets/e4239b84-6903-4bcc-9b0e-34eacd87c8df" />
+      <img width="700" alt="Third_Plate_flipped" src="https://github.com/user-attachments/assets/9f6199da-c54a-4941-9f24-dc59db6bdc6c" />
     </td>
   </tr>
   <tr>
@@ -116,18 +116,6 @@ Holds the Pi. Partial wraparound wall, open sides for cables.
 </table>
 
 ---
-
-**Camera Stand**
-Tall post that raises the camera above the top plate for a clear view of the mat.
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Camera Stand — CAD</strong><br>
-      <img width="300" alt="Camera Stand" src="https://github.com/user-attachments/assets/0fb52232-c7e7-4082-a227-116c1d599b54" />
-    </td>
-  </tr>
-</table>
 
 **Camera Mount**
 Sits atop the stand and holds the camera. Standalone piece so angle adjusts without touching the stand or top plate. Set to 155°.
