@@ -52,10 +52,8 @@ This section covers how our robot moves: the chassis structure, drivetrain, stee
 
 ---
 
-### 1) Robot Dimensions
-
-Before picking any components, we set target dimensions that would keep the robot compact for tight turns while still leaving room to mount every electronic component cleanly.
-
+### 1) Robot Dimensions & Weight
+The robot was sized to fit all electrical components while keeping the robot compact.
 | Specification | Value |
 |---|---:|
 | Length | 230 mm |
