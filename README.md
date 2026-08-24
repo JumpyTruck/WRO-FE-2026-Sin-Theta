@@ -384,8 +384,11 @@ if close_enough and aligned:
 <div align="center">
 <table>
 <tr>
-<td align="center" width="50%"><b>Counter Clockwise</b><br>Follows the pink block straight after the last turn.<br><img width="100%" src="YOUR_LEFT_PARKING_GIF_URL"/></td>
-<td align="center" width="50%"><b>Clockwise</b><br>Does a U-turn first, then follows the pink block.<br><img width="100%" src="YOUR_RIGHT_PARKING_GIF_URL"/></td>
+<td align="center" width="50%"><b>Counter Clockwise</b><br>Follows the pink block straight after the last turn.<br><img width="100%" 
+<img width="500" height="450" alt="IMG_2594-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/2b2381f4-c1f1-4e4a-8960-5962c048d737" />
+<td align="center" width="50%"><b>Clockwise</b><br>Does a U-turn first, then follows the pink block.<br><img width="100%" 
+<img width="500" height="450" alt="IMG_2596-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/b96c7a6a-3dda-4819-8dd1-4a5a56780e92" />
+                                                                                                 
 </tr>
 </table>
 </div>
