@@ -21,8 +21,20 @@ This page covers the mechanical design of our robot — the reasoning behind our
 - **Steering — Why Ackermann:** Last year we used parallel steering, which scrubbed tires through corners since both wheels turned on the same radius. Switched to Ackermann so each wheel turns its own correct radius.
 - 
 
-
-<img width="1448"  alt="Sin-theta-steering" src="https://github.com/user-attachments/assets/5103d06f-3cf0-4587-87ff-aeea7164ea68" />
+<table>
+  <tr>
+    <th align="center">Old</th>
+    <th align="center">New</th>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/40b0c8e9-155e-43ce-810e-4c20fbef25d0" width="100%" />
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/5103d06f-3cf0-4587-87ff-aeea7164ea68" width="100%" />
+    </td>
+  </tr>
+</table>
 
 
 ---
