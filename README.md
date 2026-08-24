@@ -72,9 +72,8 @@ For our drive system, we use a 12V DC Geared Motor. This motor has a built in en
 | Component | Selected Part |
 |---|---|
 | DC Motor | 12V DC Geared Motor |
-| Motor Driver | Adafruit DRV8871 |
 
-The motor's integrated encoder gives us speed and distance feedback, which we use for autonomous control. After comparing this against other motor/driver combinations, this pairing gave us the best balance of torque, speed, and simplicity.
+The motor's integrated encoder gives us speed and distance feedback, which we use for autonomous control.
 
 [More on Motor & Driver Choice](schemes#1-motorization--power-system)
 
