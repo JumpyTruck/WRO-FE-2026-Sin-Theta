@@ -1,19 +1,17 @@
 ### Mechanical Design — Full Details
 
-The main README covers what our mobility system is; this page covers how we got there and the part-by-part breakdown of the chassis, steering, and rear axle. All STEP, STL, and PNG files are in [this folder](./CAD_3D_Printed_Pieces/).
-
+This page covers the mechanical design of our robot — the reasoning behind our design choices, and a part-by-part breakdown of the chassis, steering, and rear axle, along with how to assemble it. All STL and PNG files are in [this folder](./CAD_3D_Printed_Parts/).
 ---
 
 ## 1. Basic Design Choices
 
-- **Dimensions:** Sized around the Pi, driver board, motor, and steering, with a ~50mm margin per side. Took inspiration from F1 cars — narrow, low chassis turns tighter and stays more stable at speed.
+- **Dimensions:** Sized around the Pi, driver board, motor, and steering, with a ~50mm margin per side. Took inspiration from F1 cars — narrow, bigger length to width ratio turns tighter and stays more stable at high speed.
 
-  *(insert initial sketches here)*
+<img width="300" alt="IMG_1527" src="https://github.com/user-attachments/assets/64442db8-6418-4848-9620-d98065398cd8" />
 
 - **Wheel Choice:** SPIKE Prime wheels (56mm diameter, 14mm thick). Best balance of grip, clearance, and compactness — bigger hurts turning, smaller loses clearance.
 
 <img width="300" alt="Spike Wheels" src="https://github.com/user-attachments/assets/c58cb594-1c2b-4eea-ad30-3101f6c1c34f" />
-
 
 - **Differential:** Went with metal over 3D-printed gears (wear fast, mesh poorly) or LEGO (bulkier, higher CG). Metal meshes smoother, lasts longer, and sits lower.
 
@@ -129,13 +127,7 @@ Tall post that raises the camera above the top plate for a clear view of the mat
   <tr>
     <td align="center">
       <strong>Camera Stand — CAD</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="700">
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>Camera Stand — Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
+      <img width="700 alt="Camera Stand" src="https://github.com/user-attachments/assets/0fb52232-c7e7-4082-a227-116c1d599b54" />
     </td>
   </tr>
 </table>
@@ -150,10 +142,19 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
       <img width="700" alt="Camera Mount" src="https://github.com/user-attachments/assets/b8cfc0db-c4f3-4c5e-a724-af3557645aaf" />
     </td>
   </tr>
+</table>
+
+<table>
   <tr>
     <td align="center">
-      <strong>Camera Mount — Installed</strong><br>
-      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
+      <strong>Full Camera Assembly — CAD</strong><br>
+      <img width="700" alt="Camera Assembled" src="https://github.com/user-attachments/assets/2732a161-97c2-4bb2-9afc-127b1472e977" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Full Camera Assembly — Installed</strong><br>
+      <img width="700" alt="Camera Installed" src="https://github.com/user-attachments/assets/7ab8521f-9aae-4e9b-af35-603a02cd1b36" />
     </td>
   </tr>
 </table>
@@ -203,9 +204,6 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
     </td>
   </tr>
 </table>
-
-[Steering CAD Files](./CAD_3D_Printed_Pieces/)
-
 ---
 
 ### 2.4 Rear Axle Assembly
