@@ -321,6 +321,8 @@ This allows the robot to continuously correct its position while following eithe
 
 **Obstacle Detection**
 
+<img width="500" alt="anglecalculatorobstalce" src="https://github.com/user-attachments/assets/fda923f3-9adc-4583-a4ff-ac1dff17bb7b" />
+
 The robot detects **green and red obstacles** on the course.
 
 The camera seaches for coloured contours and selects the closest valid pillar and draws a box around the obstacle. Its position is then used to calculate the angle required to safely pass the obstacle.
