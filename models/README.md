@@ -102,7 +102,7 @@ Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses th
 ---
 
 **Third Story — Pi Holder**
-Holds the Pi and camera mount. Partial wraparound wall, open sides for cables.
+Holds the Pi. Partial wraparound wall, open sides for cables.
 
 <table>
   <tr>
@@ -121,14 +121,32 @@ Holds the Pi and camera mount. Partial wraparound wall, open sides for cables.
 
 ---
 
+**Camera Stand**
+Tall post that raises the camera above the top plate for a clear view of the mat.
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Camera Stand — CAD</strong><br>
+      <img src="INSERT_CAD_IMAGE_URL" width="700">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Camera Stand — Installed</strong><br>
+      <img src="INSERT_INSTALLED_IMAGE_URL" width="700">
+    </td>
+  </tr>
+</table>
+
 **Camera Mount**
-Standalone piece so angle adjusts without touching the top plate. Set to 155°.
+Sits atop the stand and holds the camera. Standalone piece so angle adjusts without touching the stand or top plate. Set to 155°.
 
 <table>
   <tr>
     <td align="center">
       <strong>Camera Mount — CAD</strong><br>
-      <img width="700" alt="Third Plate" src="https://github.com/user-attachments/assets/b8cfc0db-c4f3-4c5e-a724-af3557645aaf" />
+      <img width="700" alt="Camera Mount" src="https://github.com/user-attachments/assets/b8cfc0db-c4f3-4c5e-a724-af3557645aaf" />
     </td>
   </tr>
   <tr>
@@ -191,7 +209,6 @@ Standalone piece so angle adjusts without touching the top plate. Set to 155°.
 
 ### 2.4 Rear Axle Assembly
 - Motor adapter: matches motor's D-shaft to the differential's square input.
-- Input gear holder: keeps input gear aligned, no slipping.
 - Differential holder: seats diff on its bearing, low friction.
 - Axle supports: same idea, different bearing, stops sagging.
 - Axles: custom metal axles adapt diff output to LEGO wheels.
@@ -203,16 +220,12 @@ Standalone piece so angle adjusts without touching the top plate. Set to 155°.
       <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
     <td align="center">
-      <strong>Input Gear Holder</strong><br>
+      <strong>Differential Holder</strong><br>
       <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
   </tr>
   <tr>
-    <td align="center">
-      <strong>Differential Holder</strong><br>
-      <img src="INSERT_CAD_IMAGE_URL" width="380">
-    </td>
-    <td align="center">
+    <td align="center" colspan="2">
       <strong>Axle Supports</strong><br>
       <img src="INSERT_CAD_IMAGE_URL" width="380">
     </td>
