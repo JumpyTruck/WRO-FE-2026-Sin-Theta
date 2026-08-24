@@ -114,7 +114,7 @@ The **Raspberry Pi 4B** is our main controller, handling camera input, object an
 
 At 5 V, it draws **0.70 A normal / 1.20 A peak (3.50 W)** together with the camera module.
 
-<img width="215" alt="raspberrypi4bimg" src="https://github.com/user-attachments/assets/65d65b6f-2e5f-429d-ac70-4b5c2403fa05" />
+<img width="475" alt="Raspberry Pi 4B IMAGE" src="https://github.com/user-attachments/assets/637240e4-e9fc-4365-83a9-6de40081050b" />
 
 ---
 
