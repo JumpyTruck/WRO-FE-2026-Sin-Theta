@@ -135,8 +135,10 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 [Why We Chose This Differential](models/README.md#1-basic-design-choices)
 
 ---
+## Power & Sensor Architecture
+---
 
-# Software Architecture & Obstacle Strategy
+## Software Architecture & Obstacle Strategy
 
 The obstacle management system combines **computer vision, wall following, obstacle detection, crash protection, lap tracking, and autonomous parking** to navigate the WRO Future Engineers course.
 
@@ -336,9 +338,8 @@ The final manoeuvre uses **encoder-based movements** to control the distance tra
 ### Obstacle Course
 
 [Obstacle flowchart]
-
-
-# Systems Thinking & Engineering Decisions
-
-# Reproducibility & Github Organization
+---
+## Systems Thinking & Engineering Decisions
+---
+## Reproducibility & Github Organization
 
