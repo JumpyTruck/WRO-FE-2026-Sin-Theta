@@ -218,6 +218,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 - Gear holder: connects to the differential to hold it in place.
 - Axle supports: hold the axles in place via bearings, keep them aligned and stop sagging.
 - Axles: custom metal axles adapt diff output to LEGO wheels.
+- VEX spacers: added on the rear axles to push the wheels further outward, giving clearance so they don't rub against the chassis/body.
 
 <table>
   <tr>
