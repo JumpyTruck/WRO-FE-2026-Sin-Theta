@@ -207,7 +207,7 @@ Its **2000 mAh (2 Ah)** capacity comfortably powers the motor, Raspberry Pi, sen
 
 Normal draw is **1.2 A / 2.0 A peak (15.36 W)**.
 
-<img width="600"  alt="Battery Pack IMAGE" src="https://github.com/user-attachments/assets/a7c0bf8d-32ce-4ca9-b66c-57b634085a05" />
+<img width="300"  alt="Battery Pack IMAGE" src="https://github.com/user-attachments/assets/a7c0bf8d-32ce-4ca9-b66c-57b634085a05" />
 
 ---
 
