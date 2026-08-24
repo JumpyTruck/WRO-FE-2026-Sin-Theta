@@ -242,19 +242,61 @@ This is our PCB and how it works:
 
 The obstacle management system combines **computer vision, wall following, obstacle detection, crash protection, lap tracking, and autonomous parking** to navigate the WRO Future Engineers course.
 
-The Raspberry Pi processes the camera feed and determines the robot's position relative to the walls and obstacles. Steering commands are then sent to the motor controller in real time.
+- The Raspberry Pi processes the camera feed each frame and works out the robot's position relative to the walls and obstacles.
+- A steering angle and motor speed are calculated from that frame.
+- Commands are sent over serial to the motor controller in real time.
+
+```python
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+
+def set_servo_angle(angle, duration=0.0, resend_interval=0.03, min_angle=None, max_angle=None):
+    ...
+    ser.write(f"SERVO,{physical_angle}\n".encode())
+
+def set_motor(direction, speed, ticks=None):
+    ...
+    ser.write(f"MOTOR,{direction},{speed}\n".encode())
+```
 
 ---
 
 ## Camera-Based Detection
 
-The Raspberry Pi camera provides the main visual information for navigation. Each frame is cropped to the relevant area and converted to the **LAB colour space**.
+- Every frame is cropped down to the relevant strip of the image before any processing happens.
+- The cropped frame is converted from BGR into the **LAB colour space**, which is more stable under changing light than RGB.
+- A separate mask is generated for each course colour: **Blue · Orange · Green · Red · Pink**.
+- Each mask is cleaned with morphological open/close to strip noise and fill small gaps.
 
-Separate masks are created for the following colours:
+```python
+frame = crop_image(raw_frame, 0, CAMERA_PIC_WIDTH, CAMERA_PIC_HEIGHT - PIC_HEIGHT, CAMERA_PIC_HEIGHT)
+lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
 
-**Blue · Orange · Green · Red · Pink**
+def calculate_color_mask(lab_img, color):
+    if color == "blue":
+        mask = cv2.inRange(lab_img, BLUE_LOWER, BLUE_UPPER)
+    elif color == "orange":
+        mask = cv2.inRange(lab_img, ORANGE_LOWER, ORANGE_UPPER)
+    ...
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, MASK_CLEAN_KERNEL)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, MASK_CLEAN_KERNEL)
+    return mask
+```
 
-The masks are cleaned to remove noise and fill small gaps.
+- All the coloured regions (lines + pillars) are painted white and removed from the "wall" image.
+- What's left is turned to grayscale, blurred, and thresholded so only the black walls remain.
+- A **region of interest (ROI)** polygon is then fitted around the drivable area so later calculations only look at track, not background.
+
+```python
+non_wall_mask = cv2.bitwise_or(cv2.bitwise_or(blue_mask, orange_mask),
+                               cv2.bitwise_or(green_mask, red_mask))
+colormask_image[non_wall_mask > 0] = (255, 255, 255)
+
+grayscale_image = cv2.cvtColor(colormask_image, cv2.COLOR_BGR2GRAY)
+blurred_image = cv2.bilateralFilter(grayscale_image, 9, 75, 75)
+_, binary_image = cv2.threshold(blurred_image, GRAY_THRESHOLD, 255, cv2.THRESH_BINARY)
+
+polygon_image, polygon_points = draw_polygon(clean_image, clean_image)
+```
 
 <div align="center">
 
@@ -288,86 +330,187 @@ The masks are cleaned to remove noise and fill small gaps.
 
 </div>
 
-The coloured regions are removed from the wall image. The remaining image is converted to grayscale and thresholded to detect the black walls.
-
-A **region of interest (ROI)** is then created around the detected track area, ensuring that navigation calculations only use the relevant part of the image.
-
 ---
 
 ## Wall Following
 
-The robot uses the detected black wall to maintain a consistent position around from the inner wall throughout the run.
+- Two fixed **ROI boxes** are placed on the left and right of the frame, sized around where the walls normally sit.
+- For `Direction.RIGHT`, both boxes are mirrored across the frame's centreline so the same logic works both ways.
 
-Multiple points along the wall are sampled and averaged to obtain a stable, lowest wall position (red dot). This position is compared with a predefined target point (green dot).
+```python
+ROI_LEFT_WALL_BASE  = [0, 80, 128, 200]
+ROI_RIGHT_WALL_BASE = [504, 60, 638, 198]
 
-\[
-Error = Error_x + Error_y
-\]
+def get_wall_rois(direction):
+    if direction == Direction.LEFT:
+        return ROI_LEFT_WALL_BASE, ROI_RIGHT_WALL_BASE
+    return _mirror_roi(ROI_RIGHT_WALL_BASE), _mirror_roi(ROI_LEFT_WALL_BASE)
+```
 
-A **PD controller** converts this error into a steering correction:
+- Inside each ROI, the largest black-wall contour is found and its **area** is measured — more wall pixels in the box means the robot is closer to that wall.
 
-\[
-Control = K_p(Error) + K_d(Error - PreviousError)
-\]
+```python
+def _largest_wall_contour_area(binary_img, roi, min_area=50):
+    x1, y1, x2, y2 = roi
+    region = binary_img[y1:y2, x1:x2]
+    walls_as_white = cv2.bitwise_not(region)
+    contours, _ = cv2.findContours(walls_as_white, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    area = cv2.contourArea(max(contours, key=cv2.contourArea))
+    return area if area > min_area else 0
+```
 
-The resulting correction is converted into a servo angle and limited to the robot's steering range.
+- The **difference** between the left and right areas is the error — if one side has way more wall than the other, the robot is off-centre toward the smaller side.
 
-This allows the robot to continuously correct its position while following either the left or right wall.
+```python
+wall_error = (area_left - area_right) - CENTER_OFFSET
+```
 
+- If one side's wall area drops very low (a corner or opening just appeared), the *other* side's area is artificially boosted so the controller reacts as if that wall were huge — this is what makes the robot snap hard into a turn.
+
+```python
+if area_left < LOW_THRESH and area_right > 100:
+    area_right = area_right * BOOST_MULT + BOOST_ADD
+elif area_right < LOW_THRESH and area_left > 100:
+    area_left = area_left * BOOST_MULT + BOOST_ADD
+```
+
+- A **PD controller** turns the (boosted) area error into a steering correction, same idea as before but on areas instead of pixel positions:
+
+$$Control = K_p(Error) + K_d(Error - PreviousError)$$
+
+```python
+derivative = wall_error - _prev_area_wall_error
+control = (wall_error * kp) + (derivative * kd)
+_prev_area_wall_error = wall_error
+
+angle = default_servo - control
+angle = max(MIN_ANGLE, min(MAX_ANGLE, angle))
+```
+
+- If *both* ROIs read zero (deep in a corner, no wall pixels at all), the robot falls back to a flat hard-over turn instead of trusting the PD math:
+
+```python
+if area_left == 0 and area_right == 0:
+    turn_sign = 1 if direction == Direction.LEFT else -1
+    angle = default_servo + turn_sign * 35 if (blue_area > LINE_AREA_ENTER_THRESHOLD or orange_area > LINE_AREA_ENTER_THRESHOLD) else default_servo + turn_sign * 20
+```
+
+- The debug overlay in-frame (`L=... R=...`) shows exactly these two ROI areas live.
 
 ---
 
 ## Obstacle Navigation
 
-**Obstacle Detection**
+- Green and red pillars are detected by finding coloured contours inside the ROI and keeping the **closest one to the robot**.
+
+```python
+def find_closest_pillar(self, green_mask, red_mask, display_frame):
+    robot_point = (PIC_WIDTH // 2, PIC_HEIGHT)
+    ...
+    distance = math.dist((x_center, y_center), robot_point)
+```
+
+**Turning the pillar position into a steering angle — building a right triangle**
+
+Once a pillar is found, three points define a right triangle in the image, exactly like the diagram above:
+
+- **Vertex A — the aim point:** a fixed point on the bottom edge of the frame, offset to the left or right of centre (`LEFT_OBSTACLE_X_THRESHOLD` / `RIGHT_OBSTACLE_X_THRESHOLD`). This is the gap the robot is aiming to drive through.
+- **Vertex B — the pillar centre:** `(x_center, y_center)`, the middle of the detected obstacle box.
+- **Vertex C — directly below the pillar:** `(x_center, PIC_HEIGHT)`, straight down from the pillar to the bottom row of the frame.
+
+That gives:
+
+- **Opposite side** — the vertical drop from the pillar down to the bottom of the frame.
+- **Adjacent side** — the horizontal distance between the pillar and the aim point.
+- **Hypotenuse** — the red line drawn straight from the aim point to the pillar (this is the line rendered on-screen in the image).
+
+- `θ` is the angle at vertex A, between the horizontal baseline and the hypotenuse — calculated straight from the two triangle legs with `arctan2`:
+
+```python
+rad_angle = np.arctan2(y_center - PIC_HEIGHT, x_center - RIGHT_OBSTACLE_X_THRESHOLD)  # green
+rad_angle = np.arctan2(y_center - PIC_HEIGHT, x_center - LEFT_OBSTACLE_X_THRESHOLD)   # red
+
+object_angle_deg = 90 + np.degrees(rad_angle)
+```
+
+- `arctan2(opposite, adjacent)` returns the angle off the horizontal axis; adding `90°` re-bases it so `0°` lines up with straight ahead of the robot instead of straight sideways.
+- This `object_angle_deg` is then converted into a servo angle, offset by a fixed threshold and scaled by a gain constant so the robot steers wide enough to actually clear the pillar:
+
+```python
+if is_green:
+    servo_angle = default_servo - ((object_angle_deg + OBJECT_LINE_ANGLE_THRESHOLD) * GREEN_OBSTACLE_KP)
+else:
+    servo_angle = default_servo - ((object_angle_deg - OBJECT_LINE_ANGLE_THRESHOLD) * RED_OBSTACLE_KP)
+
+servo_angle = max(MIN_ANGLE, min(MAX_ANGLE, servo_angle))
+```
+
+- **Green pillar → pass on the right:** aim point is `RIGHT_OBSTACLE_X_THRESHOLD`, offset is added.
+- **Red pillar → pass on the left:** aim point is `LEFT_OBSTACLE_X_THRESHOLD`, offset is subtracted.
+- While a pillar is being avoided, this obstacle angle **overrides** wall following. Once the pillar is no longer detected, control returns to wall following automatically.
+
+`Detect → Build Triangle → Calculate θ → Convert to Servo Angle → Steer Around → Clear → Resume Wall Following`
 
 <img width="500" alt="anglecalculatorobstalce" src="https://github.com/user-attachments/assets/fda923f3-9adc-4583-a4ff-ac1dff17bb7b" />
-
-The robot detects **green and red obstacles** on the course.
-
-The camera seaches for coloured contours and selects the closest valid pillar and draws a box around the obstacle. Its position is then used to calculate the angle required to safely pass the obstacle.
-
-**Obstacle Navigation**
-
-`Detect → Calculate Angle → Steer Around → Clear → Resume Wall Following`
-
-While an obstacle is being avoided, the obstacle steering angle takes priority over the normal wall-following angle.
-
-Once the obstacle is cleared, the robot automatically returns to wall following.
-
 
 ---
 
 ## Crash Detection
 
-Several virtual detection points are placed within the camera image to prevent the robot from getting too close to the walls.
+- A row of virtual points is checked against the wall mask to catch the robot cutting the **inner** wall while cornering.
+- A single point near the bottom-centre of the frame checks the **outer** wall.
+- If a point lands on black (wall), the robot enters a crash-protection state.
 
-- **Inner wall line** detect the inside wall while cornering.
-- **Outer wall point** detects when the outer wall becomes too close.
+```python
+def check_inner_wall_crash(self, direction, polygon_image, display_frame):
+    ...
+    point_crashed = in_bounds and polygon_image[y, x] == 0
+    if point_crashed:
+        crashed = True
 
-If a point reaches the detected wall region, the robot enters a crash-protection state.
+def check_outer_wall_crash(self, direction, polygon_image, display_frame):
+    detection_points = [(PIC_WIDTH // 2, PIC_HEIGHT - 138)]
+    ...
+```
 
-For an inner-wall warning, the wall-following controller is damped to make the steering correction smoother. If the outer wall is too close, the robot applies a stronger correction away from the wall.
+- **Inner-wall warning** → the wall-follow PD gains are swapped for softer, "damped" gains (`INNER_CRASH_KP` / `INNER_CRASH_KD`) so the correction is smoother.
+- **Outer-wall warning** → the robot applies a hard, fixed steering angle back toward the corner (`turn_into_corner`) instead of the normal PD correction.
 
 ---
 
 ## Lap Counter
 
-The robot tracks **quarter-laps** rather than counting an entire lap at once.
+- The robot counts **quarter-laps**, not full laps at once.
+- Depending on the driving direction, either the **blue** or the **orange** marker mask is watched.
+- A marker has to stay above `LINE_AREA_ENTER_THRESHOLD` for several consecutive frames before a turn is registered — this filters out false positives.
+- Once the marker then drops below `LINE_AREA_EXIT_THRESHOLD` for enough frames (and a minimum turn duration has passed), the quarter-lap is logged and a cooldown starts so the same marker can't be counted twice.
 
-The appropriate **blue or orange marker** is monitored depending on the robot's direction. A marker must be detected for several consecutive frames before a turn is registered, reducing false detections.
+```python
+self._confirm_count = self._confirm_count + 1 if marker_area > LINE_AREA_ENTER_THRESHOLD else 0
+if self._confirm_count >= ENTRY_CONFIRM_FRAMES:
+    self.state = "turning"
+    self._turn_start_time = now
 
-After the marker disappears for the required number of frames, the quarter-lap is counted.
+...
+should_exit = (
+    turn_elapsed >= turn_min_duration and self._exit_confirm_count >= exit_confirm_frames
+) or (turn_elapsed >= TURN_MAX_DURATION)
+if should_exit:
+    self.quarter_lap_count += 1
+    self.state = "idle"
+    self._cooldown_until = now + TURN_COOLDOWN
+```
 
-A cooldown is then applied to prevent the same marker from being counted twice.
+- The robot is configured for:
 
-The robot is configured for:
+$$3\ laps \times 4 = 12\ quarter\text{-}laps$$
 
-\[
-3\text{ laps} \times 4 = 12\text{ quarter-laps}
-\]
+```python
+LAPS_TARGET = 3
+TOTAL_TURNS = LAPS_TARGET * 4
+```
 
-Once the required number of turns is completed, the robot switches to the parking sequence.
+- Once the required number of turns is reached, the robot switches out of the driving loop and into the parking sequence.
 
 ---
 
@@ -375,59 +518,89 @@ Once the required number of turns is completed, the robot switches to the parkin
 
 **Parking Detection**
 
-After completing the required laps, the robot searches for the **pink parking block**.
+- After the laps are done, the robot searches for the **pink parking block** using the same colour-mask + contour approach as the pillars.
+- The block's position in the frame is used to steer toward the parking area.
 
-The pink block is detected using a colour mask and contour detection. Its position in the camera image is then used to steer the robot toward the parking area.
-
+```python
+def find_pink_block(pink_mask, display_frame):
+    contours, _ = cv2.findContours(pink_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    ...
+```
 
 **Parking Sequence**
 
-`Lap Complete → Find Pink → Approach → Align→ Park`
+`Lap Complete → Find Pink → Approach → Align → Park`
 
-
-The parking approach depends on the **direction of the track**. The robot uses two different parking strategies:
+- The approach differs by track direction:
 
 <div align="center">
-
 <table>
   <tr>
     <td align="center" width="50%">
 
 **Counter Clockwise**
 
-<br>
-
-After completing **12 quarters**, the robot detects and follows the pink parking block. It aligns itself with the parking area and continues the approach until the required position is reached.
+After completing **12 quarters**, the robot detects and follows the pink parking block directly, aligning itself and continuing the approach until the required position is reached.
 
 <br><br>
-
 <img width="100%" alt="left parking approach" src="YOUR_LEFT_PARKING_GIF_URL" />
 
 </td>
-
-<td align="center" width="50%">
+    <td align="center" width="50%">
 
 **Clockwise**
 
-<br>
-
-After completing **13 quarters**, the robot performs a **U-turn** to face the parking area. It then detects and follows the pink parking block before completing the final parking manoeuvre.
+After completing **13 quarters**, the robot performs a **U-turn** to face the parking area, then finds and follows the pink block before the final manoeuvre.
 
 <br><br>
-
 <img width="100%" alt="right parking approach" src="YOUR_RIGHT_PARKING_GIF_URL" />
 
 </td>
   </tr>
 </table>
-
 </div>
 
-While approaching the parking area, the robot continues checking for nearby obstacles. If an obstacle is closer than the pink block, obstacle avoidance takes priority.
+```python
+turns_needed = TOTAL_TURNS + 1 if direction == Direction.RIGHT else TOTAL_TURNS
+laps_complete = lap_tracker.quarter_lap_count >= turns_needed
 
-Once the pink block reaches the required distance and horizontal alignment, the robot stops and begins the final parking manoeuvre.
+if laps_complete:
+    if direction == Direction.RIGHT:
+        stop_motor()
+        perform_u_turn_to_pink(picam2)
+    follow_pink_block_to_park(picam2, Direction.LEFT)
+```
 
-The final manoeuvre uses **encoder-based movements** to control the distance travelled during each forward, reverse, and turning movement. This allows the robot to perform the parking sequence consistently in both directions.
+- While approaching, obstacle avoidance still takes priority over the pink block if a pillar is closer than the block:
+
+```python
+pillar_is_closer = pillar_found is not None and (
+    pink_y is None or pillar_found[1] > pink_y
+)
+if pillar_is_closer:
+    angle = forced_pillar_angle(p_x, p_y, False, frame)
+elif pink_angle is not None:
+    angle = pink_angle
+```
+
+- Once the pink block is close enough **and** horizontally aligned, the robot stops and hands off to the final manoeuvre:
+
+```python
+close_enough = pink_y >= PARK_TARGET_Y
+alongside = abs(pink_x - aim_x) <= PARK_X_TOLERANCE
+if close_enough and alongside:
+    stop_motor()
+    wall_follow_park_entry(picam2, direction)
+```
+
+- The final manoeuvre uses **encoder-based movements** (`set_motor(direction, speed, ticks)`) instead of timed driving, so each forward/reverse/turn step covers a consistent distance regardless of speed or surface.
+
+```python
+set_motor(2, 130, 1100)   # reverse a fixed number of encoder ticks
+reset_ticks()
+set_servo_angle(default_servo, min_angle=PARK_MIN_ANGLE, max_angle=PARK_MAX_ANGLE)
+set_motor(2, 130, 385)
+```
 
 ---
 
