@@ -22,10 +22,6 @@ This page covers the mechanical design of our robot — the reasoning behind our
 
   *(insert parallel vs Ackermann image)*
 
-- **Ackermann Angle:** Wheelbase 7.18", track width 3.00" → ~12° knuckle angle for 100% Ackermann (knuckle lines meet at the center of the rear axle).
-
-  *(insert calculation sketch)*
-
 ---
 
 ## 2. The Build
@@ -149,13 +145,13 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Camera Assembly — CAD</strong><br>
-      <img width="700" alt="Camera Assembled" src="https://github.com/user-attachments/assets/2732a161-97c2-4bb2-9afc-127b1472e977" />
+      <img width="450" alt="Camera Assembled" src="https://github.com/user-attachments/assets/2732a161-97c2-4bb2-9afc-127b1472e977" />
     </td>
   </tr>
   <tr>
     <td align="center">
       <strong>Full Camera Assembly — Installed</strong><br>
-      <img width="700" alt="Camera Installed" src="https://github.com/user-attachments/assets/7ab8521f-9aae-4e9b-af35-603a02cd1b36" />
+      <img width="450" alt="Camera Installed" src="https://github.com/user-attachments/assets/7ab8521f-9aae-4e9b-af35-603a02cd1b36" />
     </td>
   </tr>
 </table>
