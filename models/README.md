@@ -70,7 +70,7 @@ Clamps over the motor, bolts into the lower half.
   <tr>
     <td align="center">
       <strong>Motor Mount Top — Installed</strong><br>
-      <img width="700" alt="Motor Mount Assembled" src="https://github.com/user-attachments/assets/dd8f58e4-6552-438a-b76a-c01ec3116b5f" />
+     <img width="700" alt="IMG_2589" src="https://github.com/user-attachments/assets/46870f8b-5dca-4ee4-91ce-d5cead7d3a7f" />
     </td>
   </tr>
 </table>
@@ -133,7 +133,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Camera Assembly — Installed</strong><br>
-      <img width="300" alt="IMG_2587" src="https://github.com/user-attachments/assets/6a2fb953-50d7-4fd2-96f9-598022c47596" />
+      <img width="500" alt="camerainstalled" src="https://github.com/user-attachments/assets/082183fe-2382-4521-a2c9-c87eeff48f15" />
     </td>
   </tr>
 </table>
