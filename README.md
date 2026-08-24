@@ -263,7 +263,7 @@ blue_mask = calculate_color_mask(lab, "blue")
 
 <table>
 <tr><td align="center"><b>Original Frame</b><br><img width="400" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
-<td align="center"><b>ROI / Polygon</b><br><img width="400" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/></td></tr>
+<td align="center"><b>Mat ROI</b><br><img width="400" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/></td></tr>
 <tr><td align="center"><b>Obstacle Mask</b><br><img width="400" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
 <td align="center"><b>Blue Line</b><br><img width="400" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td></tr>
 <tr><td align="center"><b>Orange Line</b><br><img width="400" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
