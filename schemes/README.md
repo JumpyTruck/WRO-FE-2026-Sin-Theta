@@ -102,7 +102,7 @@ Since the robot needs to continuously process camera data and issue movement cor
 
 Because the PiCam already provides the visual information our computer vision algorithm needs from a single image, we prioritized processing speed and responsiveness over adding redundant distance sensors.
 
-<img width="215" alt="picamimg" src="IMAGE">
+<img width="475" alt="Pi Camera Module 3 IMAGE" src="https://github.com/user-attachments/assets/2e50a940-9875-4512-8b17-b5fdf50f9243" />
 
 ---
 
