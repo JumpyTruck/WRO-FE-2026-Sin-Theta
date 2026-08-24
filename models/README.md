@@ -1,6 +1,7 @@
-### Mechanical Design — Full Details
+# Mechanical Design — Full Details
 
-### This page covers the mechanical design of our robot — the reasoning behind our design choices, and a part-by-part breakdown of the chassis, steering, and rear axle, along with how to assemble it. All STL and PNG files are in [this folder](./CAD_3D_Printed_Parts/).
+<sub>This page covers the mechanical design of our robot — the reasoning behind our design choices, and a part-by-part breakdown of the chassis, steering, and rear axle, along with how to assemble it. All STL and PNG files are in [this folder](./CAD_3D_Printed_Parts/).</sub>
+
 ---
 
 ## 1. Basic Design Choices
@@ -127,7 +128,7 @@ Tall post that raises the camera above the top plate for a clear view of the mat
   <tr>
     <td align="center">
       <strong>Camera Stand — CAD</strong><br>
-      <img width="700 alt="Camera Stand" src="https://github.com/user-attachments/assets/0fb52232-c7e7-4082-a227-116c1d599b54" />
+      <img width="700" alt="Camera Stand" src="https://github.com/user-attachments/assets/0fb52232-c7e7-4082-a227-116c1d599b54" />
     </td>
   </tr>
 </table>
@@ -204,6 +205,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
     </td>
   </tr>
 </table>
+
 ---
 
 ### 2.4 Rear Axle Assembly
