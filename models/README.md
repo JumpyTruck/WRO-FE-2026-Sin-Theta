@@ -1,6 +1,6 @@
 # Mechanical Design — Full Details
 
-<sub>This page covers the mechanical design of our robot — the reasoning behind our design choices, and a part-by-part breakdown of the chassis, steering, and rear axle, along with how to assemble it. All STL and PNG files are in [this folder](./CAD_3D_Printed_Parts/).</sub>
+This page covers the mechanical design of our robot — the reasoning behind our design choices, and a part-by-part breakdown of the chassis, steering, and rear axle, along with how to assemble it. All STL and PNG files are in [this folder](./CAD_3D_Printed_Parts/).
 
 ---
 
