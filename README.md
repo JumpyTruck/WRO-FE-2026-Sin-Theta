@@ -284,7 +284,7 @@ The masks are cleaned to remove noise and fill small gaps.
 <div align="center">
 
 <b>Original Image</b><br><br>
-<img width="500" alt="FEimg" src="https://github.com/user-attachments/assets/67cfe969-abe5-4fab-a21a-e3281df701fa" />
+<img width="500" alt="FEframe" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c" />
 
 <br><br>
 
