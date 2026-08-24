@@ -67,7 +67,7 @@ The robot was sized to fit all electrical components while keeping the robot com
 
 ### 2) Drive System
 
-Our drivetrain needed enough torque to move the robot's mass while staying fast enough for the competition mat, without adding unnecessary complexity.
+For our drive system, we use a 12V DC Geared Motor. This motor has a built in encoder and since drivetrain needed enough torque to move the robot's mass while staying fast enough for the competition mat, without adding unnecessary complexity.
 
 | Component | Selected Part |
 |---|---|
@@ -215,7 +215,7 @@ This is our PCB and how it works:
 
 ---
 
-### 6. Drive Motor and Servo
+### 6. Servo
 
 - 12V 37D metal gear motor: the robot's drivetrain motor, driven through the DRV8871 and commanded by the Nano's PWM output
 - 9g coreless servo (full metal gear, 4 KG·cm torque): the steering actuator, powered by the dedicated UBEC and commanded directly by the Nano
@@ -225,7 +225,6 @@ This is our PCB and how it works:
 
 | Component | Voltage | Normal Current | Peak Current | Power |
 |---|---|---|---|---|
-| 12V 37D Metal Gear Motor | 12.8V | 0.40A | 1.00A | 5.12W |
 | 9g Coreless Servo | 8.4V | 0.50A | 3.0–5.0A | 4.2–25.2W |
 
 ---
