@@ -99,14 +99,6 @@ With a wheelbase of 7.18" and a front track width of 3.00", we calculated the re
 
 This gives a target steering angle of ~12° at full lock to achieve true 100% Ackermann geometry.
 
-<div align="center">
-
-*(insert Ackermann geometry diagram here — knuckle lines meeting at rear axle center)*
-
-*(insert steering CAD screenshot here)*
-
-</div>
-
 [Why We Chose Ackermann](models/README.md#1-basic-design-choices)
 
 ---
