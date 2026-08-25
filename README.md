@@ -236,7 +236,7 @@ This section explains how the robot "sees" the track and decides how to steer â€
 
 ---
 
-## 1) What the Camera Sees
+### 1) What the Camera Sees
 
 Every frame is turned into a few simpler images that the rest of the code uses:
 
@@ -267,7 +267,7 @@ blue_mask = calculate_color_mask(lab, "blue")
 
 ---
 
-## 2) Wall Following
+### 2) Wall Following
 
 Two small boxes (ROIs) sit on the left and right of the frame. Whichever side has **more black wall pixels** in its box, the robot is closer to that wall.
 
@@ -288,7 +288,7 @@ angle = default_servo - control
 
 ---
 
-## 3) Obstacle Avoidance
+### 3) Obstacle Avoidance
 
 The robot builds a simple **right triangle** between itself, the pillar, and the aim point, then uses trig to work out how sharply to steer.
 
@@ -324,7 +324,7 @@ else:              # pass on the left
 
 ---
 
-## 4) Crash Detection
+### 4) Crash Detection
 
 Two safety checks run every frame:
 
@@ -338,7 +338,7 @@ outer_crash = check_outer_wall_crash(direction, polygon_image, frame)
 
 ---
 
-## 5) Lap Counting
+### 5) Lap Counting
 
 The robot counts **quarter-laps**, one per corner marker seen:
 
@@ -361,7 +361,7 @@ if marker_gone_for_enough_frames:
 
 ---
 
-## 6) Parking
+### 6) Parking
 
 Once laps are done, the robot looks for the **pink block** and drives toward it.
 
@@ -392,7 +392,7 @@ if close_enough and aligned:
 
 ---
 
-## Autonomous Navigation Flowcharts
+### Autonomous Navigation Flowcharts
 
 ### Open Course
 
