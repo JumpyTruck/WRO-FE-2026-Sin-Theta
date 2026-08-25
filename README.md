@@ -290,24 +290,28 @@ angle = default_servo - control
 
 ## 3) Obstacle Avoidance
 
-The robot builds a simple **right triangle** between itself and the pillar, then uses trig to work out the steering angle:
+The robot builds a simple **right triangle** between itself, the pillar, and the aim point, then uses trig to work out how sharply to steer.
 
-- **A** – the aim point (where the robot wants to end up, left or right of centre)
-- **B** – the pillar's centre
-- **C** – straight below the pillar
+- **A** – the aim point (where we *want* the pillar to end up — left or right of center)
+- **B** – the pillar's center (what the camera detects)
+- **C** – the point directly below the pillar, at the bottom of the frame (this is "us")
 
 <div align="center">
   <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
 </div>
 
-- The angle **θ** (between the base line and the line to the pillar) comes from `arctan2`:
+Think of it as two legs of a right triangle:
+- **A → C** (horizontal): how far sideways the pillar is from our aim point
+- **C → B** (vertical): how far away the pillar is from us
+
+The angle **θ** at point **A** is what we actually need — it tells us how much to turn to line the aim point up with the pillar. We get it with `arctan2`, using the horizontal and vertical distances above:
 
 ```python
 rad_angle = np.arctan2(y_center - PIC_HEIGHT, x_center - aim_x)
 theta = 90 + np.degrees(rad_angle)
 ```
 
-- That angle becomes the servo angle, offset depending on colour:
+That angle becomes the servo angle, offset depending on the pillar's color (which side we pass on):
 
 ```python
 if is_green:      # pass on the right
