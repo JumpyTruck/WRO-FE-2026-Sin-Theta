@@ -304,7 +304,7 @@ if area_left < WALL_OPENING_AREA and area_right > 100:
 
 To steer around a pillar, the robot needs two numbers:
 
-- **How far the pillar is from the target x** (sideways) — one leg of the triangle
+- **How far the pillar is from the aim x** (sideways) — one leg of the triangle
 - **How far the pillar is from the robot** (forward distance) — the other leg
 - With both legs known, trigonometry (`arctan2`) gives the angle between them — that angle is how much to steer
 
