@@ -40,14 +40,7 @@ This page covers the mechanical design of our robot — the reasoning behind our
 
 ## 2. The Build
 
-### 2.1 Structural Prototype
-We started from scratch, using a LEGO chassis mockup to get a feel for dimensions before committing to a final design. This let us test motor placement, steering clearance, and differential fit cheaply before locking in the printed chassis shape.
-
-*(insert prototype image)*
-
----
-
-### 2.2 Chassis
+### 2.1 Chassis
 Three stacked, modular plates — any layer pulls off without touching the others.
 
 **Base Plate**
@@ -154,7 +147,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 
 ---
 
-### 2.3 Steering Assembly
+### 2.2 Steering Assembly
 - Steering holder: everything mounts here, servo inverted to line up with knuckles.
 - Steering Arm: fixed at ~12° Ackermann angle, nylon spacers cut friction.
 - Steering T: extends servo output to the steering bar.
@@ -194,7 +187,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 
 ---
 
-### 2.4 Rear Axle Assembly
+### 2.3 Rear Axle Assembly
 - Motor adapter: matches motor's D-shaft to the differential's square input.
 - Gear holder: connects to the differential to hold it in place.
 - Axle supports: hold the axles in place via bearings, keep them aligned and stop sagging.
