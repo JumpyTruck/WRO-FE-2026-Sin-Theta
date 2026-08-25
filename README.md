@@ -509,3 +509,44 @@ The image shows the main robot iterations during development. Each version was t
 ---
 ## Reproducibility & Github Organization
 
+This repository documents the design, build, and code for our WRO robot — including the mechanical models, custom PCB/electronics, full parts list, and the engineering journal tracking our design decisions along the way. Use the sections below to navigate to whatever you need, whether that's rebuilding the robot from scratch or understanding why we made the choices we did.
+
+---
+
+## How to Assemble the Robot
+
+Step-by-step mechanical assembly instructions, 3D models, and CAD files.
+
+➡️ [Go to Models README](models)
+
+---
+
+### How to Build the Custom PCB
+
+Schematics, PCB layout files, and wiring instructions for our custom PCB.
+
+➡️ [Go to Electronics README](./electronics/README.md)
+
+---
+
+### Parts List
+
+| Category | Component | Price |
+|---|---|---|
+| Processing Controller | Raspberry Pi 4b | |
+| Slave Controller | Arduino Nano | |
+| Vision | Raspberry Pi Camera Module 3 Wide | |
+| Motor | 12V 37D Metal Gearmotor | |
+| Motor Driver | Adafruit DRV8871 | |
+| Servo | 8.4V High-Torque Coreless Servo | |
+| Servo Power Convertor | 8.4V 10A UBEC | |
+| Power Convertor | 5V DC-DC Buck Converter | |
+| Battery Pack | IFR 18650 4S1P 12.8V 2000mAh Li-ion Battery Pack | |
+
+---
+
+### Engineering Journal
+
+Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
+
+➡️ [Go to Engineering Journal](./docs/engineering-journal.md)
