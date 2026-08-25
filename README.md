@@ -227,10 +227,6 @@ This is our PCB and how it works:
 - Together, these choices give the robot a stable, competition-ready electrical system with reliable steering and motor control under load
 ---
 
-
-
----
-
 ## Software Architecture & Obstacle Strategy
 
 This section explains how the computer vision pipeline drives steering decisions for the robot. It covers:
@@ -243,15 +239,13 @@ This section explains how the computer vision pipeline drives steering decisions
 * Parking
 * Arbitration (how the robot picks between all of the above, and the overall state machine that ties it together)
 
-## Raspberry Pi + Arduino Nano
+### Raspberry Pi + Arduino Nano
 
 The robot's brain is split across two boards. The **Raspberry Pi** runs the camera and does all the computer vision, deciding what the robot should do next. The **Arduino Nano** takes commands from the Pi and actually drives the motor and servo. The two are connected over a USB serial cable, with the Pi sending simple commands and the Nano carrying them out and reporting back when a move is done.
 
-> 📄 Full protocol details: **[Communications Protocol](<link-here>)**
-
 ---
 
-### 1) Vision Pipeline — Turning the Camera Feed into a Map
+### 1) Vision Pipeline
 
 Every raw frame is turned into a few simpler images that everything else in the code works from:
 
@@ -282,7 +276,7 @@ blue_mask = get_color_mask(lab, "blue")
 
 ---
 
-### 2) Wall Following — Balancing Left vs. Right Wall Area
+### 2) Wall Following
 
 Two small boxes (ROIs) sit on the left and right of the frame. Whichever side has **more black wall pixels** inside its box, the robot is sitting closer to that wall.
 
@@ -312,11 +306,11 @@ elif area_right < WALL_OPENING_AREA and area_left > 100:
 
 ---
 
-### 3) Obstacle Avoidance — Steering Around Pillars with Trigonometry
+### 3) Obstacle Avoidance
 
 To steer around a pillar, we need two distances:
 
-1. **How far the obstacle is from our target X** — where we want it to end up (near the left edge for green, near the right edge for red).
+1. **How far the obstacle is from our target X** — where we want the obstacle to end up (right or left of the robot).
 2. **How far the obstacle is from the robot** — how close it is right now.
 
 These two distances form the two legs of a right triangle. Once we have both legs, basic trigonometry gives us the angle between them — and that angle is exactly how much the robot needs to steer to line the pillar up with our target:
@@ -343,7 +337,7 @@ else:          # pass on the right
 
 ---
 
-### 4) Crash Detection — A Wall-Proximity Safety Net
+### 4) Crash Detection
 
 Two checks run every frame, each reading a fixed point (or short line) on the track mask:
 
@@ -352,14 +346,14 @@ outer_crash = navigator.is_hitting_outer_wall(direction, track_image, frame)
 inner_crash = navigator.is_hitting_inner_wall(direction, track_image, frame) if pillar_present else False
 ```
 
-- **Inner wall too close** → don't force a turn, just soften the wall-following PD gains so the correction is gentler:
+- **Inner wall too close (blue line)** → don't force a turn, just soften the wall-following PD gains so the correction is gentler:
 
 ```python
 kp = AREA_WALL_KP_DAMPED if damped else AREA_WALL_KP
 kd = AREA_WALL_KD_DAMPED if damped else AREA_WALL_KD
 ```
 
-- **Outer wall too close** → ignore normal steering entirely and force a hard turn away from it:
+- **Outer wall too close (blue dot)** → ignore normal steering entirely and force a hard turn away from it:
 
 ```python
 turn_into_corner = (STEER_MAX - 3) if direction == Direction.LEFT else (STEER_MIN + 3)
@@ -371,7 +365,7 @@ elif outer_crash:
 
 ---
 
-### 5) Lap Counting — Counting Quarter-Turns at Each Marker
+### 5) Lap Counter
 
 The robot counts **quarter-turns**, one for every corner marker it passes:
 
@@ -465,7 +459,7 @@ Inside `DRIVE_LAPS`, several systems all want a say in the steering angle every 
 1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner.
 2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped for now; wall following takes over but with much gentler gains.
 3. **A pillar is in range to avoid** → pillar-avoidance steering wins and overrides normal wall following.
-4. **Nothing else applies** → normal area-based wall following runs.
+4. **Wall Follow** → normal area-based wall following runs.
 
 ```python
 final_angle = pillar_angle if pillar_angle is not None else wall_angle
