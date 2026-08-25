@@ -436,6 +436,10 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 ---
 ## Systems Thinking & Engineering Decisions
+
+### Iterations
+<img width="500" alt="Robot Iterations" src="https://github.com/user-attachments/assets/4a728895-7bad-44d3-850c-3a7fe42608c5" />
+
 ---
 ## Reproducibility & Github Organization
 
