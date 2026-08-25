@@ -257,13 +257,17 @@ All code referenced below lives in [`code/ObstacleChallenge.py`](https://github.
 
 ### 1) Vision Pipeline
 
-Every raw frame is turned into a few simpler images that everything else in the code works from — a cropped frame, one black/white mask per colour (blue, orange, green, red, pink), and a "Mat ROI" showing the drivable floor (walls = black, floor = white).
+Every raw frame is turned into a few simpler images that everything else in the code works from:
 
-Built in [`process_frame`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py):
-- Crops the raw camera frame down to the useful area
-- Builds a colour mask for each marker/obstacle colour
-- Paints all markers/pillars white so they read as floor, not wall
-- Extracts the drivable area in front of the robot
+- **Frame** — the raw camera view, cropped to the useful area
+- **Colour masks** — one black/white mask per colour: blue, orange, green, red, pink
+- **Mat ROI** — the drivable floor, walls = black, floor = white
+
+```python
+frame = crop_frame(raw_frame, 0, CAMERA_WIDTH, CAMERA_HEIGHT - FRAME_HEIGHT, CAMERA_HEIGHT)
+lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+blue_mask = get_color_mask(lab, "blue")
+```
 
 <div align="center">
 
@@ -278,35 +282,67 @@ Built in [`process_frame`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/b
 
 </div>
 
+Code: [`process_frame`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
+
 ---
 
 ### 2) Wall Following
 
-Two small boxes (ROIs) sit on the left and right of the frame. Whichever side has more black wall pixels inside its box, the robot is sitting closer to that wall.
+- Two small boxes (ROIs) sit on the left and right of the frame
+- Whichever side has **more black wall pixels** inside its box, the robot is closer to that wall
+- The difference between the two areas is the "error" fed into a PD controller
 
-Handled in [`area_wall_follow_angle`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py):
-- Measures wall area in the left and right ROI boxes
-- Feeds `area_left - area_right` into a PD controller to get a steering angle
-- If one side's wall area drops close to zero (an opening), boosts the other side so the controller reacts as if that wall were huge, forcing a hard turn toward the gap
+```python
+area_left = largest_wall_area(track_image, roi_left)
+area_right = largest_wall_area(track_image, roi_right)
+wall_error = area_left - area_right
+
+control = (wall_error * kp) + (derivative * kd)
+angle = STEER_CENTER - control
+```
+
+- **Proportional term** (`wall_error * kp`) — steers harder the more unbalanced the two sides are
+- **Derivative term** (`derivative * kd`) — smooths the response so it doesn't overcorrect frame to frame
+- If one side suddenly reads almost no wall (an opening), that side's area gets boosted so the controller reacts as if that wall were huge, forcing a hard turn toward the gap:
+
+```python
+if area_left < WALL_OPENING_AREA and area_right > 100:
+    area_right = area_right * OPENING_BOOST_MULT + OPENING_BOOST_ADD
+```
+
+Code: [`area_wall_follow_angle`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
 ### 3) Obstacle Handling
 
-To steer around a pillar, the robot measures two distances: how far the pillar is from the target aim point, and how far the pillar is from the robot. These two distances form the legs of a right triangle, and basic trigonometry turns that triangle into a steering angle.
+To steer around a pillar, the robot needs one number: how far to turn so the pillar passes by a fixed "aim point" near the edge of the frame. It gets that number from a right triangle:
 
-Process in [`PillarNavigator.get_steer_angle`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py):
-- Safety first: the crash checks below run before anything else, and override obstacle steering if triggered
-- Finds the nearest pillar and its colour
-- Builds the aim-point-to-pillar triangle and converts it to an angle with `arctan2`
-- Nudges that angle by a fixed offset and a colour-specific gain, since green and red pillars are passed on opposite sides
-- Once the pillar is out of range, hands control back to wall following
+- **How far the pillar is from the aim point** (sideways) — one leg of the triangle
+- **How far the pillar is from the robot** (forward distance) — the other leg
+- With both legs known, trigonometry (`arctan2`) gives the angle between them — that angle is how much to steer
+
+```python
+rad_angle = np.arctan2(y_center - FRAME_HEIGHT, x_center - aim_x)
+pillar_angle_deg = 90 + np.degrees(rad_angle)
+```
 
 <div align="center">
   <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
 </div>
 
+That angle becomes the steering angle, nudged by a fixed offset and a colour-specific gain — green and red pillars are passed on opposite sides:
+
+```python
+if is_green:   # pass on the left
+    steer_angle = STEER_CENTER - ((pillar_angle_deg + PILLAR_STEER_OFFSET_DEG) * GREEN_PILLAR_KP)
+else:          # pass on the right
+    steer_angle = STEER_CENTER - ((pillar_angle_deg - PILLAR_STEER_OFFSET_DEG) * RED_PILLAR_KP)
+```
+
 **In short:** measure the two distances → build the triangle → get the angle with trig → steer by that angle → once the pillar's passed, hand control back to wall following.
+
+Code: [`PillarNavigator.get_steer_angle`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
@@ -314,32 +350,58 @@ Process in [`PillarNavigator.get_steer_angle`](https://github.com/JumpyTruck/WRO
 
 Two safety checks run every frame, each reading a fixed point (or short line) on the track mask:
 
-- [`is_hitting_outer_wall`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py) — outer wall too close → force a hard turn away from it
-- [`is_hitting_inner_wall`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py) — inner wall too close → soften the wall-following gains instead of forcing a turn
+```python
+outer_crash = navigator.is_hitting_outer_wall(direction, track_image, frame)
+inner_crash = navigator.is_hitting_inner_wall(direction, track_image, frame)
+```
 
-Both checks latch into a small state machine, so once triggered the robot stays in recovery mode until the crash condition actually clears.
+- **Outer wall too close** → ignore normal steering entirely, force a hard turn away from it
+- **Inner wall too close** → don't force a turn, just soften the wall-following gains so the correction is gentler:
+
+```python
+kp = AREA_WALL_KP_DAMPED if damped else AREA_WALL_KP
+```
+
+Both checks latch into a small state — once triggered, the robot stays in recovery until the crash condition actually clears.
+
+Code: [`PillarNavigator.is_hitting_outer_wall`, `is_hitting_inner_wall`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
 ### 5) Lap Counter
 
-The robot counts quarter-turns, one for every corner marker it passes.
+- Counts **quarter-turns**, one for every corner marker passed
+- A marker must be seen for a few frames in a row before it counts as "entering" a turn, to avoid false triggers
+- Once the marker's been gone for a few frames in a row, the quarter-turn counts as finished
 
-Handled in [`LapCounter.update`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py):
-- Watches the blue mask (left turns) or orange mask (right turns), depending on driving direction
-- Requires the marker to be seen for a few frames in a row before counting it as "entering" a turn
-- Once the marker's been gone for a few frames in a row, counts the quarter-turn as finished
-- After 12 quarter-turns (3 laps), the robot switches into parking mode
+```python
+LAPS_TARGET = 3
+TOTAL_QUARTER_TURNS = LAPS_TARGET * 4   # 12 quarter-turns
+```
+
+After 12 quarter-turns, the robot switches into parking mode.
+
+Code: [`LapCounter.update`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
 ### 6) Parking
 
-Once laps are done, the robot looks for the pink block and drives toward it, then backs into the spot using a fixed sequence of hard turns.
+- Looks for the **pink block** and drives toward it
+- If a pillar is closer than the pink block, avoiding the pillar still takes priority
+- Once close enough and lined up, stops and reverses in using a fixed sequence of hard turns
 
-- Finds and steers toward the pink wall via [`get_parking_wall_steer_angle`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
-- If a pillar is closer to the robot than the pink block, avoiding the pillar still takes priority
-- Once close enough and lined up, hands off to the final reverse-parking sequence, which uses **encoder ticks** rather than time for every move, so it covers the same distance regardless of speed
+```python
+if close_enough and alongside:
+    stop()
+    self._reverse_into_parking_spot(direction)
+```
+
+The final manoeuvre uses **encoder ticks** rather than time for every move, so it covers the same distance no matter the speed:
+
+```python
+drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance
+```
 
 <div align="center">
 <table>
@@ -354,38 +416,52 @@ Once laps are done, the robot looks for the pink block and drives toward it, the
 </table>
 </div>
 
+Code: [`find_parking_wall`, `get_parking_wall_steer_angle`, `_reverse_into_parking_spot`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
+
 ---
 
 ### 7) The State Machine
 
-The whole run is one state machine, defined in [`RobotController`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py), that moves forward through these states in order:
+The whole run is one state machine that moves forward through these states in order:
 
-- **Wait for button** — LED on, robot idle until the start button is pressed
-- **Warm up camera** — a few frames are thrown away so auto-exposure can settle
+- **Wait for button** — LED on, idle until the start button is pressed
+- **Warm up camera** — a few frames thrown away so auto-exposure settles
 - **Detect start direction** — compares open floor on the left vs. right half of the frame
 - **Exit start park** — a fixed manoeuvre out of the starting box, checking for a pillar first
 - **Drive laps** — the main loop: wall-follow, dodge pillars, count quarter-turns
-- **U-turn to parking wall** — clockwise runs only; turns to face the pink parking wall
+- **U-turn to parking wall** — clockwise runs only; turns to face the pink wall
 - **Approach parking spot** — tracks the pink wall until lined up, then reverses in
 
-Each state hands off to the next, so the main loop is just: run the current state's handler, repeat until finished.
+```python
+while self.state != RunState.FINISHED:
+    handler = self._handlers[self.state]
+    handler()
+```
+
+Code: [`RobotController.run`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
 ### 8) Arbitration
 
-Inside the drive-laps state, several systems all want a say in the steering angle every frame. They're checked in this priority order, highest first:
+Inside the drive-laps state, several systems all want a say in the steering angle every frame. Checked in this priority order, highest first:
 
-1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner
-2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped; wall following takes over with much gentler gains
-3. **A pillar is in range to avoid** → pillar-avoidance steering wins and overrides normal wall following
-4. **Wall follow** → normal area-based wall following runs otherwise
+1. **Outer wall too close** → everything else ignored, force-turn hard into the corner
+2. **Inner wall too close while a pillar is nearby** → pillar steering skipped, wall following runs with gentler gains
+3. **A pillar is in range** → pillar-avoidance steering wins
+4. **Otherwise** → normal wall following runs
+
+```python
+final_angle = pillar_angle if pillar_angle is not None else wall_angle
+```
+
+`pillar_angle` is only set when priorities 1–3 above have something to say — otherwise it falls through to plain wall following.
 
 ---
 
 ## Setting Up the Raspberry Pi
 
->  For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
+> 📄 For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
 
 ---
 
