@@ -70,7 +70,7 @@ For our drive system, we use a 12V DC Geared Motor. This motor has a built in en
 
 The motor's integrated encoder gives us speed and distance feedback, which we use for autonomous control.
 
-[More on Motor & Driver Choice](schemes#1-motorization--power-system)
+[More on Motor & Driver Choice](electrical#1-motor--drive-system)
 
 ---
 
