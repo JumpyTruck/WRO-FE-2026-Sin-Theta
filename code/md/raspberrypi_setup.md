@@ -87,11 +87,7 @@ pip install pyserial numpy gpiozero RPi.GPIO
 
 ```bash
 source venv/bin/activate
-python3 robot_controller.py
+python3 ObstacleChallenge.py
 ```
 
 The status LED turns on, and the program waits for the start button to be pressed.
-
----
-
-> ⬅ Back to the [main README](<link-to-main-readme>)
