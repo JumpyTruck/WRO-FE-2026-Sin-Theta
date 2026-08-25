@@ -237,8 +237,10 @@ This section explains how the computer vision pipeline drives steering decisions
 * Inner/outer crash detection
 * Lap counting
 * Parking
+* The State Machine
 * Arbitration (how the robot picks between all of the above, and the overall state machine that ties it together)
 
+---
 ### Raspberry Pi + Arduino Nano
 
 - Robot's brain is split across two boards
@@ -247,7 +249,7 @@ This section explains how the computer vision pipeline drives steering decisions
 - Connected over a **USB serial cable**
 - Pi sends simple commands, Nano carries them out and reports back when a move is done
 
-> 📄 For full message formats and protocol details, see [Communication Protocol](<link-to-communication-readme>)
+> For full message formats and protocol details, see [Communication Protocol](<link-to-communication-readme>)
 
 ---
 
@@ -344,10 +346,10 @@ Once laps are done, the robot looks for the pink block and drives toward it, the
 <table>
 <tr>
 <td align="center" width="50%"><b>Counter Clockwise</b><br>Follows the pink block straight after the last turn.<br>
-<img width="500" height="450" alt="IMG_2594-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/2b2381f4-c1f1-4e4a-8960-5962c048d737" />
+<img width="400" height="450" alt="IMG_2594-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/2b2381f4-c1f1-4e4a-8960-5962c048d737" />
 </td>
 <td align="center" width="50%"><b>Clockwise</b><br>Does a U-turn first, then follows the pink block.<br>
-<img width="500" height="450" alt="IMG_2596-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/b96c7a6a-3dda-4819-8dd1-4a5a56780e92" />
+<img width="400" height="450" alt="IMG_2596-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/b96c7a6a-3dda-4819-8dd1-4a5a56780e92" />
 </td>
 </tr>
 </table>
