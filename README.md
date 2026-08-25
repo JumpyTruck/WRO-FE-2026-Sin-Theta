@@ -231,11 +231,11 @@ This is our PCB and how it works:
 
 This section explains how the computer vision pipeline drives steering decisions for the robot. It covers:
 
-* How the camera feed is turned into something the robot can act on
-* Wall following (how far up the image it sees black wall on each side)
-* Obstacle handling (steering around pillars using trigonometry)
-* Inner/outer crash detection
-* Lap counting
+* Vision Pipeline
+* Wall Following
+* Obstacle Avoidance 
+* Inner/outer Crash Detection
+* Lap Counting
 * Parking
 * The State Machine
 * Arbitration (how the robot picks between all of the above)
@@ -300,7 +300,7 @@ if area_left < WALL_OPENING_AREA and area_right > 100:
 ```
 ---
 
-### 3) Obstacle Handling
+### 3) Obstacle Avoidance
 
 To steer around a pillar, the robot needs two numbers:
 
