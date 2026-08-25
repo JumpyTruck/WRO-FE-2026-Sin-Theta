@@ -241,7 +241,13 @@ This section explains how the computer vision pipeline drives steering decisions
 
 ### Raspberry Pi + Arduino Nano
 
-The robot's brain is split across two boards. The **Raspberry Pi** runs the camera and does all the computer vision, deciding what the robot should do next. The **Arduino Nano** takes commands from the Pi and actually drives the motor and servo. The two are connected over a USB serial cable, with the Pi sending simple commands and the Nano carrying them out and reporting back when a move is done.
+- Robot's brain is split across two boards
+- **Raspberry Pi** — runs the camera, does the computer vision, decides what to do next
+- **Arduino Nano** — takes commands from the Pi, drives the motor and servo
+- Connected over a **USB serial cable**
+- Pi sends simple commands, Nano carries them out and reports back when a move is done
+
+> 📄 For full message formats and protocol details, see [Communication Protocol](<link-to-communication-readme>)
 
 ---
 
@@ -433,7 +439,7 @@ drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance — one step
 
 ---
 
-### 7) The State Machine & How Steering Gets Arbitrated
+### 7) The State Machine
 
 The whole run is one state machine that moves forward through these states, in order:
 
@@ -447,6 +453,10 @@ The whole run is one state machine that moves forward through these states, in o
 - **`FINISHED`** — camera and serial port are closed.
 
 Each state hands off to the next by setting `self.state`, so the main loop is just: *run the current state's handler, repeat until `FINISHED`.*
+
+---
+
+### 8) Arbitration
 
 Inside `DRIVE_LAPS`, several systems all want a say in the steering angle every frame. They're checked in this priority order, highest first:
 
@@ -463,12 +473,9 @@ final_angle = pillar_angle if pillar_angle is not None else wall_angle
 
 ---
 
-## Software Key Components
+## Setting Up the Raspberry Pi
 
-* **Communication:** Serial communication via USB cable between Arduino and Pi (using a custom protocol).
-[Communications Protocol Details](<link-to-communication-readme>)
-* **Raspberry Pi Environment Setup:** Installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code.
-[Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
+> 📄 For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
 
 ---
 
