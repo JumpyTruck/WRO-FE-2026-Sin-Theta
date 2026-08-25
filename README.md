@@ -425,7 +425,7 @@ final_angle = pillar_angle if pillar_angle is not None else wall_angle
 
 ## Setting Up the Raspberry Pi
 
-For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
+For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](code/md/raspberrypi_setup.md)
 
 ---
 
