@@ -255,12 +255,6 @@ Every raw frame is turned into a few simpler images that everything else in the 
 | **Colour masks** | One black/white mask per colour: blue, orange, green, red, pink |
 | **Mat ROI** | The drivable floor — walls = black, floor = white |
 
-```python
-frame = crop_frame(raw_frame, 0, CAMERA_WIDTH, CAMERA_HEIGHT - FRAME_HEIGHT, CAMERA_HEIGHT)
-lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
-blue_mask = get_color_mask(lab, "blue")
-```
-
 <div align="center">
 
 <table>
