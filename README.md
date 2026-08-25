@@ -240,8 +240,6 @@ This section explains how the computer vision pipeline drives steering decisions
 * The State Machine
 * Arbitration (how the robot picks between all of the above)
 
-All code referenced below lives in [`code/ObstacleChallenge.py`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py).
-
 ---
 ### Raspberry Pi + Arduino Nano
 
@@ -251,7 +249,7 @@ All code referenced below lives in [`code/ObstacleChallenge.py`](https://github.
 - Connected over a **USB serial cable**
 - Pi sends simple commands, Nano carries them out and reports back when a move is done
 
-> For full message formats and protocol details, see [Communication Protocol](<link-to-communication-readme>)
+For full message formats and protocol details, see [Communication Protocol](code/md/serial_communication.md)
 
 ---
 
@@ -262,12 +260,6 @@ Every raw frame is turned into a few simpler images that everything else in the 
 - **Frame** — the raw camera view, cropped to the useful area
 - **Colour masks** — one black/white mask per colour: blue, orange, green, red, pink
 - **Mat ROI** — the drivable floor, walls = black, floor = white
-
-```python
-frame = crop_frame(raw_frame, 0, CAMERA_WIDTH, CAMERA_HEIGHT - FRAME_HEIGHT, CAMERA_HEIGHT)
-lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
-blue_mask = get_color_mask(lab, "blue")
-```
 
 <div align="center">
 
@@ -281,9 +273,6 @@ blue_mask = get_color_mask(lab, "blue")
 </table>
 
 </div>
-
-Code: [`process_frame`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
-
 ---
 
 ### 2) Wall Following
@@ -309,16 +298,13 @@ angle = STEER_CENTER - control
 if area_left < WALL_OPENING_AREA and area_right > 100:
     area_right = area_right * OPENING_BOOST_MULT + OPENING_BOOST_ADD
 ```
-
-Code: [`area_wall_follow_angle`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
-
 ---
 
 ### 3) Obstacle Handling
 
-To steer around a pillar, the robot needs one number: how far to turn so the pillar passes by a fixed "aim point" near the edge of the frame. It gets that number from a right triangle:
+To steer around a pillar, the robot needs two numbers:
 
-- **How far the pillar is from the aim point** (sideways) — one leg of the triangle
+- **How far the pillar is from the target x** (sideways) — one leg of the triangle
 - **How far the pillar is from the robot** (forward distance) — the other leg
 - With both legs known, trigonometry (`arctan2`) gives the angle between them — that angle is how much to steer
 
@@ -340,31 +326,25 @@ else:          # pass on the right
     steer_angle = STEER_CENTER - ((pillar_angle_deg - PILLAR_STEER_OFFSET_DEG) * RED_PILLAR_KP)
 ```
 
-**In short:** measure the two distances → build the triangle → get the angle with trig → steer by that angle → once the pillar's passed, hand control back to wall following.
-
-Code: [`PillarNavigator.get_steer_angle`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
-
 ---
 
 ### 4) Crash Detection
 
-Two safety checks run every frame, each reading a fixed point (or short line) on the track mask:
+Two safety checks run every frame on the track mask:
 
 ```python
 outer_crash = navigator.is_hitting_outer_wall(direction, track_image, frame)
 inner_crash = navigator.is_hitting_inner_wall(direction, track_image, frame)
 ```
 
-- **Outer wall too close** → ignore normal steering entirely, force a hard turn away from it
-- **Inner wall too close** → don't force a turn, just soften the wall-following gains so the correction is gentler:
+- **Outer wall too close (blue dot)** → ignore normal steering entirely, force a hard turn away from it
+- **Inner wall too close (blue line)** → don't force a turn, just soften the wall-following gains so the correction is gentler:
 
 ```python
 kp = AREA_WALL_KP_DAMPED if damped else AREA_WALL_KP
 ```
 
 Both checks latch into a small state — once triggered, the robot stays in recovery until the crash condition actually clears.
-
-Code: [`PillarNavigator.is_hitting_outer_wall`, `is_hitting_inner_wall`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
@@ -381,8 +361,6 @@ TOTAL_QUARTER_TURNS = LAPS_TARGET * 4   # 12 quarter-turns
 
 After 12 quarter-turns, the robot switches into parking mode.
 
-Code: [`LapCounter.update`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
-
 ---
 
 ### 6) Parking
@@ -391,17 +369,7 @@ Code: [`LapCounter.update`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/
 - If a pillar is closer than the pink block, avoiding the pillar still takes priority
 - Once close enough and lined up, stops and reverses in using a fixed sequence of hard turns
 
-```python
-if close_enough and alongside:
-    stop()
-    self._reverse_into_parking_spot(direction)
-```
-
 The final manoeuvre uses **encoder ticks** rather than time for every move, so it covers the same distance no matter the speed:
-
-```python
-drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance
-```
 
 <div align="center">
 <table>
@@ -415,8 +383,6 @@ drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance
 </tr>
 </table>
 </div>
-
-Code: [`find_parking_wall`, `get_parking_wall_steer_angle`, `_reverse_into_parking_spot`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
@@ -437,8 +403,6 @@ while self.state != RunState.FINISHED:
     handler = self._handlers[self.state]
     handler()
 ```
-
-Code: [`RobotController.run`](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/ObstacleChallenge.py)
 
 ---
 
@@ -461,7 +425,7 @@ final_angle = pillar_angle if pillar_angle is not None else wall_angle
 
 ## Setting Up the Raspberry Pi
 
-> 📄 For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
+For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
 
 ---
 
