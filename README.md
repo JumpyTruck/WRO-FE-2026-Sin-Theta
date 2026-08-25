@@ -346,10 +346,10 @@ Once laps are done, the robot looks for the pink block and drives toward it, the
 <table>
 <tr>
 <td align="center" width="50%"><b>Counter Clockwise</b><br>Follows the pink block straight after the last turn.<br>
-<img width="400" height="450" alt="IMG_2594-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/2b2381f4-c1f1-4e4a-8960-5962c048d737" />
+<img width="400" alt="IMG_2594-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/2b2381f4-c1f1-4e4a-8960-5962c048d737" />
 </td>
 <td align="center" width="50%"><b>Clockwise</b><br>Does a U-turn first, then follows the pink block.<br>
-<img width="400" height="450" alt="IMG_2596-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/b96c7a6a-3dda-4819-8dd1-4a5a56780e92" />
+<img width="400" alt="IMG_2596-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/b96c7a6a-3dda-4819-8dd1-4a5a56780e92" />
 </td>
 </tr>
 </table>
@@ -359,7 +359,7 @@ Once laps are done, the robot looks for the pink block and drives toward it, the
 
 ### 7) The State Machine
 
-The whole run is one state machine, defined in [`RobotController`](code/robot_controller.py), that moves forward through these states in order:
+The whole run is one state machine that moves forward through these states in order:
 
 - [`RobotController._state_wait_for_button`](code/robot_controller.py) — LED on, robot idle until the start button is pressed
 - [`RobotController._state_warm_up_camera`](code/robot_controller.py) — camera starts, a few frames are thrown away so auto-exposure can settle
@@ -369,7 +369,7 @@ The whole run is one state machine, defined in [`RobotController`](code/robot_co
 - [`RobotController._state_uturn_to_parking_wall`](code/robot_controller.py) — clockwise runs only; turns the robot to face the pink parking wall
 - [`RobotController._state_approach_parking_spot`](code/robot_controller.py) — tracks the pink wall (and any last pillar) until lined up, then reverses in
 
-Each state hands off to the next by setting `self.state`, so [`RobotController.run`](code/robot_controller.py) is just: run the current state's handler, repeat until `FINISHED`.
+Each state hands off to the next by setting `self.state`, so its just: run the current state's handler, repeat until `FINISHED`.
 
 ---
 
@@ -379,8 +379,8 @@ Inside [`RobotController._state_drive_laps`](code/robot_controller.py), several 
 
 1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner
 2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped for now; wall following takes over but with much gentler gains
-3. **A pillar is in range to avoid** → pillar-avoidance steering from [`PillarNavigator.get_steer_angle`](code/robot_controller.py) wins and overrides normal wall following
-4. **Wall Follow** → normal area-based wall following from [`area_wall_follow_angle`](code/robot_controller.py) runs
+3. **A pillar is in range to avoid** → pillar-avoidance steering from wins and overrides normal wall following
+4. **Wall Follow** → normal area-based wall following from runs
 
 `pillar_angle` is only set when priorities 1–3 above have something to say — otherwise the robot falls through to plain wall following.
 
@@ -388,7 +388,7 @@ Inside [`RobotController._state_drive_laps`](code/robot_controller.py), several 
 
 ## Setting Up the Raspberry Pi
 
-> 📄 For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
+> For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
 
 ---
 
