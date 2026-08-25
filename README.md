@@ -231,25 +231,84 @@ This is our PCB and how it works:
 
 ---
 
-## Software Architecture & Obstacle Strategy
-This section explains how the robot "sees" the track and decides how to steer — wall following, obstacle avoidance, crash safety, lap counting, and parking.
+## Overview
+
+This robot drives a track autonomously: it follows walls, avoids coloured pillars, counts laps, and parks itself at the end — all using a Raspberry Pi camera and some simple trigonometry, no machine learning involved.
+
+## System Overview: Raspberry Pi + Arduino Nano
+
+The robot splits its work across two boards that talk to each other over a single serial link:
+
+- **Raspberry Pi** — runs the camera, all the computer vision (OpenCV), and the decision-making state machine. It never touches a motor or servo directly; it just decides *what* the robot should do next.
+- **Arduino Nano** — receives simple text commands over serial and handles the actual motor, servo, and encoder control in a tight, real-time loop. It reports back once a move is finished.
+
+The commands sent between them are plain text, one per line, e.g.:
+
+```python
+serial_port.write(f"SERVO,{servo_angle}\n".encode())
+serial_port.write(f"MOTOR,{motor_direction},{speed}\n".encode())
+serial_port.write(f"MOVE,{motor_direction},{speed},{ticks}\n".encode())
+```
+
+The Nano drives that exact number of encoder ticks and replies `DONE,<ticks>` once it's finished, which is what lets the parking sequence move by a fixed distance instead of a fixed time.
+
+This split keeps timing-critical work (motor/servo control, encoder counting) off the Pi, which is busy processing camera frames, and keeps vision code off the Nano, which isn't powerful enough for it.
+
+> 📄 For the full message protocol and wiring, see **[Serial Communication Protocol](./docs/SERIAL_PROTOCOL.md)**.
+> 📄 For flashing the Nano and setting up the Pi from scratch, see **[Raspberry Pi Setup Guide](./docs/PI_SETUP.md)**.
 
 ---
 
-### 1) What the Camera Sees
+## Software Architecture & Obstacle Strategy
 
-Every frame is turned into a few simpler images that the rest of the code uses:
+This section explains how the robot "sees" the track and decides how to steer — the vision pipeline, the top-level state machine, wall following, obstacle avoidance, crash safety, lap counting, and parking. Each part builds on the last, so read them in order if it's your first time through the code.
+
+### Top-Level State Machine
+
+The whole run is one state machine that moves forward through these states, in order:
+
+- **`WAIT_FOR_BUTTON`** — LED on, robot idle until the start button is pressed.
+- **`WARM_UP_CAMERA`** — camera starts, a few frames are thrown away so auto-exposure settles.
+- **`DETECT_START_DIRECTION`** — compares open floor on the left vs. right half of the frame to decide whether the track goes left or right.
+- **`EXIT_START_PARK`** — a fixed manoeuvre out of the starting box, checking for a pillar first.
+- **`DRIVE_LAPS`** — the main loop: wall-follow, dodge pillars, count quarter-turns, repeat until laps are done.
+- **`UTURN_TO_PARKING_WALL`** — clockwise runs only; turns the robot to face the pink parking wall.
+- **`APPROACH_PARKING_SPOT`** — tracks the pink wall (and any last pillar) until lined up, then reverses in.
+- **`FINISHED`** — camera and serial port are closed.
+
+Each state hands off to the next by setting `self.state`, so the main loop is just: *run the current state's handler, repeat until `FINISHED`.*
+
+### How Steering Decisions Are Arbitrated
+
+Inside `DRIVE_LAPS`, several systems all want a say in the steering angle every frame. They're checked in this priority order, highest first:
+
+1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner.
+2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped for now; wall following takes over but with much gentler gains, so the correction doesn't overshoot.
+3. **A pillar is in range to avoid** → pillar-avoidance steering wins and overrides normal wall following.
+4. **Nothing else applies** → normal area-based wall following runs.
+
+```python
+final_angle = pillar_angle if pillar_angle is not None else wall_angle
+```
+
+`pillar_angle` is only non-`None` when priorities 1–3 above have something to say — otherwise it falls through to plain wall following.
+
+---
+
+### 1) Vision Pipeline — Turning the Camera Feed into a Map
+
+Every raw frame is turned into a few simpler images that everything else in the code works from:
 
 | Image | What it shows |
 |---|---|
 | **Frame** | The raw camera view, cropped to the useful area |
-| **Masks** | One black/white mask per colour: blue, orange, green, red, pink |
-| **Mask ROI** | Walls = black, drivable floor = white |
+| **Colour masks** | One black/white mask per colour: blue, orange, green, red, pink |
+| **Mat ROI** | The drivable floor — walls = black, floor = white |
 
 ```python
-frame = crop_image(raw_frame, 0, CAMERA_PIC_WIDTH, CAMERA_PIC_HEIGHT - PIC_HEIGHT, CAMERA_PIC_HEIGHT)
+frame = crop_frame(raw_frame, 0, CAMERA_WIDTH, CAMERA_HEIGHT - FRAME_HEIGHT, CAMERA_HEIGHT)
 lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
-blue_mask = calculate_color_mask(lab, "blue")
+blue_mask = get_color_mask(lab, "blue")
 ```
 
 <div align="center">
@@ -267,125 +326,173 @@ blue_mask = calculate_color_mask(lab, "blue")
 
 ---
 
-### 2) Wall Following
+### 2) Wall Following — Balancing Left vs. Right Wall Area
 
-Two small boxes (ROIs) sit on the left and right of the frame. Whichever side has **more black wall pixels** in its box, the robot is closer to that wall.
-
-```python
-area_left  = _largest_wall_contour_area(polygon_image, roi_left)
-area_right = _largest_wall_contour_area(polygon_image, roi_right)
-error = area_left - area_right
-```
-
-- A **PD controller** turns that error into a steering angle:
+Two small boxes (ROIs) sit on the left and right of the frame. Whichever side has **more black wall pixels** inside its box, the robot is sitting closer to that wall.
 
 ```python
-control = (error * kp) + ((error - prev_error) * kd)
-angle = default_servo - control
+roi_left, roi_right = get_wall_rois(direction)
+area_left = largest_wall_area(track_image, roi_left)
+area_right = largest_wall_area(track_image, roi_right)
+
+wall_error = area_left - area_right
 ```
 
-- If one side suddenly has almost no wall (an opening), the other side's number is boosted so the robot turns hard toward the gap.
+A **PD controller** turns that error into a steering angle:
+
+```python
+control = (wall_error * kp) + (derivative * kd)
+angle = STEER_CENTER - control
+```
+
+If one side suddenly has almost no wall left (an opening), the other side's area is boosted so the controller reacts as if that wall were huge — forcing a hard turn toward the gap:
+
+```python
+if area_left < WALL_OPENING_AREA and area_right > 100:
+    area_right = area_right * OPENING_BOOST_MULT + OPENING_BOOST_ADD
+elif area_right < WALL_OPENING_AREA and area_left > 100:
+    area_left = area_left * OPENING_BOOST_MULT + OPENING_BOOST_ADD
+```
 
 ---
 
-### 3) Obstacle Avoidance
+### 3) Obstacle Avoidance — Steering Around Pillars with One Angle
 
-The robot builds a simple **right triangle** between itself, the pillar, and the aim point, then uses trig to work out how sharply to steer.
+When a pillar shows up, the robot only needs one number: **how far to turn so the pillar passes by an "aim point"** — a fixed spot near the left or right edge of the frame. It gets that number from a simple right triangle.
 
-- **A** – the aim point (where we *want* the pillar to end up — left or right of center)
-- **B** – the pillar's center (what the camera detects)
-- **C** – the point directly below the pillar, at the bottom of the frame (this is "us")
+**The three points of the triangle:**
+
+| Point | What it is |
+|---|---|
+| **A** | The aim point — near the left edge for a green pillar, near the right edge for a red one |
+| **B** | The pillar's centre, as seen by the camera right now |
+| **C** | A helper point directly below the pillar, at the bottom of the frame |
+
+C exists purely to make a right angle — it turns A–B into two straight legs we can measure directly from the camera:
+
+- **A → C** (the horizontal leg): how far sideways the pillar is from the aim point
+- **C → B** (the vertical leg): how far away the pillar is from the robot
 
 <div align="center">
   <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
 </div>
 
-Think of it as two legs of a right triangle:
-- **A → C** (horizontal): how far sideways the pillar is from our aim point
-- **C → B** (vertical): how far away the pillar is from us
-
-The angle **θ** at point **A** is what we actually need — it tells us how much to turn to line the aim point up with the pillar. We get it with `arctan2`, using the horizontal and vertical distances above:
+**The angle we actually want, θ, sits at corner A** — it's how much the robot needs to turn to bring the pillar onto the aim point. `arctan2` reads that angle straight off the two legs above:
 
 ```python
-rad_angle = np.arctan2(y_center - PIC_HEIGHT, x_center - aim_x)
-theta = 90 + np.degrees(rad_angle)
+rad_angle = np.arctan2(y_center - FRAME_HEIGHT, x_center - aim_x)
+pillar_angle_deg = 90 + np.degrees(rad_angle)
 ```
 
-That angle becomes the servo angle, offset depending on the pillar's color (which side we pass on):
+θ then becomes the steering angle, nudged by a fixed offset and a colour-specific gain — since green and red pillars are passed on opposite sides:
 
 ```python
-if is_green:      # pass on the right
-    servo_angle = default_servo - (theta + OFFSET) * GREEN_KP
-else:              # pass on the left
-    servo_angle = default_servo - (theta - OFFSET) * RED_KP
+if is_green:   # pass on the left
+    steer_angle = STEER_CENTER - ((pillar_angle_deg + PILLAR_STEER_OFFSET_DEG) * GREEN_PILLAR_KP)
+else:          # pass on the right
+    steer_angle = STEER_CENTER - ((pillar_angle_deg - PILLAR_STEER_OFFSET_DEG) * RED_PILLAR_KP)
 ```
 
-`Detect pillar → build triangle → get θ → steer around → resume wall following`
+**In short:** spot the pillar → build the triangle → work out θ → steer by θ → once it's passed, hand control back to wall following.
 
 ---
 
-### 4) Crash Detection
+### 4) Crash Detection — A Wall-Proximity Safety Net
 
-Two safety checks run every frame:
+Two checks run every frame, each reading a fixed point (or short line) on the track mask:
 
 ```python
-inner_crash = check_inner_wall_crash(direction, polygon_image, frame)
-outer_crash = check_outer_wall_crash(direction, polygon_image, frame)
+outer_crash = navigator.is_hitting_outer_wall(direction, track_image, frame)
+inner_crash = navigator.is_hitting_inner_wall(direction, track_image, frame) if pillar_present else False
 ```
 
-- **Inner wall too close** → smooth out the steering (softer PD gains).
-- **Outer wall too close** → ignore normal steering and force a hard turn away.
+- **Inner wall too close** → don't force a turn, just soften the wall-following PD gains so the correction is gentler:
+
+```python
+kp = AREA_WALL_KP_DAMPED if damped else AREA_WALL_KP
+kd = AREA_WALL_KD_DAMPED if damped else AREA_WALL_KD
+```
+
+- **Outer wall too close** → ignore normal steering entirely and force a hard turn away from it:
+
+```python
+turn_into_corner = (STEER_MAX - 3) if direction == Direction.LEFT else (STEER_MIN + 3)
+...
+elif outer_crash:
+    self.state = WallState.OUTER
+    return turn_into_corner
+```
 
 ---
 
-### 5) Lap Counting
+### 5) Lap Counting — Counting Quarter-Turns at Each Marker
 
-The robot counts **quarter-laps**, one per corner marker seen:
+The robot counts **quarter-turns**, one for every corner marker it passes:
 
 ```python
 LAPS_TARGET = 3
-TOTAL_TURNS = LAPS_TARGET * 4   # 12 quarter-laps
+TOTAL_QUARTER_TURNS = LAPS_TARGET * 4   # 12 quarter-turns
 ```
 
-- A marker must be seen for a few frames in a row before it counts (avoids false triggers).
-- Once it disappears again, one quarter-lap is added and a short cooldown starts.
+A marker has to be seen for a few frames in a row before it counts as "entering" a turn — this avoids false triggers:
 
 ```python
-if marker_seen_for_enough_frames:
-    state = "turning"
-if marker_gone_for_enough_frames:
-    quarter_lap_count += 1
+self._enter_confirm_count = (
+    self._enter_confirm_count + 1 if marker_area > TURN_MARKER_ENTER_AREA else 0
+)
+if self._enter_confirm_count >= TURN_ENTER_CONFIRM_FRAMES:
+    self.state = TurnState.TURNING
 ```
 
-- After 12 quarter-laps, the robot switches into parking mode.
+Once the marker has been gone for a few frames in a row, the quarter-turn is counted as finished:
+
+```python
+self._exit_confirm_count = (
+    self._exit_confirm_count + 1 if marker_area < TURN_MARKER_EXIT_AREA else 0
+)
+if should_exit:
+    self.quarter_turns += 1
+```
+
+After 12 quarter-turns, the robot switches into parking mode.
 
 ---
 
-### 6) Parking
+### 6) Parking — Finding the Spot and Backing In
 
-Once laps are done, the robot looks for the **pink block** and drives toward it.
+Once laps are done, the robot looks for the **pink block** and drives toward it:
 
 ```python
-pink_found = find_pink_block(pink_mask, frame)
+found = find_parking_wall(pink_mask, display_frame)
 ```
 
-- If a pillar is closer than the pink block, avoiding it still comes first.
-- Once close enough and lined up, the robot stops and runs a fixed parking manoeuvre using **encoder ticks** (not time) so every move is consistent:
+If a pillar is closer to the robot than the pink block, avoiding the pillar still takes priority:
 
 ```python
-if close_enough and aligned:
-    stop_motor()
-    set_motor(2, 130, 1100)   # reverse a fixed distance
+pillar_is_closer = pillar_found is not None and (pink_y is None or pillar_found[1] > pink_y)
+```
+
+Once close enough and lined up, the robot stops and runs a fixed parking manoeuvre using **encoder ticks** rather than time, so every move covers the same distance regardless of speed:
+
+```python
+if close_enough and alongside:
+    stop()
+    self._reverse_into_parking_spot(direction)
+```
+
+```python
+drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance — one step of the parking sequence
 ```
 
 <div align="center">
 <table>
 <tr>
-<td align="center" width="50%"><b>Counter Clockwise</b><br>Follows the pink block straight after the last turn.<br><img width="100%" 
+<td align="center" width="50%"><b>Counter Clockwise</b><br>Follows the pink block straight after the last turn.<br>
 <img width="500" height="450" alt="IMG_2594-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/2b2381f4-c1f1-4e4a-8960-5962c048d737" />
-<td align="center" width="50%"><b>Clockwise</b><br>Does a U-turn first, then follows the pink block.<br><img width="100%" 
+</td>
+<td align="center" width="50%"><b>Clockwise</b><br>Does a U-turn first, then follows the pink block.<br>
 <img width="500" height="450" alt="IMG_2596-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/b96c7a6a-3dda-4819-8dd1-4a5a56780e92" />
-                                                                                                 
+</td>
 </tr>
 </table>
 </div>
