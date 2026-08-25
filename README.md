@@ -435,17 +435,14 @@ For installing dependencies, setting up a virtual environment, and getting the P
 <img width="1000" alt="Obstacle Flowchart" src="https://github.com/user-attachments/assets/c1e98583-360a-493a-97bb-4f39abc578ab" />
 
 ---
-# Systems Thinking & Engineering Decisions
-
-## Introduction
-
+## Systems Thinking & Engineering Decisions
 Building this robot meant constantly balancing the needs of four interconnected subsystems — Power, Sensors, Software, and Mobility — where a change in one almost always had a ripple effect on the others. Many of our design choices can't be fully understood by looking at a single subsystem in isolation; they only make sense when viewed as trade-offs made to satisfy multiple competing constraints at once. This section walks through the key decisions we made, the alternatives we considered, why we moved away from them, and the hard constraints — from competition rules to physics — that shaped the final design.
 
 ---
 
-## Trade-offs
+### Trade-offs
 
-### 1. Raspberry Pi + Arduino Nano split (instead of one board doing everything)
+#### 1. Raspberry Pi + Arduino Nano split (instead of one board doing everything)
 - Raspberry Pi handles the camera and vision processing
 - Arduino Nano handles motor control
 - Splitting the load this way means:
