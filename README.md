@@ -231,67 +231,23 @@ This is our PCB and how it works:
 
 ---
 
-## Overview
-
-This robot drives a track autonomously: it follows walls, avoids coloured pillars, counts laps, and parks itself at the end — all using a Raspberry Pi camera and some simple trigonometry, no machine learning involved.
-
-## System Overview: Raspberry Pi + Arduino Nano
-
-The robot splits its work across two boards that talk to each other over a single serial link:
-
-- **Raspberry Pi** — runs the camera, all the computer vision (OpenCV), and the decision-making state machine. It never touches a motor or servo directly; it just decides *what* the robot should do next.
-- **Arduino Nano** — receives simple text commands over serial and handles the actual motor, servo, and encoder control in a tight, real-time loop. It reports back once a move is finished.
-
-The commands sent between them are plain text, one per line, e.g.:
-
-```python
-serial_port.write(f"SERVO,{servo_angle}\n".encode())
-serial_port.write(f"MOTOR,{motor_direction},{speed}\n".encode())
-serial_port.write(f"MOVE,{motor_direction},{speed},{ticks}\n".encode())
-```
-
-The Nano drives that exact number of encoder ticks and replies `DONE,<ticks>` once it's finished, which is what lets the parking sequence move by a fixed distance instead of a fixed time.
-
-This split keeps timing-critical work (motor/servo control, encoder counting) off the Pi, which is busy processing camera frames, and keeps vision code off the Nano, which isn't powerful enough for it.
-
-> 📄 For the full message protocol and wiring, see **[Serial Communication Protocol](./docs/SERIAL_PROTOCOL.md)**.
-> 📄 For flashing the Nano and setting up the Pi from scratch, see **[Raspberry Pi Setup Guide](./docs/PI_SETUP.md)**.
-
----
-
 ## Software Architecture & Obstacle Strategy
 
-This section explains how the robot "sees" the track and decides how to steer — the vision pipeline, the top-level state machine, wall following, obstacle avoidance, crash safety, lap counting, and parking. Each part builds on the last, so read them in order if it's your first time through the code.
+This section explains how the computer vision pipeline drives steering decisions for the robot. It covers:
 
-### Top-Level State Machine
+* How the camera feed is turned into something the robot can act on
+* Wall following (how far up the image it sees black wall on each side)
+* Obstacle handling (steering around pillars using trigonometry)
+* Inner/outer crash detection
+* Lap counting
+* Parking
+* Arbitration (how the robot picks between all of the above, and the overall state machine that ties it together)
 
-The whole run is one state machine that moves forward through these states, in order:
+## Raspberry Pi + Arduino Nano
 
-- **`WAIT_FOR_BUTTON`** — LED on, robot idle until the start button is pressed.
-- **`WARM_UP_CAMERA`** — camera starts, a few frames are thrown away so auto-exposure settles.
-- **`DETECT_START_DIRECTION`** — compares open floor on the left vs. right half of the frame to decide whether the track goes left or right.
-- **`EXIT_START_PARK`** — a fixed manoeuvre out of the starting box, checking for a pillar first.
-- **`DRIVE_LAPS`** — the main loop: wall-follow, dodge pillars, count quarter-turns, repeat until laps are done.
-- **`UTURN_TO_PARKING_WALL`** — clockwise runs only; turns the robot to face the pink parking wall.
-- **`APPROACH_PARKING_SPOT`** — tracks the pink wall (and any last pillar) until lined up, then reverses in.
-- **`FINISHED`** — camera and serial port are closed.
+The robot's brain is split across two boards. The **Raspberry Pi** runs the camera and does all the computer vision, deciding what the robot should do next. The **Arduino Nano** takes commands from the Pi and actually drives the motor and servo. The two are connected over a USB serial cable, with the Pi sending simple commands and the Nano carrying them out and reporting back when a move is done.
 
-Each state hands off to the next by setting `self.state`, so the main loop is just: *run the current state's handler, repeat until `FINISHED`.*
-
-### How Steering Decisions Are Arbitrated
-
-Inside `DRIVE_LAPS`, several systems all want a say in the steering angle every frame. They're checked in this priority order, highest first:
-
-1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner.
-2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped for now; wall following takes over but with much gentler gains, so the correction doesn't overshoot.
-3. **A pillar is in range to avoid** → pillar-avoidance steering wins and overrides normal wall following.
-4. **Nothing else applies** → normal area-based wall following runs.
-
-```python
-final_angle = pillar_angle if pillar_angle is not None else wall_angle
-```
-
-`pillar_angle` is only non-`None` when priorities 1–3 above have something to say — otherwise it falls through to plain wall following.
+> 📄 Full protocol details: **[Communications Protocol](<link-here>)**
 
 ---
 
@@ -356,35 +312,25 @@ elif area_right < WALL_OPENING_AREA and area_left > 100:
 
 ---
 
-### 3) Obstacle Avoidance — Steering Around Pillars with One Angle
+### 3) Obstacle Avoidance — Steering Around Pillars with Trigonometry
 
-When a pillar shows up, the robot only needs one number: **how far to turn so the pillar passes by an "aim point"** — a fixed spot near the left or right edge of the frame. It gets that number from a simple right triangle.
+To steer around a pillar, we need two distances:
 
-**The three points of the triangle:**
+1. **How far the obstacle is from our target X** — where we want it to end up (near the left edge for green, near the right edge for red).
+2. **How far the obstacle is from the robot** — how close it is right now.
 
-| Point | What it is |
-|---|---|
-| **A** | The aim point — near the left edge for a green pillar, near the right edge for a red one |
-| **B** | The pillar's centre, as seen by the camera right now |
-| **C** | A helper point directly below the pillar, at the bottom of the frame |
-
-C exists purely to make a right angle — it turns A–B into two straight legs we can measure directly from the camera:
-
-- **A → C** (the horizontal leg): how far sideways the pillar is from the aim point
-- **C → B** (the vertical leg): how far away the pillar is from the robot
-
-<div align="center">
-  <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
-</div>
-
-**The angle we actually want, θ, sits at corner A** — it's how much the robot needs to turn to bring the pillar onto the aim point. `arctan2` reads that angle straight off the two legs above:
+These two distances form the two legs of a right triangle. Once we have both legs, basic trigonometry gives us the angle between them — and that angle is exactly how much the robot needs to steer to line the pillar up with our target:
 
 ```python
 rad_angle = np.arctan2(y_center - FRAME_HEIGHT, x_center - aim_x)
 pillar_angle_deg = 90 + np.degrees(rad_angle)
 ```
 
-θ then becomes the steering angle, nudged by a fixed offset and a colour-specific gain — since green and red pillars are passed on opposite sides:
+<div align="center">
+  <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
+</div>
+
+That angle then becomes the steering angle, nudged by a fixed offset and a colour-specific gain — since green and red pillars are passed on opposite sides:
 
 ```python
 if is_green:   # pass on the left
@@ -393,7 +339,7 @@ else:          # pass on the right
     steer_angle = STEER_CENTER - ((pillar_angle_deg - PILLAR_STEER_OFFSET_DEG) * RED_PILLAR_KP)
 ```
 
-**In short:** spot the pillar → build the triangle → work out θ → steer by θ → once it's passed, hand control back to wall following.
+**In short:** measure the two distances → build the triangle → get the angle with trig → steer by that angle → once the pillar's passed, hand control back to wall following.
 
 ---
 
@@ -496,6 +442,45 @@ drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance — one step
 </tr>
 </table>
 </div>
+
+---
+
+### 7) The State Machine & How Steering Gets Arbitrated
+
+The whole run is one state machine that moves forward through these states, in order:
+
+- **`WAIT_FOR_BUTTON`** — LED on, robot idle until the start button is pressed.
+- **`WARM_UP_CAMERA`** — camera starts, a few frames are thrown away so auto-exposure settles.
+- **`DETECT_START_DIRECTION`** — compares open floor on the left vs. right half of the frame to decide whether the track goes left or right.
+- **`EXIT_START_PARK`** — a fixed manoeuvre out of the starting box, checking for a pillar first.
+- **`DRIVE_LAPS`** — the main loop: wall-follow, dodge pillars, count quarter-turns, repeat until laps are done.
+- **`UTURN_TO_PARKING_WALL`** — clockwise runs only; turns the robot to face the pink parking wall.
+- **`APPROACH_PARKING_SPOT`** — tracks the pink wall (and any last pillar) until lined up, then reverses in.
+- **`FINISHED`** — camera and serial port are closed.
+
+Each state hands off to the next by setting `self.state`, so the main loop is just: *run the current state's handler, repeat until `FINISHED`.*
+
+Inside `DRIVE_LAPS`, several systems all want a say in the steering angle every frame. They're checked in this priority order, highest first:
+
+1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner.
+2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped for now; wall following takes over but with much gentler gains.
+3. **A pillar is in range to avoid** → pillar-avoidance steering wins and overrides normal wall following.
+4. **Nothing else applies** → normal area-based wall following runs.
+
+```python
+final_angle = pillar_angle if pillar_angle is not None else wall_angle
+```
+
+`pillar_angle` is only non-`None` when priorities 1–3 above have something to say — otherwise it falls through to plain wall following.
+
+---
+
+## Software Key Components
+
+* **Communication:** Serial communication via USB cable between Arduino and Pi (using a custom protocol).
+[Communications Protocol Details](<link-to-communication-readme>)
+* **Raspberry Pi Environment Setup:** Installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code.
+[Raspberry Pi Setup Guide](<link-to-pi-setup-readme>)
 
 ---
 
