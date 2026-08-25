@@ -253,13 +253,13 @@ This section explains how the computer vision pipeline drives steering decisions
 
 ### 1) Vision Pipeline
 
-Every raw frame is turned into a few simpler images that everything else in the code works from:
+Every raw frame is turned into a few simpler images that everything else in the code works from — a cropped frame, one black/white mask per colour (blue, orange, green, red, pink), and a "Mat ROI" showing the drivable floor (walls = black, floor = white).
 
-| Image | What it shows |
-|---|---|
-| **Frame** | The raw camera view, cropped to the useful area |
-| **Colour masks** | One black/white mask per colour: blue, orange, green, red, pink |
-| **Mat ROI** | The drivable floor — walls = black, floor = white |
+Built in [`process_frame`](code/robot_controller.py):
+- Crops the raw camera frame down to the useful area
+- Builds a colour mask for each marker/obstacle colour using [`get_color_mask`](code/robot_controller.py)
+- Paints all markers/pillars white so they read as floor, not wall
+- Extracts the drivable area in front of the robot using [`get_track_boundary`](code/robot_controller.py)
 
 <div align="center">
 
@@ -278,60 +278,30 @@ Every raw frame is turned into a few simpler images that everything else in the 
 
 ### 2) Wall Following
 
-Two small boxes (ROIs) sit on the left and right of the frame. Whichever side has **more black wall pixels** inside its box, the robot is sitting closer to that wall.
+Two small boxes (ROIs) sit on the left and right of the frame. Whichever side has more black wall pixels inside its box, the robot is sitting closer to that wall.
 
-```python
-roi_left, roi_right = get_wall_rois(direction)
-area_left = largest_wall_area(track_image, roi_left)
-area_right = largest_wall_area(track_image, roi_right)
-
-wall_error = area_left - area_right
-```
-
-A **PD controller** turns that error into a steering angle:
-
-```python
-control = (wall_error * kp) + (derivative * kd)
-angle = STEER_CENTER - control
-```
-
-If one side suddenly has almost no wall left (an opening), the other side's area is boosted so the controller reacts as if that wall were huge — forcing a hard turn toward the gap:
-
-```python
-if area_left < WALL_OPENING_AREA and area_right > 100:
-    area_right = area_right * OPENING_BOOST_MULT + OPENING_BOOST_ADD
-elif area_right < WALL_OPENING_AREA and area_left > 100:
-    area_left = area_left * OPENING_BOOST_MULT + OPENING_BOOST_ADD
-```
+Handled in [`area_wall_follow_angle`](code/robot_controller.py):
+- Gets the left/right ROI boxes for the current direction via [`get_wall_rois`](code/robot_controller.py)
+- Measures wall area in each box using [`largest_wall_area`](code/robot_controller.py)
+- Feeds `area_left - area_right` into a PD controller to get a steering angle
+- If one side's wall area drops close to zero (an opening), boosts the other side's area so the controller reacts as if that wall were huge, forcing a hard turn toward the gap
 
 ---
 
-### 3) Obstacle Avoidance
+### 3) Obstacle Handling
 
-To steer around a pillar, we need two distances:
+To steer around a pillar, the robot measures two distances: how far the pillar is from the target aim point (left/right edge), and how far the pillar is from the robot. These two distances form the legs of a right triangle, and basic trigonometry turns that triangle into a steering angle.
 
-1. **How far the obstacle is from our target X** — where we want the obstacle to end up (right or left of the robot).
-2. **How far the obstacle is from the robot** — how close it is right now.
-
-These two distances form the two legs of a right triangle. Once we have both legs, basic trigonometry gives us the angle between them — and that angle is exactly how much the robot needs to steer to line the pillar up with our target:
-
-```python
-rad_angle = np.arctan2(y_center - FRAME_HEIGHT, x_center - aim_x)
-pillar_angle_deg = 90 + np.degrees(rad_angle)
-```
+Process in [`PillarNavigator.get_steer_angle`](code/robot_controller.py):
+- Finds the nearest pillar and its colour using [`PillarNavigator.find_nearest_pillar`](code/robot_controller.py)
+- Runs the crash checks first — see **Crash Detection** below — and reacts to those before anything else
+- Builds the aim-point-to-pillar triangle and converts it to an angle with `arctan2`
+- Nudges that angle by a fixed offset and a colour-specific gain, since green and red pillars are passed on opposite sides
+- Once the pillar is out of range, hands control back to wall following
 
 <div align="center">
   <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
 </div>
-
-That angle then becomes the steering angle, nudged by a fixed offset and a colour-specific gain — since green and red pillars are passed on opposite sides:
-
-```python
-if is_green:   # pass on the left
-    steer_angle = STEER_CENTER - ((pillar_angle_deg + PILLAR_STEER_OFFSET_DEG) * GREEN_PILLAR_KP)
-else:          # pass on the right
-    steer_angle = STEER_CENTER - ((pillar_angle_deg - PILLAR_STEER_OFFSET_DEG) * RED_PILLAR_KP)
-```
 
 **In short:** measure the two distances → build the triangle → get the angle with trig → steer by that angle → once the pillar's passed, hand control back to wall following.
 
@@ -339,90 +309,36 @@ else:          # pass on the right
 
 ### 4) Crash Detection
 
-Two checks run every frame, each reading a fixed point (or short line) on the track mask:
+Two safety checks run every frame, each reading a fixed point (or short line) on the track mask:
 
-```python
-outer_crash = navigator.is_hitting_outer_wall(direction, track_image, frame)
-inner_crash = navigator.is_hitting_inner_wall(direction, track_image, frame) if pillar_present else False
-```
+- [`PillarNavigator.is_hitting_outer_wall`](code/robot_controller.py) — outer wall too close → ignore normal steering entirely and force a hard turn away from it
+- [`PillarNavigator.is_hitting_inner_wall`](code/robot_controller.py) — inner wall too close → don't force a turn, just soften the wall-following PD gains so the correction is gentler
 
-- **Inner wall too close (blue line)** → don't force a turn, just soften the wall-following PD gains so the correction is gentler:
-
-```python
-kp = AREA_WALL_KP_DAMPED if damped else AREA_WALL_KP
-kd = AREA_WALL_KD_DAMPED if damped else AREA_WALL_KD
-```
-
-- **Outer wall too close (blue dot)** → ignore normal steering entirely and force a hard turn away from it:
-
-```python
-turn_into_corner = (STEER_MAX - 3) if direction == Direction.LEFT else (STEER_MIN + 3)
-...
-elif outer_crash:
-    self.state = WallState.OUTER
-    return turn_into_corner
-```
+Both checks are latched into a small state machine inside [`PillarNavigator.get_steer_angle`](code/robot_controller.py), so once a crash condition is triggered the robot stays in recovery mode until it actually clears.
 
 ---
 
 ### 5) Lap Counter
 
-The robot counts **quarter-turns**, one for every corner marker it passes:
+The robot counts quarter-turns, one for every corner marker it passes.
 
-```python
-LAPS_TARGET = 3
-TOTAL_QUARTER_TURNS = LAPS_TARGET * 4   # 12 quarter-turns
-```
-
-A marker has to be seen for a few frames in a row before it counts as "entering" a turn — this avoids false triggers:
-
-```python
-self._enter_confirm_count = (
-    self._enter_confirm_count + 1 if marker_area > TURN_MARKER_ENTER_AREA else 0
-)
-if self._enter_confirm_count >= TURN_ENTER_CONFIRM_FRAMES:
-    self.state = TurnState.TURNING
-```
-
-Once the marker has been gone for a few frames in a row, the quarter-turn is counted as finished:
-
-```python
-self._exit_confirm_count = (
-    self._exit_confirm_count + 1 if marker_area < TURN_MARKER_EXIT_AREA else 0
-)
-if should_exit:
-    self.quarter_turns += 1
-```
-
-After 12 quarter-turns, the robot switches into parking mode.
+Handled in [`LapCounter.update`](code/robot_controller.py):
+- Watches the blue mask (left turns) or orange mask (right turns), depending on driving direction
+- Requires the marker to be seen for a few frames in a row before counting it as "entering" a turn, to avoid false triggers
+- Once the marker has been gone for a few frames in a row, counts the quarter-turn as finished and starts a short cooldown
+- After 12 quarter-turns (3 laps), the robot switches into parking mode
 
 ---
 
-### 6) Parking — Finding the Spot and Backing In
+### 6) Parking
 
-Once laps are done, the robot looks for the **pink block** and drives toward it:
+Once laps are done, the robot looks for the pink block and drives toward it, then backs into the spot using a fixed sequence of hard turns.
 
-```python
-found = find_parking_wall(pink_mask, display_frame)
-```
-
-If a pillar is closer to the robot than the pink block, avoiding the pillar still takes priority:
-
-```python
-pillar_is_closer = pillar_found is not None and (pink_y is None or pillar_found[1] > pink_y)
-```
-
-Once close enough and lined up, the robot stops and runs a fixed parking manoeuvre using **encoder ticks** rather than time, so every move covers the same distance regardless of speed:
-
-```python
-if close_enough and alongside:
-    stop()
-    self._reverse_into_parking_spot(direction)
-```
-
-```python
-drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance — one step of the parking sequence
-```
+- Finds the pink parking wall using [`find_parking_wall`](code/robot_controller.py)
+- Steers toward it using [`get_parking_wall_steer_angle`](code/robot_controller.py)
+- If a pillar is closer to the robot than the pink block, avoiding the pillar still takes priority
+- Once close enough and lined up, stops and hands off to [`RobotController._reverse_into_parking_spot`](code/robot_controller.py)
+- That final manoeuvre uses **encoder ticks** rather than time for every move, so the sequence covers the same distance regardless of speed
 
 <div align="center">
 <table>
@@ -441,35 +357,30 @@ drive(MOTOR_REVERSE, PARK_SPEED, 1100)   # reverse a fixed distance — one step
 
 ### 7) The State Machine
 
-The whole run is one state machine that moves forward through these states, in order:
+The whole run is one state machine, defined in [`RobotController`](code/robot_controller.py), that moves forward through these states in order:
 
-- **`WAIT_FOR_BUTTON`** — LED on, robot idle until the start button is pressed.
-- **`WARM_UP_CAMERA`** — camera starts, a few frames are thrown away so auto-exposure settles.
-- **`DETECT_START_DIRECTION`** — compares open floor on the left vs. right half of the frame to decide whether the track goes left or right.
-- **`EXIT_START_PARK`** — a fixed manoeuvre out of the starting box, checking for a pillar first.
-- **`DRIVE_LAPS`** — the main loop: wall-follow, dodge pillars, count quarter-turns, repeat until laps are done.
-- **`UTURN_TO_PARKING_WALL`** — clockwise runs only; turns the robot to face the pink parking wall.
-- **`APPROACH_PARKING_SPOT`** — tracks the pink wall (and any last pillar) until lined up, then reverses in.
-- **`FINISHED`** — camera and serial port are closed.
+- [`RobotController._state_wait_for_button`](code/robot_controller.py) — LED on, robot idle until the start button is pressed
+- [`RobotController._state_warm_up_camera`](code/robot_controller.py) — camera starts, a few frames are thrown away so auto-exposure can settle
+- [`RobotController._state_detect_start_direction`](code/robot_controller.py) — compares open floor on the left vs. right half of the frame to decide whether the track goes left or right
+- [`RobotController._state_exit_start_park`](code/robot_controller.py) — a fixed manoeuvre out of the starting box, checking for a pillar first
+- [`RobotController._state_drive_laps`](code/robot_controller.py) — the main loop: wall-follow, dodge pillars, count quarter-turns, repeat until laps are done
+- [`RobotController._state_uturn_to_parking_wall`](code/robot_controller.py) — clockwise runs only; turns the robot to face the pink parking wall
+- [`RobotController._state_approach_parking_spot`](code/robot_controller.py) — tracks the pink wall (and any last pillar) until lined up, then reverses in
 
-Each state hands off to the next by setting `self.state`, so the main loop is just: *run the current state's handler, repeat until `FINISHED`.*
+Each state hands off to the next by setting `self.state`, so [`RobotController.run`](code/robot_controller.py) is just: run the current state's handler, repeat until `FINISHED`.
 
 ---
 
 ### 8) Arbitration
 
-Inside `DRIVE_LAPS`, several systems all want a say in the steering angle every frame. They're checked in this priority order, highest first:
+Inside [`RobotController._state_drive_laps`](code/robot_controller.py), several systems all want a say in the steering angle every frame. They're checked in this priority order, highest first:
 
-1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner.
-2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped for now; wall following takes over but with much gentler gains.
-3. **A pillar is in range to avoid** → pillar-avoidance steering wins and overrides normal wall following.
-4. **Wall Follow** → normal area-based wall following runs.
+1. **Outer wall too close** → everything else is ignored, the robot force-turns hard into the corner
+2. **Inner wall too close while a pillar is nearby** → pillar steering is skipped for now; wall following takes over but with much gentler gains
+3. **A pillar is in range to avoid** → pillar-avoidance steering from [`PillarNavigator.get_steer_angle`](code/robot_controller.py) wins and overrides normal wall following
+4. **Wall Follow** → normal area-based wall following from [`area_wall_follow_angle`](code/robot_controller.py) runs
 
-```python
-final_angle = pillar_angle if pillar_angle is not None else wall_angle
-```
-
-`pillar_angle` is only non-`None` when priorities 1–3 above have something to say — otherwise it falls through to plain wall following.
+`pillar_angle` is only set when priorities 1–3 above have something to say — otherwise the robot falls through to plain wall following.
 
 ---
 
