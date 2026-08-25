@@ -354,11 +354,6 @@ Both checks latch into a small state — once triggered, the robot stays in reco
 - A marker must be seen for a few frames in a row before it counts as "entering" a turn, to avoid false triggers
 - Once the marker's been gone for a few frames in a row, the quarter-turn counts as finished
 
-```python
-LAPS_TARGET = 3
-TOTAL_QUARTER_TURNS = LAPS_TARGET * 4   # 12 quarter-turns
-```
-
 After 12 quarter-turns, the robot switches into parking mode.
 
 ---
