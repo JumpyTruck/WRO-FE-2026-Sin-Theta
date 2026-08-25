@@ -435,7 +435,75 @@ For installing dependencies, setting up a virtual environment, and getting the P
 <img width="1000" alt="Obstacle Flowchart" src="https://github.com/user-attachments/assets/c1e98583-360a-493a-97bb-4f39abc578ab" />
 
 ---
-## Systems Thinking & Engineering Decisions
+# Systems Thinking & Engineering Decisions
+
+## Introduction
+
+Building this robot meant constantly balancing the needs of four interconnected subsystems — Power, Sensors, Software, and Mobility — where a change in one almost always had a ripple effect on the others. Many of our design choices can't be fully understood by looking at a single subsystem in isolation; they only make sense when viewed as trade-offs made to satisfy multiple competing constraints at once. This section walks through the key decisions we made, the alternatives we considered, why we moved away from them, and the hard constraints — from competition rules to physics — that shaped the final design.
+
+---
+
+## Trade-offs
+
+### 1. Raspberry Pi + Arduino Nano split (instead of one board doing everything)
+- Raspberry Pi handles the camera and vision processing
+- Arduino Nano handles motor control
+- Splitting the load this way means:
+  - Pi isn't bogged down running motor control loops alongside vision processing → faster, more responsive image processing
+  - Nano handles motor timing exactly when needed, without waiting on the Pi's CPU scheduling
+  - Each board does one job well instead of one board doing two jobs poorly
+- Net result: faster code overall, cleaner separation of responsibilities, easier debugging when something goes wrong (you know which board to check)
+
+### 2. Skipped extra distance/proximity sensors
+- Decided against adding more sensors (e.g. distance sensors) beyond what was essential
+- Reason 1 (software): more sensors = more data to read, process, and fuse every loop cycle → slows down the control loop
+- Reason 2 (real-world/practical): more sensors also means more wiring, more points of failure, and more calibration to maintain — in a competition setting, every extra wire is a chance for a connector to come loose or a sensor to drift out of calibration between runs, which costs more reliability than the extra data is worth
+- Kept the sensor suite minimal and let the camera do most of the heavy lifting
+
+### 3. Fixed speed instead of variable speed
+- Tested variable speed (slowing near obstacles, full speed in open path)
+- Found variable speed introduced **inconsistency** — behavior varied run to run depending on exactly when/where the speed transition kicked in
+- Since our focus (without the parking segment) is on **consistency and accuracy** rather than raw lap time, we chose fixed speed instead
+- A predictable, repeatable speed profile made the robot's behavior easier to tune and trust across multiple runs
+
+### 4. LAB color space instead of HSV
+- Originally considered HSV for color detection (the common choice)
+- Switched to LAB color space instead
+- LAB gave noticeably better detection results and higher accuracy in our testing, especially under our lighting conditions
+- Worth the switch even though HSV is more commonly used — real-world testing outweighed the "default" choice
+
+### 5. Battery placed at the center of the plate
+- Battery is the heaviest single component on the robot
+- Placed it at the center of the first (bottom) plate rather than off to a side or at the front/back
+- Centering the heaviest mass gives the robot a balanced center of gravity — weight is distributed evenly front-to-back and side-to-side
+- This improves stability and predictability during turns, since the robot isn't nose-heavy, tail-heavy, or lopsided
+
+---
+
+## Constraints
+
+### Competition rule against differential drive
+- Not allowed to use differential drive, so the design had to go front-steering from the start
+- Front-steering directly ties turning radius to chassis length (`R = L / sin(θ)`), and the outer radius grows further with the robot's width (`R(outer) = R(center) + W/2`)
+- This meant the drivetrain, motor, and steering assembly had to be packed tightly and deliberately, back to back, just to keep the turning radius manageable for parking maneuvers
+- A rule about *drive type* ended up dictating chassis layout and packaging density
+
+### Hard weight ceiling of 1.5 kg
+- Total weight is capped, but weight *distribution* mattered just as much as the total
+- Every gram added anywhere on the robot competes with every other component for that budget
+- This constraint forced trade-offs between convenience (e.g. easy battery access) and performance (e.g. low, centered center of mass) — performance won
+
+### Power budget tied to runtime requirement
+- Needed the robot to run for over an hour on a single charge
+- Every power-hungry addition has a knock-on effect: more power draw → bigger/heavier battery → slower robot
+- This constraint quietly ruled out any component or approach that looked good in isolation but would have pushed the power draw too high
+
+### Control loop speed requirement
+- The sense-think-act loop has to run fast enough to react before the robot reaches an obstacle or wall
+- This constraint is why processing got split across two boards (Pi + Nano) in the first place — one board waiting on the other would violate this requirement
+- It also ruled out anything (extra sensors, heavier vision models, etc.) that would add latency without a proportional benefit
+
+---
 
 ### Iterations
 The image shows the main robot iterations during development. Each version was tested and improved based on issues with stability, steering, and reliability.
