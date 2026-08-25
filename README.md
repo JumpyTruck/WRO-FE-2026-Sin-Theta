@@ -438,7 +438,8 @@ For installing dependencies, setting up a virtual environment, and getting the P
 ## Systems Thinking & Engineering Decisions
 
 ### Iterations
-<img width="500" alt="Robot Iterations" src="https://github.com/user-attachments/assets/4a728895-7bad-44d3-850c-3a7fe42608c5" />
+The image shows the main robot iterations during development. Each version was tested and improved based on issues with stability, steering, and reliability.
+<img width="1192" height="670" alt="Iteratonswdescription" src="https://github.com/user-attachments/assets/a82d7041-7978-48cf-935f-de3a5805f6b8" />
 
 ---
 ## Reproducibility & Github Organization
