@@ -475,7 +475,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 
 | Speed | Accuracy | Time (without parking) |
 |---|---|---|
-| Fixed Speed | 90% | 52 |
+| Fixed Speed | 90% | 52s |
 | Variable Speed | 80% | 42s |
 
 #### LAB color space instead of HSV
