@@ -136,6 +136,8 @@ This is our PCB and how it works:
 - Feeds three separate paths directly at 12.8V: the DRV8871 motor driver, the 5V buck converter, and the servo UBEC
 - Chosen for a good balance of energy density, weight, and safe handling compared to a LiPo pack of similar capacity
 
+[More Info on Battery](electrical#3-main-power-system)
+
 ---
 
 ### 2. 5V Buck Converter
@@ -145,6 +147,8 @@ This is our PCB and how it works:
 - A switching (buck) design rather than a linear regulator, so it can supply a higher output current with much less wasted heat
 - Centralizing all 5V logic onto one converter keeps the wiring simple and avoids multiple separate regulators on the board
 
+[More Info on Buck Converter](electrical#32-5v-dc-dc-buck-converter)
+
 ---
 
 ### 3. UBEC Voltage Regulator
@@ -153,6 +157,8 @@ This is our PCB and how it works:
 - Runs on a completely separate power path from the buck converter and logic electronics
 - This isolation means sudden current spikes from the servo (e.g., steering under load) can't drag down or brown out the 5V logic rail
 - Rated well above the servo's normal draw to comfortably absorb its peak current demands
+
+[More Info on UBEC](electrical#22-ubec-voltage-regulator)
 
 ---
 
@@ -164,6 +170,8 @@ This is our PCB and how it works:
 - Also reads the motor encoder to close the loop on speed and distance
 - Runs entirely off the 5V buck converter rail, drawing very little current itself
 
+[More Info on Arduino Nano](electrical#52-motor-controller-arduino-nano)
+
 ---
 
 ### 5. Motor Driver (DRV8871)
@@ -172,6 +180,8 @@ This is our PCB and how it works:
 - Powered directly from the 12.8V battery rail on its motor-power side, so the motor gets full, unregulated battery voltage
 - Its logic/control side is fed low-current PWM signals from the Nano, keeping the high-current motor path electrically separate from the sensitive logic side
 - Handles both direction and speed control for the drive motor from a single set of PWM inputs
+
+[More Info on Motor Driver](electrical#52-motor-controller-arduino-nano)
 
 ---
 
@@ -183,6 +193,8 @@ This is our PCB and how it works:
 - Servo Port: a dedicated 3-wire connector (power, ground, PWM) that keeps the UBEC's power and the Nano's control signal cleanly routed to the servo
 - M1/M2 Motor Output Ports: carry the DRV8871's high-current outputs straight from the battery rail to the motor, bypassing the 5V logic electronics entirely
 
+[More Info on Servo](electrical#21-steering-servo)
+
 ---
 
 ### 7. Raspberry Pi 4B + Camera
@@ -193,6 +205,9 @@ This is our PCB and how it works:
 - Once a frame is processed, the Pi sends the resulting steering and speed values to the Nano over serial
 - Full camera-capture-to-command cycle runs at roughly 150ms, keeping the robot responsive while driving
 - Powered off the same 5V buck converter rail as the rest of the logic electronics
+
+[More Info on Raspberry Pi](electrical#41-raspberry-pi-camera-module-3-wide)
+[More Info on Camera](electrical#51-main-controller-raspberry-pi-4b)
 
 ---
 
