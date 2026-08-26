@@ -494,6 +494,9 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - It also ruled out anything (extra sensors, heavier vision models, etc.) that would add latency without a proportional benefit
 
 ---
+#### Risk and Failures
+
+---
 
 ### Iterations
 The image shows the main robot iterations during development. Each version was tested and improved based on issues with stability, steering, and reliability.
