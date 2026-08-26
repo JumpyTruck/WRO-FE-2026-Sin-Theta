@@ -407,8 +407,8 @@ Inside the drive-laps state, several systems all want a say in the steering angl
 
 1. **Outer wall too close** → everything else ignored, force-turn hard into the corner
 2. **Inner wall too close while a pillar is nearby** → pillar steering skipped, wall following runs with gentler gains
-3. **A pillar is in range** → pillar-avoidance steering wins
-4. **Otherwise** → normal wall following runs
+3. **Obstacle Avoidance** → pillar-avoidance steering wins
+4. **Wall Following** → normal wall following runs
 
 ```python
 final_angle = pillar_angle if pillar_angle is not None else wall_angle
@@ -456,6 +456,10 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - Found variable speed introduced **inconsistency** — behavior varied run to run depending on exactly when/where the speed transition kicked in
 - Since our focus is on **consistency and accuracy** rather than raw lap time, we chose fixed speed instead
 - A predictable, repeatable speed profile made the robot's behavior easier to tune and trust across multiple runs
+| Speed | Accuracy | Time (without parking) |
+|---|---|---|
+| Fixed Speed | 90% | 52 |
+| Variable Speed | 80% | 42s |
 
 #### LAB color space instead of HSV
 - Originally considered HSV for color detection
