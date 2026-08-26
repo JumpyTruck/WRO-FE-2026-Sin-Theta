@@ -207,6 +207,7 @@ This is our PCB and how it works:
 - Powered off the same 5V buck converter rail as the rest of the logic electronics
 
 [More Info on Raspberry Pi](electrical#41-raspberry-pi-camera-module-3-wide)
+
 [More Info on Camera](electrical#51-main-controller-raspberry-pi-4b)
 
 ---
