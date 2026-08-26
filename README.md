@@ -496,14 +496,69 @@ Building this robot meant constantly balancing the needs of four interconnected 
 ---
 ### Risk and Failures
 
+#### PCB Version 1: Thermal Failure
+
+- After several test runs, the robot consistently shut down after about three corner turns, a repeatable pattern that pointed to a systematic issue rather than a random fault
+- The L298 motor driver and 7805 voltage regulator were extremely hot to the touch during runs
+- The 7805's datasheet showed it was reaching approximately 150 to 175°C, far above its rated maximum junction temperature, triggering its built in thermal shutdown to prevent permanent damage
+- A power dissipation calculation confirmed the cause: the 7805 was burning off the full 7.8V drop at approximately 2A as heat, dissipating roughly **15.6W**, far more than a small TO-220 package can shed in free air without a heatsink
+- Based on the regulator's junction to ambient thermal resistance, this dissipation translated to a theoretical temperature rise of nearly 242.85°C above ambient, mathematically guaranteeing thermal shutdown under our load, matching what we observed on the mat
+- A power budget of the 5V rail (ESP32, servo, encoder) showed a peak of 1.03A on paper, but we measured 1.47A in practice, since real corner turns draw current from all three components simultaneously rather than one at a time
+
+**Temporary Fix:**
+- Attached an aluminum VEX piece to the 7805 as a heat sink to increase surface area and improve convective cooling
+- This increased runtime from 1½ to 2¼ laps before shutdown, a 50% improvement, confirming heat (not a wiring fault) was the root cause
+- The regulator still eventually overheated, since it had to continuously dissipate 15.6W, more heat than a small heat sink without forced airflow can carry away indefinitely
+
+**Root Cause and Decision:**
+- Since the heat sink helped but didn't fully solve the shutdowns, we ruled out PCB layout, wiring, or a component defect
+- A linear regulator's efficiency is roughly Vout/Vin (5V / 12.8V ≈ 39%), meaning over 60% of the power on the 5V rail was converted directly into waste heat regardless of cooling
+- We redesigned the power system around a switching (buck) converter, which achieves 85 to 95% efficiency instead of ~39%, dramatically cutting generated heat for the same output current
+
 ---
 
-### Iterations
+#### PCB Version 2: Motor Driver and Servo Failure
+
+- After building the new PCB with the DRV8871 motor driver, the motor driver would not reliably power the motor, and plugging in the servo caused it to draw power from everything else, shutting down the ESP32, motor driver, and other electronics
+
+**Failures Identified:**
+- Signal mismatch: the ESP32 outputs a 0 to 3.3V PWM signal, but the DRV8871 performs best with 5V PWM, preventing reliable motor control
+- Power isolation issue: the servo had no dedicated regulated power path, so its current spikes pulled down the shared supply rail and browned out the rest of the electronics
+
+**Fixes Implemented:**
+- Switched from the ESP32 to an Arduino Nano, which outputs a full 5V PWM signal the DRV8871 needs to operate reliably
+- Added a dedicated 7805 regulator to the servo line to isolate it from the rest of the electronics
+- Added a heatsink to that 7805 to manage the heat from the voltage conversion
+
+**Servo Failure:**
+- The MG90S servo couldn't handle the voltage load and burned out, and the 7805 was still overheating despite the heatsink
+- We determined the servo needed a higher power unit rated for greater load, along with a regulator matched to the servo's input voltage to minimize the voltage drop and resulting heat
+
+**Servo Solution:**
+- Replaced the 5V servo with a 9g Coreless Servo (Full Metal Gear, 4 KG·cm torque, 4.8 to 8.4V)
+- Added a dedicated 2 to 8S LiPo UBEC-8A, set to 8.4V
+- Torque headroom: at 4 KG·cm, the new servo has enough margin above our steering load to avoid operating near stall, the condition that destroyed the original
+- Full metal gears: since the original failure was mechanical as well as electrical, metal gears were needed to resist the stripping that plastic gears suffer under repeated high torque corrections
+- Wide voltage range (4.8 to 8.4V) with a coreless motor: running at higher voltage increases torque and speed without redesigning the control signal path, and a coreless motor is faster and more efficient than a brushed motor of the same size
+- The UBEC gives the servo its own regulated rail, solving the power sharing and brownout issue, is adjustable to exactly 8.4V to match the servo's max rating, is rated for 8A continuous against the servo's 3.0 to 5.0A peak draw, and safely accepts our 12.8V (4S) input well within its 2 to 8S range
+
+---
+
+#### VM Pin Wiring Issue
+
+- While wiring the DRV8871, we connected the Raspberry Pi, servo, and Arduino Nano to the driver's VM pin
+- The VM pin is internally tied to the driver's P+ pin, which connects directly to the battery, so it was carrying the full 12.8V battery voltage instead of a regulated logic level
+- The Pi, servo, and Nano all expected a regulated 5V (or their own rated) supply, and receiving 12.8V directly overloaded the DRV8871, causing it to blow up
+- This taught us that the VM pin is a motor power input, not a general purpose output, and logic level components or the servo should never draw from it directly, each needs its own properly regulated supply
+
+---
+
+#### Iterations
 The image shows the main robot iterations during development. Each version was tested and improved based on issues with stability, steering, and reliability.
 <img width="1192" height="670" alt="Iteratonswdescription" src="https://github.com/user-attachments/assets/a82d7041-7978-48cf-935f-de3a5805f6b8" />
 
 ---
-## Reproducibility & Github Organization
+### Reproducibility & Github Organization
 
 This repository documents the design, build, and code for our WRO robot — including the mechanical models, custom PCB/electronics, full parts list, and the engineering journal tracking our design decisions along the way. Use the sections below to navigate to whatever you need, whether that's rebuilding the robot from scratch or understanding why we made the choices we did.
 
