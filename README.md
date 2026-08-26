@@ -194,13 +194,6 @@ This is our PCB and how it works:
 - Full camera-capture-to-command cycle runs at roughly 150ms, keeping the robot responsive while driving
 - Powered off the same 5V buck converter rail as the rest of the logic electronics
 
-| Specification | Value |
-|---|---|
-| Input Voltage | 5V |
-| Normal Current | 0.70A |
-| Peak Current | 1.20A |
-| Power | 3.50W |
-
 ---
 
 ### 8. Full Power Budget
