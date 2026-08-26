@@ -1,26 +1,38 @@
 # Mobility & Mechanical Design
 
-This section explains the design and integration of our robot's mechanical system. It covers how we selected and designed the chassis, steering, differential, wheels, and rear axle. Each component was chosen based on performance, reliability, durability, and the limited space within our chassis. The section also includes a full part-by-part build breakdown. All STL and PNG files are in [this folder](models/CAD%203D%20Printed%20Parts).
+This page covers the mechanical design of our robot — the reasoning behind our design choices, and a part-by-part breakdown of the chassis, steering, and rear axle, along with how to assemble it. All STL and PNG files are in [this folder](models/CAD%203D%20Printed%20Parts).
 
 ---
 
-#### 1. Chassis & Dimensions
+#### 1. Basic Design Choices
 
 ###### **1.1 Dimensions**
 
-- Sized around the Pi, driver board, motor, and steering, with a **~50mm margin per side**
-- Took inspiration from F1 cars — a narrow body with a bigger length-to-width ratio turns tighter and stays more stable at high speed
+Sized around the Pi, driver board, motor, and steering, with a ~50mm margin per side. Took inspiration from F1 cars — narrow, bigger length to width ratio turns tighter and stays more stable at high speed.
 
 <img width="300" alt="IMG_1527" src="https://github.com/user-attachments/assets/64442db8-6418-4848-9620-d98065398cd8" />
 
 ---
 
-#### 2. Steering System
+###### **1.2 Wheel Choice**
 
-###### **2.1 Ackermann**
+SPIKE Prime wheels (56mm diameter, 14mm thick). Best balance of grip, clearance, and compactness — bigger hurts turning, smaller loses clearance.
 
-- Last year we used **parallel steering**, which scrubbed tires through corners since both wheels turned on the same radius
-- We switched to **Ackermann steering** so each wheel turns its own correct radius through a corner
+<img width="300" alt="Spike Wheels" src="https://github.com/user-attachments/assets/c58cb594-1c2b-4eea-ad30-3101f6c1c34f" />
+
+---
+
+###### **1.3 Differential**
+
+Went with metal over 3D-printed gears (wear fast, mesh poorly) or LEGO (bulkier, higher CG). Metal meshes smoother, lasts longer, and sits lower.
+
+<img width="300" alt="metal diff" src="https://github.com/user-attachments/assets/f853ef5c-e624-475d-b8e8-77dcb57b81c6" />
+
+---
+
+###### **1.4 Steering — Why Ackermann**
+
+Last year we used parallel steering, which scrubbed tires through corners since both wheels turned on the same radius. Switched to Ackermann so each wheel turns its own correct radius.
 
 <table>
   <tr>
@@ -39,12 +51,122 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
+#### 2. The Build
+
+###### **2.1 Chassis**
+
+Three stacked, modular plates — any layer pulls off without touching the others.
+
+**Base Plate**
+- Steering holder: trapezoid front section, 4 holes, servo cutout.
+- Battery holder: front-mounted, low, counterbalances rear motor.
+- Motor mount: mid-rear, upper/lower halves clamp the motor.
+- Rear axle points: cutouts + mounts for axle supports.
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Base Plate — CAD</strong><br>
+      <img width="700" alt="Main_Chassis__Base_Plate__flipped" src="https://github.com/user-attachments/assets/f41fe5ae-92ba-4795-a446-b5e35cf6c5ec" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Base Plate — Installed</strong><br>
+      <img src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" width="700">
+    </td>
+  </tr>
+</table>
+
+**Motor Mount — Top Half**
+Clamps over the motor, bolts into the lower half.
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Motor Mount Top — CAD</strong><br>
+      <img width="700" alt="Top Motor Holder" src="https://github.com/user-attachments/assets/0b3a8db0-7c20-4b12-8429-7e93e67acfcd" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Motor Mount Top — Installed</strong><br>
+     <img width="700" alt="IMG_2587" src="https://github.com/user-attachments/assets/36cc248f-2dff-4693-afb2-fa60fcd70212" />
+    </td>
+  </tr>
+</table>
+
+---
+
+**Second Story — PCB Holder**
+Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses the servo regulator (also fits our old PCB as backup).
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Second Story — CAD</strong><br>
+      <img width="700" alt="Second_Plate_flipped" src="https://github.com/user-attachments/assets/b5c74f6a-45d7-4465-8d6a-10aeed772797" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Second Story — Installed</strong><br>
+      <img src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" width="700">
+    </td>
+  </tr>
+</table>
+
+---
+
+**Third Story — Pi Holder**
+Holds the Pi. Partial wraparound wall, open sides for cables, includes the Camera Stand which raises the camera for a clear view of the mat.
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Third Story — CAD</strong><br>
+      <img width="700" alt="Third_Plate_flipped" src="https://github.com/user-attachments/assets/9f6199da-c54a-4941-9f24-dc59db6bdc6c" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Third Story — Installed</strong><br>
+      <img src="https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5" width="700">
+    </td>
+  </tr>
+</table>
+
+---
+
+**Camera Mount**
+Sits atop the stand and holds the camera. Standalone piece so angle adjusts without touching the stand or top plate. Set to 155°.
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Camera Mount — CAD</strong><br>
+      <img width="300" alt="Camera Mount" src="https://github.com/user-attachments/assets/52265d96-f9a8-422e-a230-17455cd757dd" />
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Full Camera Assembly — Installed</strong><br>
+      <img width="500" alt="camerainstalled" src="https://github.com/user-attachments/assets/082183fe-2382-4521-a2c9-c87eeff48f15" />
+    </td>
+  </tr>
+</table>
+
+---
+
 ###### **2.2 Steering Assembly**
 
-- **Steering holder:** everything mounts here, servo inverted to line up with the knuckles
-- **Steering arm:** fixed at a **~12° Ackermann angle**, with nylon spacers to cut friction
-- **Steering T:** extends the servo output to the steering bar
-- **Steering cross link:** links both knuckles, converting servo rotation into steering
+- Steering holder: everything mounts here, servo inverted to line up with knuckles.
+- Steering Arm: fixed at ~12° Ackermann angle, nylon spacers cut friction.
+- Steering T: extends servo output to the steering bar.
+- Steering Cross Link: links both knuckles, converts servo rotation into steering.
 
 <table>
   <tr>
@@ -80,39 +202,13 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-#### 3. Differential
+###### **2.3 Rear Axle Assembly**
 
-###### **3.1 Why Metal**
-
-- We use a **metal differential** over 3D-printed gears or LEGO
-- 3D-printed gears wear fast and mesh poorly under repeated cornering load
-- LEGO gearing is bulkier and raises the chassis's centre of gravity
-- The metal differential meshes smoother, lasts longer, and sits lower in the chassis
-
-<img width="300" alt="metal diff" src="https://github.com/user-attachments/assets/f853ef5c-e624-475d-b8e8-77dcb57b81c6" />
-
----
-
-#### 4. Wheels
-
-###### **4.1 Wheel Choice**
-
-- We use **SPIKE Prime wheels (56mm diameter, 14mm thick)**
-- Best balance of grip, clearance, and compactness — going bigger hurts turning, going smaller loses ground clearance
-
-<img width="300" alt="Spike Wheels" src="https://github.com/user-attachments/assets/c58cb594-1c2b-4eea-ad30-3101f6c1c34f" />
-
----
-
-#### 5. Rear Axle Assembly
-
-###### **5.1 Components**
-
-- **Motor adapter:** matches the motor's D-shaft to the differential's square input
-- **Gear holder:** connects to the differential to hold it in place
-- **Axle supports:** hold the axles in place via bearings, keeping them aligned and stopping sagging
-- **Axles:** custom metal axles adapt the differential output to the LEGO wheels
-- **VEX spacers:** added on the rear axles to push the wheels further outward, giving clearance so they don't rub against the chassis/body
+- Motor adapter: matches motor's D-shaft to the differential's square input.
+- Gear holder: connects to the differential to hold it in place.
+- Axle supports: hold the axles in place via bearings, keep them aligned and stop sagging.
+- Axles: custom metal axles adapt diff output to LEGO wheels.
+- VEX spacers: added on the rear axles to push the wheels further outward, giving clearance so they don't rub against the chassis/body.
 
 <table>
   <tr>
@@ -137,10 +233,6 @@ This section explains the design and integration of our robot's mechanical syste
   </tr>
 </table>
 
----
-
-###### **5.2 Full Assembly**
-
 <table>
   <tr>
     <td align="center">
@@ -149,129 +241,3 @@ This section explains the design and integration of our robot's mechanical syste
     </td>
   </tr>
 </table>
-
----
-
-#### 6. Chassis Build — Plates
-
-###### **6.1 Base Plate**
-
-- **Steering holder:** trapezoid front section, 4 holes, servo cutout
-- **Battery holder:** front-mounted, low, counterbalances the rear motor
-- **Motor mount:** mid-rear, upper/lower halves clamp the motor
-- **Rear axle points:** cutouts and mounts for the axle supports
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Base Plate — CAD</strong><br>
-      <img width="700" alt="Main_Chassis__Base_Plate__flipped" src="https://github.com/user-attachments/assets/f41fe5ae-92ba-4795-a446-b5e35cf6c5ec" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>Base Plate — Installed</strong><br>
-      <img src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" width="700">
-    </td>
-  </tr>
-</table>
-
----
-
-###### **6.2 Motor Mount — Top Half**
-
-- Clamps over the motor and bolts into the lower half
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Motor Mount Top — CAD</strong><br>
-      <img width="700" alt="Top Motor Holder" src="https://github.com/user-attachments/assets/0b3a8db0-7c20-4b12-8429-7e93e67acfcd" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>Motor Mount Top — Installed</strong><br>
-     <img width="700" alt="IMG_2587" src="https://github.com/user-attachments/assets/36cc248f-2dff-4693-afb2-fa60fcd70212" />
-    </td>
-  </tr>
-</table>
-
----
-
-###### **6.3 Second Story — PCB Holder**
-
-- Holds our custom PCB
-- Main rectangle seats the PCB; a second smaller cutout houses the servo regulator (also fits our old PCB as a backup)
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Second Story — CAD</strong><br>
-      <img width="700" alt="Second_Plate_flipped" src="https://github.com/user-attachments/assets/b5c74f6a-45d7-4465-8d6a-10aeed772797" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>Second Story — Installed</strong><br>
-      <img src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" width="700">
-    </td>
-  </tr>
-</table>
-
----
-
-###### **6.4 Third Story — Pi Holder**
-
-- Holds the Raspberry Pi
-- Partial wraparound wall with open sides for cables
-- Includes the camera stand, which raises the camera for a clear view of the mat
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Third Story — CAD</strong><br>
-      <img width="700" alt="Third_Plate_flipped" src="https://github.com/user-attachments/assets/9f6199da-c54a-4941-9f24-dc59db6bdc6c" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>Third Story — Installed</strong><br>
-      <img src="https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5" width="700">
-    </td>
-  </tr>
-</table>
-
----
-
-###### **6.5 Camera Mount**
-
-- Sits atop the stand and holds the camera
-- Standalone piece, so the angle adjusts without touching the stand or top plate
-- Set to **155°**
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Camera Mount — CAD</strong><br>
-      <img width="300" alt="Camera Mount" src="https://github.com/user-attachments/assets/52265d96-f9a8-422e-a230-17455cd757dd" />
-    </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Full Camera Assembly — Installed</strong><br>
-      <img width="500" alt="camerainstalled" src="https://github.com/user-attachments/assets/082183fe-2382-4521-a2c9-c87eeff48f15" />
-    </td>
-  </tr>
-</table>
-
----
-
-#### 7. Final Mechanical Integration
-
-All components are integrated into the final chassis as a compact, three-story modular platform. The base plate carries the drivetrain, steering, and battery; the second story carries the custom PCB; the third story carries the Raspberry Pi and camera assembly.
-
-Each layer pulls off independently without disturbing the others, keeping repair and iteration fast throughout the season.
