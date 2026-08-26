@@ -566,7 +566,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 
 **PCB Final Version with Implemented Changed**
 
-<img width="750" alt="Final PCB Labeled" src="https://github.com/user-attachments/assets/91913f3f-8f83-4f09-9dc7-5200de732312" />
+<img width="500" alt="Final PCB Labeled" src="https://github.com/user-attachments/assets/91913f3f-8f83-4f09-9dc7-5200de732312" />
 
 ---
 
