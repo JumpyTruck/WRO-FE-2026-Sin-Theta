@@ -30,7 +30,7 @@ Went with metal over 3D-printed gears (wear fast, mesh poorly) or LEGO (bulkier,
 
 ---
 
-###### **1.4 Steering — Why Ackermann**
+###### **1.4 Steering — Ackermann**
 
 Last year we used parallel steering, which scrubbed tires through corners since both wheels turned on the same radius. Switched to Ackermann so each wheel turns its own correct radius.
 
