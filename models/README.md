@@ -206,12 +206,12 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
     </td>
   </tr>
   <tr>
-    <td align="center" colspan="2">
+    <td align="center">
       <strong>Axles</strong><br>
       <img width="380" alt="Rear Axle" src="https://github.com/user-attachments/assets/7a0faa52-7937-44b5-be4f-8524e1fc855d" />
     </td>
-    <td align="center" colspan="2">
-      <strong>Axle Supports</strong><br>
+    <td align="center">
+      <strong>Axle Support</strong><br>
       <img width="380" alt="Axle Support" src="https://github.com/user-attachments/assets/1f7bf237-cc1a-4aed-9857-74ee0228efb3" />
     </td>
   </tr>
