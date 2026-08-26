@@ -56,7 +56,7 @@ This section covers how our robot moves: the chassis structure, drivetrain, stee
 The robot was sized to fit all electrical components while keeping the robot compact.
 <img width="650" alt="Camera Dimensions Image" src="https://github.com/user-attachments/assets/df89dbee-9f2c-427c-88de-a55c871200e3"/>
 
-[Why We Chose These Dimensions](models/README.md#1-basic-design-choices)
+[Why We Chose These Dimensions](models/README.md#11-dimensions)
 
 ---
 
@@ -70,7 +70,7 @@ For our drive system, we use a 12V DC Geared Motor. This motor has a built in en
 
 The motor's integrated encoder gives us speed and distance feedback, which we use for autonomous control.
 
-[More on Motor & Driver Choice](electrical#1-motor--drive-system)
+[More on Motor Choice](electrical#1-motor--drive-system)
 
 ---
 
@@ -91,7 +91,7 @@ With a wheelbase of 7.18" and a front track width of 3.00", we calculated the re
 
 This gives a target steering angle of ~12° at full lock to achieve true 100% Ackermann geometry.
 
-[Why We Chose Ackermann](models/README.md#1-basic-design-choices)
+[Why We Chose Ackermann](models/README.md#14-steering--ackermann)
 
 ---
 
@@ -107,17 +107,17 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 </div>
 
-[More Pictures and Info Here](models/README.md#2-the-build)
+[More Pictures and Info Here](models/README.md#21-chassis)
 
 ---
 
 ### 5) Wheels & Differential
 
 - **Wheels:** LEGO SPIKE Prime wheels — compact, consistent grip, and lightweight.
-[Why We Chose These Wheels](models/README.md#1-basic-design-choices)
+[Why We Chose These Wheels](models/README.md#12-wheel-choice)
 
 - **Differential:** Rear metal differential, allowing both drive wheels to rotate at different speeds while cornering. This reduces mechanical stress and improves stability through turns.
-[Why We Chose This Differential](models/README.md#1-basic-design-choices)
+[Why We Chose This Differential](models/README.md#13-differential)
 
 ---
 ## Power & Sensor Architecture
@@ -590,7 +590,7 @@ This repository documents the design, build, and code for our WRO robot — incl
 
 Step-by-step mechanical assembly instructions, 3D models, and CAD files.
 
-➡️ [Go to Models README](models)
+[Go to Models](models/README.md#2-the-assembly)
 
 ---
 
@@ -598,7 +598,7 @@ Step-by-step mechanical assembly instructions, 3D models, and CAD files.
 
 Schematics, PCB layout files, and wiring instructions for our custom PCB.
 
-➡️ [Go to Electronics README](./electronics/README.md)
+[Go to Electrical](./electronics/README.md)
 
 ---
 ### Setting Up the Raspberry Pi
@@ -627,4 +627,4 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
 
-➡️ [Go to Engineering Journal](./docs/engineering-journal.md)
+[Go to Engineering Journal](./docs/engineering-journal.md)
