@@ -533,6 +533,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - We redesigned the power system around a switching (buck) converter, which achieves 85 to 95% efficiency instead of ~39%, dramatically cutting generated heat for the same output current
 
 **PCB 1**
+
 <img width="700" alt="PCB1 Labled" src="https://github.com/user-attachments/assets/3ba568ac-9926-49b1-bb8d-95997c263cd1" />
 
 
