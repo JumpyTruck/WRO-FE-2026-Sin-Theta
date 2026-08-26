@@ -127,6 +127,10 @@ This is our PCB and how it works:
 - A Raspberry Pi 4B handles high-level perception and decision-making, using a single camera to read the environment and plan the robot's next move
 - The Pi and Nano communicate over a serial connection, so the perception/decision code and the motor control code can be developed and updated independently
 
+**Here is our Electrical Architecture**
+
+<img width="650"  alt="SinTheta Electrical Flowchart" src="https://github.com/user-attachments/assets/05fc0979-4110-477c-97cc-d02f72b26311" />
+
 ---
 
 ### 1. Battery
