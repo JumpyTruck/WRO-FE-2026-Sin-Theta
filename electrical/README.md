@@ -9,11 +9,10 @@ This section explains the design and integration of our robot's electrical syste
 ###### **1.1 DC Motor Selection**
 
 - We use a **12V 37D metal gearmotor with an 11PPR encoder**, running at **510 RPM**
-- We required 300 to 500 RPM at the motor, which, combined with our 56 mm diameter wheels (approximately 175.93 mm circumference), gives a theoretical wheel speed of roughly **0.88 to 1.47 m/s**, fast enough for the course without making acceleration, braking, and precise positioning difficult
-- We also required a minimum torque of **≥1.5 to 2.0 kg·cm** to overcome the robot's weight, rolling resistance, and drivetrain friction while leaving margin for acceleration, without running the motor near its stall torque, which causes excess current draw and heat
-- The built in encoder lets the controller measure actual wheel rotation in ticks rather than relying on time based movement, which drifts with battery voltage, friction, load, and surface conditions
-- Its metal gearbox reduces the motor's raw speed into usable torque
-- Its compact 37D form factor and 56 mm by 14 mm wheel compatibility fit our chassis (max 300 by 200 by 300 mm) alongside the battery, PCB, sensors, and steering system
+- We required 300 to 500 RPM at the motor, which with our 56 mm wheels (approximately 175.93 mm circumference) gives a theoretical speed of roughly **0.88 to 1.47 m/s**, fast enough without making acceleration, braking, and precise positioning difficult
+- We also required a minimum torque of **≥1.5 to 2.0 kg·cm** to overcome the robot's weight and drivetrain friction with margin for acceleration, without running near stall torque, which causes excess current draw and heat
+- The built in encoder measures actual wheel rotation in ticks rather than relying on time based movement, which drifts with voltage, friction, load, and surface conditions
+- Its metal gearbox converts raw speed into usable torque, and its compact 37D form factor fits our chassis (max 300 by 200 by 300 mm) alongside the battery, PCB, sensors, and steering system
 
 At 12.8 V, the motor draws **0.40 A normal / 1.00 A peak (5.12 W)**.
 
@@ -92,7 +91,6 @@ Output is **0.8 A normal / 1.5 A peak (4.0 W)**.
 
 - The **Raspberry Pi Camera Module 3 Wide** was chosen for its wider field of view, giving the robot better line and object detection coverage during autonomous navigation
 - It is also our **only sensor**
-- With the PiCam alone, our processing cycle takes approximately 150ms, but adding Time of Flight or ultrasonic sensors increased this to approximately 600ms, roughly a **4x slowdown**
 - Since the robot needs to continuously process camera data and issue movement corrections while driving, that added latency would make the robot react more slowly and reduce navigation accuracy
 - Because the PiCam already provides the visual information our computer vision algorithm needs from a single image, we prioritized processing speed and responsiveness over adding redundant distance sensors
 
