@@ -564,6 +564,10 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - Wide voltage range (4.8 to 8.4V) with a coreless motor: running at higher voltage increases torque and speed without redesigning the control signal path, and a coreless motor is faster and more efficient than a brushed motor of the same size
 - The UBEC gives the servo its own regulated rail, solving the power sharing and brownout issue, is adjustable to exactly 8.4V to match the servo's max rating, is rated for 8A continuous against the servo's 3.0 to 5.0A peak draw, and safely accepts our 12.8V (4S) input well within its 2 to 8S range
 
+**PCB Final Version with Implemented Changed**
+
+<img width="750" alt="Final PCB Labeled" src="https://github.com/user-attachments/assets/91913f3f-8f83-4f09-9dc7-5200de732312" />
+
 ---
 
 #### VM Pin Wiring Issue
