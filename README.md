@@ -448,6 +448,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 #### Skipped extra distance and gyro sensors
 - Decided against adding more sensors (e.g. distance sensors) beyond what was essential
 - Reason 1 (software): more sensors = more data to read, process, and fuse every loop cycle → slows down the control loop
+  - With only the PiCam 3 Wide, our processing cycle takes approximately 150 ms. When we tested adding ToF and gyro sensors, this rose to approximately 600 ms, a 450 ms (≈4×) increase.
 - Reason 2 (real-world/practical): more sensors also means more wiring, more points of failure, and more calibration to maintain — in a competition setting, every extra wire is a chance for a connector to come loose or a sensor to drift out of calibration between runs, which costs more reliability than the extra data is worth
 - Kept the sensor suite minimal and let the camera do most of the heavy lifting (also a learning opportunity to challenge ourselfs with only using the camera) 
 
