@@ -445,23 +445,23 @@ Building this robot meant constantly balancing the needs of four interconnected 
   - Each board does one job well instead of one board doing two jobs poorly
 - Net result: faster code overall, cleaner separation of responsibilities, easier debugging when something goes wrong (you know which board to check)
 
-#### Skipped extra distance/proximity sensors
+#### Skipped extra distance and gyro sensors
 - Decided against adding more sensors (e.g. distance sensors) beyond what was essential
 - Reason 1 (software): more sensors = more data to read, process, and fuse every loop cycle → slows down the control loop
 - Reason 2 (real-world/practical): more sensors also means more wiring, more points of failure, and more calibration to maintain — in a competition setting, every extra wire is a chance for a connector to come loose or a sensor to drift out of calibration between runs, which costs more reliability than the extra data is worth
-- Kept the sensor suite minimal and let the camera do most of the heavy lifting
+- Kept the sensor suite minimal and let the camera do most of the heavy lifting (also a learning opportunity to challenge ourselfs with only using the camera) 
 
 #### Fixed speed instead of variable speed
 - Tested variable speed (slowing near obstacles, full speed in open path)
 - Found variable speed introduced **inconsistency** — behavior varied run to run depending on exactly when/where the speed transition kicked in
-- Since our focus (without the parking segment) is on **consistency and accuracy** rather than raw lap time, we chose fixed speed instead
+- Since our focus is on **consistency and accuracy** rather than raw lap time, we chose fixed speed instead
 - A predictable, repeatable speed profile made the robot's behavior easier to tune and trust across multiple runs
 
 #### LAB color space instead of HSV
-- Originally considered HSV for color detection (the common choice)
+- Originally considered HSV for color detection
 - Switched to LAB color space instead
 - LAB gave noticeably better detection results and higher accuracy in our testing, especially under our lighting conditions
-- Worth the switch even though HSV is more commonly used — real-world testing outweighed the "default" choice
+- Worth the switch even though HSV is more commonly used
 
 #### Battery placed at the center of the plate
 - Battery is the heaviest single component on the robot
@@ -479,7 +479,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - This meant the drivetrain, motor, and steering assembly had to be packed tightly and deliberately, back to back, just to keep the turning radius manageable for parking maneuvers
 - A rule about *drive type* ended up dictating chassis layout and packaging density
 
-#### Hard weight ceiling of 1.5 kg
+#### Hard weight capping of 1.5 kg
 - Total weight is capped, but weight *distribution* mattered just as much as the total
 - Every gram added anywhere on the robot competes with every other component for that budget
 - This constraint forced trade-offs between convenience (e.g. easy battery access) and performance (e.g. low, centered center of mass) — performance won
