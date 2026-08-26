@@ -456,6 +456,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - Found variable speed introduced **inconsistency** — behavior varied run to run depending on exactly when/where the speed transition kicked in
 - Since our focus is on **consistency and accuracy** rather than raw lap time, we chose fixed speed instead
 - A predictable, repeatable speed profile made the robot's behavior easier to tune and trust across multiple runs
+
 | Speed | Accuracy | Time (without parking) |
 |---|---|---|
 | Fixed Speed | 90% | 52 |
