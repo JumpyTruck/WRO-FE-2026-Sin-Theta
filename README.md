@@ -620,15 +620,15 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 | Category | Component | Price |
 |---|---|---|
-| Processing Controller | Raspberry Pi 4b | |
-| Slave Controller | Arduino Nano | |
-| Vision | Raspberry Pi Camera Module 3 Wide | |
-| Motor | 12V 37D Metal Gearmotor | |
-| Motor Driver | Adafruit DRV8871 | |
-| Servo | 8.4V High-Torque Coreless Servo | |
-| Servo Power Convertor | 8.4V 10A UBEC | |
-| Power Convertor | 5V DC-DC Buck Converter | |
-| Battery Pack | IFR 18650 4S1P 12.8V 2000mAh Li-ion Battery Pack | |
+| Processing Controller | Raspberry Pi 4b | $230.95 [Raspberry Pi Setup Guide](https://www.pishop.ca/product/raspberry-pi-4-model-b-8gb/?src=raspberrypi) |
+| Slave Controller | Arduino Nano | $25.70 |
+| Vision | Raspberry Pi Camera Module 3 Wide | $50.95 |
+| Motor | 12V 37D Metal Gearmotor | $26.88 |
+| Motor Driver | Adafruit DRV8871 | $7.50 |
+| Servo | 8.4V High-Torque Coreless Servo | $17.00 |
+| Servo Power Convertor | 8.4V 10A UBEC | $25.99|
+| Power Convertor | 5V DC-DC Buck Converter | $2.80 |
+| Battery Pack | IFR 18650 4S1P 12.8V 2000mAh Li-ion Battery Pack | $39.99 |
 
 ---
 
