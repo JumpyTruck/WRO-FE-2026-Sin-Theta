@@ -599,15 +599,15 @@ This repository documents the design, build, and code for our WRO robot — incl
 
 Step-by-step mechanical assembly instructions, 3D models, and CAD files.
 
-[Go to Models](models/README.md#2-the-assembly)
+[Go to Assembly](models/README.md#2-the-assembly)
 
 ---
 
 ### How to Wire All Components
 
-Schematics, PCB layout files, and wiring instructions for our electrical architecture.
+Here is a schematic which shows the entire electrical architecture of our robot
 
-[Go to Electrical](./electronics/README.md)
+[Go to Schematic](electrical/Electrical_Schematic.png)
 
 ---
 ### Setting Up the Raspberry Pi
