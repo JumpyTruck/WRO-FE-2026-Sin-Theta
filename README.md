@@ -266,6 +266,7 @@ Every raw frame is turned into a few simpler images that everything else in the 
 </table>
 
 </div>
+
 ---
 
 ### 2) Wall Following
