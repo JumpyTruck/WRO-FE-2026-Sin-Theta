@@ -494,7 +494,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - It also ruled out anything (extra sensors, heavier vision models, etc.) that would add latency without a proportional benefit
 
 ---
-#### Risk and Failures
+### Risk and Failures
 
 ---
 
