@@ -1,6 +1,6 @@
 # Mobility & Mechanical Design
 
-This section explains the design and integration of our robot's mechanical system. It covers how we selected and designed the chassis, wheels, differential, steering, and rear axle. Each component was chosen based on performance, reliability, durability, and the limited space within our chassis. The section also includes a full part-by-part build breakdown. All STL and PNG files are in [this folder](models/CAD%203D%20Printed%20Parts).
+This section explains the design and integration of our robot's mechanical system. It covers how we selected and designed the chassis, steering, differential, wheels, and rear axle. Each component was chosen based on performance, reliability, durability, and the limited space within our chassis. The section also includes a full part-by-part build breakdown. All STL and PNG files are in [this folder](models/CAD%203D%20Printed%20Parts).
 
 ---
 
@@ -15,31 +15,9 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-#### 2. Wheels & Drivetrain
+#### 2. Steering System
 
-###### **2.1 Wheel Choice**
-
-- We use **SPIKE Prime wheels (56mm diameter, 14mm thick)**
-- Best balance of grip, clearance, and compactness — going bigger hurts turning, going smaller loses ground clearance
-
-<img width="300" alt="Spike Wheels" src="https://github.com/user-attachments/assets/c58cb594-1c2b-4eea-ad30-3101f6c1c34f" />
-
----
-
-###### **2.2 Differential**
-
-- We use a **metal differential** over 3D-printed gears or LEGO
-- 3D-printed gears wear fast and mesh poorly under repeated cornering load
-- LEGO gearing is bulkier and raises the chassis's centre of gravity
-- The metal differential meshes smoother, lasts longer, and sits lower in the chassis
-
-<img width="300" alt="metal diff" src="https://github.com/user-attachments/assets/f853ef5c-e624-475d-b8e8-77dcb57b81c6" />
-
----
-
-#### 3. Steering System
-
-###### **3.1 Why Ackermann**
+###### **2.1 Ackermann**
 
 - Last year we used **parallel steering**, which scrubbed tires through corners since both wheels turned on the same radius
 - We switched to **Ackermann steering** so each wheel turns its own correct radius through a corner
@@ -61,7 +39,7 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-###### **3.2 Steering Assembly**
+###### **2.2 Steering Assembly**
 
 - **Steering holder:** everything mounts here, servo inverted to line up with the knuckles
 - **Steering arm:** fixed at a **~12° Ackermann angle**, with nylon spacers to cut friction
@@ -102,9 +80,33 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-#### 4. Rear Axle Assembly
+#### 3. Differential
 
-###### **4.1 Components**
+###### **3.1 Why Metal**
+
+- We use a **metal differential** over 3D-printed gears or LEGO
+- 3D-printed gears wear fast and mesh poorly under repeated cornering load
+- LEGO gearing is bulkier and raises the chassis's centre of gravity
+- The metal differential meshes smoother, lasts longer, and sits lower in the chassis
+
+<img width="300" alt="metal diff" src="https://github.com/user-attachments/assets/f853ef5c-e624-475d-b8e8-77dcb57b81c6" />
+
+---
+
+#### 4. Wheels
+
+###### **4.1 Wheel Choice**
+
+- We use **SPIKE Prime wheels (56mm diameter, 14mm thick)**
+- Best balance of grip, clearance, and compactness — going bigger hurts turning, going smaller loses ground clearance
+
+<img width="300" alt="Spike Wheels" src="https://github.com/user-attachments/assets/c58cb594-1c2b-4eea-ad30-3101f6c1c34f" />
+
+---
+
+#### 5. Rear Axle Assembly
+
+###### **5.1 Components**
 
 - **Motor adapter:** matches the motor's D-shaft to the differential's square input
 - **Gear holder:** connects to the differential to hold it in place
@@ -137,7 +139,7 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-###### **4.2 Full Assembly**
+###### **5.2 Full Assembly**
 
 <table>
   <tr>
@@ -150,9 +152,9 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-#### 5. Chassis Build — Plates
+#### 6. Chassis Build — Plates
 
-###### **5.1 Base Plate**
+###### **6.1 Base Plate**
 
 - **Steering holder:** trapezoid front section, 4 holes, servo cutout
 - **Battery holder:** front-mounted, low, counterbalances the rear motor
@@ -176,7 +178,7 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-###### **5.2 Motor Mount — Top Half**
+###### **6.2 Motor Mount — Top Half**
 
 - Clamps over the motor and bolts into the lower half
 
@@ -197,7 +199,7 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-###### **5.3 Second Story — PCB Holder**
+###### **6.3 Second Story — PCB Holder**
 
 - Holds our custom PCB
 - Main rectangle seats the PCB; a second smaller cutout houses the servo regulator (also fits our old PCB as a backup)
@@ -219,7 +221,7 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-###### **5.4 Third Story — Pi Holder**
+###### **6.4 Third Story — Pi Holder**
 
 - Holds the Raspberry Pi
 - Partial wraparound wall with open sides for cables
@@ -242,7 +244,7 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-###### **5.5 Camera Mount**
+###### **6.5 Camera Mount**
 
 - Sits atop the stand and holds the camera
 - Standalone piece, so the angle adjusts without touching the stand or top plate
@@ -268,7 +270,7 @@ This section explains the design and integration of our robot's mechanical syste
 
 ---
 
-#### 6. Final Mechanical Integration
+#### 7. Final Mechanical Integration
 
 All components are integrated into the final chassis as a compact, three-story modular platform. The base plate carries the drivetrain, steering, and battery; the second story carries the custom PCB; the third story carries the Raspberry Pi and camera assembly.
 
