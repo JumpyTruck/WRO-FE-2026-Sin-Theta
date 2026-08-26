@@ -602,9 +602,9 @@ Step-by-step mechanical assembly instructions, 3D models, and CAD files.
 
 ---
 
-### How to Build the Custom PCB
+### How to Wire All Components
 
-Schematics, PCB layout files, and wiring instructions for our custom PCB.
+Schematics, PCB layout files, and wiring instructions for our electrical architecture.
 
 [Go to Electrical](./electronics/README.md)
 
