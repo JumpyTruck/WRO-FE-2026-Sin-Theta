@@ -51,7 +51,7 @@ Last year we used parallel steering, which scrubbed tires through corners since 
 
 ---
 
-#### 2. The Build
+#### 2. The Assembly
 
 ###### **2.1 Chassis**
 
