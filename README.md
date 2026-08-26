@@ -129,7 +129,7 @@ This is our PCB and how it works:
 
 **Here is our Electrical Architecture**
 
-<img width="800"  alt="SinTheta Electrical Flowchart" src="https://github.com/user-attachments/assets/05fc0979-4110-477c-97cc-d02f72b26311" />
+<img width="1000"  alt="SinTheta Electrical Flowchart" src="https://github.com/user-attachments/assets/05fc0979-4110-477c-97cc-d02f72b26311" />
 
 ---
 
