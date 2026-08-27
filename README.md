@@ -192,11 +192,8 @@ This is our PCB and how it works:
 
 ### 6. Servo
 
-- 12V 37D metal gear motor: the robot's drivetrain motor, driven through the DRV8871 and commanded by the Nano's PWM output
-- 9g coreless servo (full metal gear, 4 KG·cm torque): the steering actuator, powered by the dedicated UBEC and commanded directly by the Nano
-- Motor Encoder Port: routes the drive motor's encoder signal back to the Nano so it can measure actual speed/distance and correct for it, powered from the 5V buck converter rail
-- Servo Port: a dedicated 3-wire connector (power, ground, PWM) that keeps the UBEC's power and the Nano's control signal cleanly routed to the servo
-- M1/M2 Motor Output Ports: carry the DRV8871's high-current outputs straight from the battery rail to the motor, bypassing the 5V logic electronics entirely
+- 9g coreless servo (full metal gear, 4 KG·cm torque, 4.8–8.4V): the steering actuator, powered by the dedicated UBEC at 8.4V and commanded directly by the Nano's PWM output
+- Servo Port: a dedicated 3-wire connector (power, ground, PWM) that keeps the UBEC's power and the Nano's control signal cleanly routed to the servo, isolated from the rest of the board's electronics
 
 [More Info on Servo](electrical#21-steering-servo)
 
