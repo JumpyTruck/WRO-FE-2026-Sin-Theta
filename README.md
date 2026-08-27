@@ -582,6 +582,8 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - The Pi, servo, and Nano all expected a regulated 5V (or their own rated) supply, and receiving 12.8V directly overloaded the DRV8871, causing it to blow up
 - This taught us that the VM pin is a motor power input, not a general purpose output, and logic level components or the servo should never draw from it directly, each needs its own properly regulated supply
 
+<img width="400"  alt="Motor_driver_burning_up-removebg-preview" src="https://github.com/user-attachments/assets/3d607fb7-afc2-4f19-91b2-1d7671d1b248" />
+
 ---
 
 #### Iterations
