@@ -434,11 +434,11 @@ final_angle = pillar_angle if pillar_angle is not None else wall_angle
 
 ### Open Course
 
-[Open-course flowchart]
+<img width="1000" alt="open_challenge_flowchart" src="https://github.com/user-attachments/assets/cf68f521-608a-4413-8ec1-ed3df070493a" />
 
 ### Obstacle Course
 
-<img width="1000" alt="Obstacle Flowchart" src="https://github.com/user-attachments/assets/c1e98583-360a-493a-97bb-4f39abc578ab" />
+<img width="1000" alt="obstacle_challenge_flowchart" src="https://github.com/user-attachments/assets/f9ecee20-1275-4063-8bc4-4ed42df223a9" />
 
 ---
 ## Systems Thinking & Engineering Decisions
