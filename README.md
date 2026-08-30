@@ -15,6 +15,8 @@ Hello! This is our second year competing in WRO Future Engineers. Last year, two
   </tr>
 </table>
 
+(Aarav Daudia, Harshad Mahajan, Rajas Salunke)
+
 ---
 
 ## Performance Videos
