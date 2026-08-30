@@ -22,8 +22,9 @@ Hello! This is our second year competing in WRO Future Engineers. Last year, two
 ## Performance Videos
 
 ### Open Challenge
-
+https://youtu.be/c_hOybq6sdY
 ### Obstacle Challenge
+https://youtu.be/TrZud6jrQio 
 
 ---
 
