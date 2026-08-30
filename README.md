@@ -4,7 +4,15 @@
 Hello! This is our second year competing in WRO Future Engineers. Last year, two of us competed together on Team VHR Motors, and one of us was on Team The Robertos. This year we've come together to form Team Sinθ!
 
 ## The Team
-
+<table>
+  <tr>
+    <td>
+      <img width="400" alt="IMG_2625" src="https://github.com/user-attachments/assets/32d4ea75-2add-4411-ab06-82e23b420a01" />
+    /td>
+    <td>
+      <img width="400" alt="IMG_2625" src="https://github.com/user-attachments/assets/5d9f9a7b-6e76-4654-8730-91bf749c91fd" />
+    </td>
+  </tr>
 ## Performance Videos
 
 ### Open Challenge
