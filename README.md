@@ -8,12 +8,13 @@ Hello! This is our second year competing in WRO Future Engineers. Last year, two
   <tr>
     <td>
       <img width="400" alt="IMG_2625" src="https://github.com/user-attachments/assets/32d4ea75-2add-4411-ab06-82e23b420a01" />
-    /td>
+    </td>
     <td>
       <img width="400" alt="IMG_2626" src="https://github.com/user-attachments/assets/bf99cf43-8f0f-435f-9033-f25f51c2e1aa" />
     </td>
   </tr>
 </table>
+
 ---
 
 ## Performance Videos
