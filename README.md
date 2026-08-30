@@ -1,4 +1,4 @@
-# WRO-FE-2026-Sinθ 
+<img width="4032" height="3024" alt="IMG_2626 (1)" src="https://github.com/user-attachments/assets/f61c1a10-dc71-4d1d-8675-89f7f0b435a8" /># WRO-FE-2026-Sinθ 
 
 ## Introduction
 Hello! This is our second year competing in WRO Future Engineers. Last year, two of us competed together on Team VHR Motors, and one of us was on Team The Robertos. This year we've come together to form Team Sinθ!
@@ -10,14 +10,18 @@ Hello! This is our second year competing in WRO Future Engineers. Last year, two
       <img width="400" alt="IMG_2625" src="https://github.com/user-attachments/assets/32d4ea75-2add-4411-ab06-82e23b420a01" />
     /td>
     <td>
-      <img width="400" alt="IMG_2625" src="https://github.com/user-attachments/assets/5d9f9a7b-6e76-4654-8730-91bf749c91fd" />
+      <img width="400" alt="IMG_2626" src="https://github.com/user-attachments/assets/bf99cf43-8f0f-435f-9033-f25f51c2e1aa" />
     </td>
   </tr>
+---
+  
 ## Performance Videos
 
 ### Open Challenge
 
 ### Obstacle Challenge
+
+---
 
 ## The Robot
 
