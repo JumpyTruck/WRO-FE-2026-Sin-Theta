@@ -146,7 +146,8 @@ This is our PCB and how it works:
 
 **Here is our Electrical Architecture**
 
-<img width="1000"  alt="Sin Theta Electrical Flowchart" src="https://github.com/user-attachments/assets/c0ca1881-e3d9-4d92-8d50-80c13f9feb66" />
+<img width="1000" alt="Electrical power flowchart V2" src="https://github.com/user-attachments/assets/ea5426fe-756d-4f43-b73f-72862dd776ef" />
+
 
 
 ---
