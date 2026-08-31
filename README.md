@@ -645,8 +645,8 @@ For installing dependencies, setting up a virtual environment, and getting the P
 | Servo Power Convertor | [8.4V 10A UBEC](https://www.amazon.ca/dp/B0CN3429PF?ref=cm_sw_r_cso_cp_apan_dp_HCEG458FH8NZZRDGSBJ8&ref_=cm_sw_r_cso_cp_apan_dp_HCEG458FH8NZZRDGSBJ8&social_share=cm_sw_r_cso_cp_apan_dp_HCEG458FH8NZZRDGSBJ8)  | $25.99|
 | Power Convertor | [5V DC-DC Buck Converter](https://www.amazon.ca/MECCANIXITY-Converter-Regulator-Adjustment-Transformers/dp/B0DY12RRXR/ref=sr_1_13?dib=eyJ2IjoiMSJ9.3sWfhjIcc1hoJKPByHKjQzfCH0S0_tXvBwEmbrq57EEsfzixvilVTwhsCveKQSBaNZqgyQJTxCo5C9yerE1r5elG9u093WkifXW83a9RlNllLggT_F8Z9E8w-55ohEAbu9P5b_MA-sca0QRabGxf0B3XgP79bZBKm38Gu3GT9zsq_GJRk7swHEtNhVmSDtl1z0zSfFW6qcEwORIHBxjltqSy6EQhqgG8c1gbn0PrSmKLIdnZKwbrqg4lifURV7BEdmNg6BltoxBZiHJi5o6krPBpBiZGUqTkTp3suYNkd34.8sCd033aO_QgAAnLNCuCS9cYF853a2honx0sxnwS6qI&dib_tag=se&gad_source=1&hvadid=788539018764&hvdev=c&hvexpln=0&hvlocphy=9000820&hvnetw=g&hvocijid=2954761463201213509--&hvqmt=e&hvrand=2954761463201213509&hvtargid=kwd-297985746855&hydadcr=19993_13722699&keywords=5v%2Bbuck%2Bconverter&mcid=677e0020ddd137299ce8ef2104e81969&qid=1787718756&sr=8-13&th=1)  | $2.80 |
 | Battery Pack | [IFR 18650 4S1P 12.8V 2000mAh Li-ion Battery Pack](https://www.amazon.ca/Battery-Replacement-Lefant-Cleaner-2000mAh/dp/B0CL6585ZC/ref=sr_1_5?dib=eyJ2IjoiMSJ9.SyMUzHywkEVCptQq-mRIHfSf8YODd7PT5qicZbkRvGkel4nui-2hUdoZqrSH2-Zg17dbDlhRv5AB_zAuHtgyrzlJff1rf74M_6iRWl3iBaH9hPumUNG2gIkGsc9oZuIgAan1QyNRIsoufm4hMOtxGpHcC58JeiRSkELtAhjaautnqIAG6mO5tPzg7rmIN2leTVUsgBJeTlMSrjbJ06ujqQYKz--dNW7OIStqvioBo50CPfBT-kJfm-fAKW7yZRYfnIWRfssIQkMkkOF8qTZ0laFYgKgo-625IfnI-RyRlLc.JaSQjkbTQY3CrOOxz3OXUhFG_bn0ri3AIUVQ7Kztyvk&dib_tag=se&gad_source=1&hvadid=788660666612&hvdev=c&hvexpln=0&hvlocphy=9000820&hvnetw=g&hvocijid=3661388621925926758--&hvqmt=e&hvrand=3661388621925926758&hvtargid=kwd-302656658098&hydadcr=1497_13820500&keywords=18650%2B4s1p&mcid=e55eb9c816e53de09557bb72239e94db&qid=1773772443&sr=8-5&th=1)  | $39.99 |
-| 3D Printed Parts | [Parts/Models](models) | $5.00 |
-| Total Cost|  | $432.76 |
+| 3D Printed Parts | [Parts/Models](models) | $5.11 |
+| Total Cost|  | $432.87 |
 
 ---
 
