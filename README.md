@@ -715,6 +715,92 @@ Here is a schematic which shows the entire electrical architecture of our robot
 For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](code/md/raspberrypi_setup.md)
 
 ---
+---
+
+## Safety Measures & Reliability
+
+### Hardware Safeguards
+
+#### 1. **Power Distribution & Protection**
+- **Battery Isolation:** The battery pack is mechanically isolated in a dedicated compartment to prevent cells from shifting during impacts
+- **Voltage Regulation:** Dual independent power rails (12.8V for motor/driver, 5V for logic) prevent servo current spikes from causing brownout elsewhere
+
+#### 2. **Mechanical Protection**
+- **Modular Design:** The three-layer chassis allows quick replacement of any damaged section without rewiring the entire system
+- **Cable Management:** Shielded connectors and routed wiring prevent accidental disconnects during impacts
+
+#### 3. **Thermal Management**
+- **Heat Sinks:** Aluminum heat sinks on the DRV8871 motor driver and 5V buck converter dissipate heat under sustained load
+- **Component Selection:** We chose high-efficiency buck converter (85–95%) over linear regulator (39%) specifically to eliminate thermal shutdown risk
+- **Tested Runtime:** Validated that the robot runs cooler under competition conditions than during extended testing
+
+#### 4. **Monitoring & Diagnostics**
+- **LED Status Indicator:** Visual feedback shows when the robot is ready, running, or in error state
+- **Serial Debugging:** Real-time debug output over USB allows live monitoring of voltages, currents, and sensor readings during testing
+
+---
+
+### Software Safeguards
+
+#### 1. **Watchdog & Timeout Protection**
+- **Heartbeat Check:** If the Pi stops sending commands to the Nano for XX ms, the Nano defaults to safe stop
+- **Encoder Validation:** Motor movement is verified via encoder feedback; if it doesn't match expected displacement, a fault is logged
+
+#### 2. **Crash Detection & Recovery**
+- **Wall Proximity Checks:** Continuous scanning of inner/outer walls prevents the robot from driving directly into barriers
+- **Speed Limiting:** Motor is capped at fixed speed to ensure the robot can always react to obstacles within the ~150ms vision cycle
+
+#### 3. **Emergency Abort**
+- **Manual Override:** Pressing the start button again stops the robot mid-run
+- **Timeout Exit:** If the robot runs for longer than expected (>120s), it automatically stops to prevent runaway behavior
+
+---
+
+### Testing & Validation for Reliability
+
+#### 1. **Stress Testing**
+- **Battery Discharge Cycle:** Ran 15 consecutive laps to validate that the robot maintains performance throughout battery depletion
+- **Thermal Testing:** Extended runs in warm environments confirmed no thermal shutdown occurs
+- **Mechanical Stress:** Tested full-lock steering turns and obstacle impacts to verify no mechanical failures
+
+#### 2. **Environmental Testing**
+- **Lighting Conditions:** Validated color detection under fluorescent, LED, and natural lighting to ensure consistent lane/obstacle identification
+- **Surface Friction:** Tested on smooth and textured mat surfaces to confirm steering response is predictable
+- **Electrical Noise:** Verified that WiFi interference or electromagnetic noise doesn't affect motor or servo control
+
+#### 3. **Redundancy & Fallback**
+- **Dual PCB Design:** A second PCB is available as a drop-in replacement if the primary fails
+- **Encoder Fallback:** If the stepper/motor feedback becomes unreliable, fixed-time movements provide a basic fallback
+- **Camera Recalibration:** Color detection parameters can be re-tuned on-field in under 5 minutes without requiring hardware changes
+
+---
+
+### Competition-Day Safety Checklist
+
+- [ ] Battery fully charged (12.8V nominal, >12.0V at start)
+- [ ] Servo is turned on
+- [ ] All connectors seated and no loose wiring
+- [ ] All 3D-printed parts checked for cracks
+- [ ] Wheels spin freely; differential has no binding
+- [ ] Steering servo moves smoothly across full range
+- [ ] Camera lens is clean; focus is sharp
+- [ ] All LEDs illuminate on power-up
+- [ ] Test run on practice mat: all systems responsive
+- [ ] Backup servo and PCB in pit area
+
+---
+
+### Known Limitations & Mitigation
+
+| Issue | Mitigation |
+|-------|-----------|
+| Battery voltage drop under heavy load | Chosen 2000mAh pack with low internal resistance; validated runtime before competition |
+| Servo stalling under steering load | High-torque (4 KG·cm) servo with dedicated UBEC prevents brownout; tested extensively |
+| Color detection inconsistency | Implemented LAB color space (vs. HSV) for robustness; tuned thresholds on-field if needed |
+| Motor encoder drift | PD controller with derivative smoothing reduces noise; timeout fallback if encoder fails |
+
+---
+---
 
 ### Parts List
 
