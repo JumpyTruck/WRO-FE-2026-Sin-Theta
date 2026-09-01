@@ -26,6 +26,7 @@ Hello! This is our second year competing in WRO Future Engineers. Last year, two
 3. [Performance Videos](#performance-videos)
 4. [The Robot](#the-robot)
 5. [Mobility & Mechanical Design](#mobility--mechanical-design)
+   - [Design Decisions Summary](#design-decisions-summary)
    - [Robot Dimensions & Weight](#1-robot-dimensions--weight)
    - [Drive System](#2-drive-system)
    - [Steering System](#3-steering-system)
@@ -52,17 +53,26 @@ Hello! This is our second year competing in WRO Future Engineers. Last year, two
    - [The State Machine](#7-the-state-machine)
    - [Arbitration](#8-arbitration)
    - [Autonomous Navigation Flowcharts](#autonomous-navigation-flowcharts)
-8. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
+8. [Performance & Validation](#performance--validation)
+   - [Benchmark Results](#benchmark-results)
+   - [Validation Tests](#validation-tests)
+9. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
    - [Trade-offs](#trade-offs)
    - [Constraints](#constraints)
    - [Risk and Failures](#risk-and-failures)
    - [Iterations](#iterations)
-9. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
-   - [How to Assemble the Robot](#how-to-assemble-the-robot)
-   - [How to Wire All Components](#how-to-wire-all-components)
-   - [Setting Up the Raspberry Pi](#setting-up-the-raspberry-pi)
-   - [Parts List](#parts-list)
-   - [Engineering Journal](#engineering-journal)
+10. [Safety Measures & Reliability](#safety-measures--reliability)
+    - [Hardware Safeguards](#hardware-safeguards)
+    - [Software Safeguards](#software-safeguards)
+    - [Testing & Validation for Reliability](#testing--validation-for-reliability)
+    - [Competition-Day Safety Checklist](#competition-day-safety-checklist)
+    - [Known Limitations & Mitigation](#known-limitations--mitigation)
+11. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
+    - [How to Assemble the Robot](#how-to-assemble-the-robot)
+    - [How to Wire All Components](#how-to-wire-all-components)
+    - [Setting Up the Raspberry Pi](#setting-up-the-raspberry-pi)
+    - [Parts List](#parts-list)
+    - [Engineering Journal](#engineering-journal)
 
 ---
 
@@ -799,7 +809,6 @@ For installing dependencies, setting up a virtual environment, and getting the P
 | Color detection inconsistency | Implemented LAB color space (vs. HSV) for robustness; tuned thresholds on-field if needed |
 | Motor encoder drift | PD controller with derivative smoothing reduces noise; timeout fallback if encoder fails |
 
----
 ---
 
 ### Parts List
