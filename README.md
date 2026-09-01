@@ -762,7 +762,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 ### Software Safeguards
 
 #### 1. **Watchdog & Timeout Protection**
-- **Heartbeat Check:** If the Pi stops sending commands to the Nano for XX ms, the Nano defaults to safe stop
+- **Heartbeat Check:** If the Pi stops sending commands to the Nano for 100ms, the Nano defaults to safe stop
 - **Encoder Validation:** Motor movement is verified via encoder feedback; if it doesn't match expected displacement, a fault is logged
 
 #### 2. **Crash Detection & Recovery**
