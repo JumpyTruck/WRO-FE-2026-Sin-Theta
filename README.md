@@ -41,6 +41,7 @@ This repository contains everything needed to understand, build, and improve upo
    - [Steering System](#3-steering-system)
    - [Chassis Assembly](#4-chassis-assembly)
    - [Wheels & Differential](#5-wheels--differential)
+   - [Mechanical Testing & Validation](#mechanical-testing--validation)
 6. [Power & Sensor Architecture](#power--sensor-architecture)
    - [Battery](#1-battery)
    - [5V Buck Converter](#2-5v-buck-converter)
@@ -49,6 +50,7 @@ This repository contains everything needed to understand, build, and improve upo
    - [Motor Driver (DRV8871)](#5-motor-driver-drv8871)
    - [Servo](#6-servo)
    - [Raspberry Pi 4B + Camera](#7-raspberry-pi-4b--camera)
+   - [Camera Calibration & Placement](#camera-calibration--placement)
    - [Full Power Budget](#8-full-power-budget)
    - [Bringing It All Together](#bringing-it-all-together)
 7. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
@@ -62,6 +64,8 @@ This repository contains everything needed to understand, build, and improve upo
    - [The State Machine](#7-the-state-machine)
    - [Arbitration](#8-arbitration)
    - [Autonomous Navigation Flowcharts](#autonomous-navigation-flowcharts)
+   - [Edge Case Handling & Robustness](#edge-case-handling--robustness)
+   - [Testing & Tuning Evidence](#testing--tuning-evidence)
 8. [Performance & Validation](#performance--validation)
    - [Benchmark Results](#benchmark-results)
    - [Validation Tests](#validation-tests)
@@ -77,11 +81,8 @@ This repository contains everything needed to understand, build, and improve upo
     - [Competition-Day Safety Checklist](#competition-day-safety-checklist)
     - [Known Limitations & Mitigation](#known-limitations--mitigation)
 11. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
-    - [How to Assemble the Robot](#how-to-assemble-the-robot)
-    - [How to Wire All Components](#how-to-wire-all-components)
-    - [Setting Up the Raspberry Pi](#setting-up-the-raspberry-pi)
     - [Parts List](#parts-list)
-    - [Engineering Journal](#engineering-journal)
+    - [How to Rebuild This Robot](#how-to-rebuild-this-robot)
 
 ---
 
