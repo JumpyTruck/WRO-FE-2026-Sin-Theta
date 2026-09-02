@@ -338,9 +338,8 @@ This is our PCB and how it works:
 [More Info on Camera](electrical#51-main-controller-raspberry-pi-4b)
 
 ---
-### Camera Calibration & Placement
+### Camera Placement Rationale
 
-#### Camera Placement Rationale
 - **Height**: Mounted 155° down-angle on 3D-printed stand (top plate)
   - Why: Gives clear view of both near lane markers and distant obstacles
   - Tested angles: 135°, 145°, 155°, 165° — 155° gave best FOV coverage
@@ -349,34 +348,7 @@ This is our PCB and how it works:
 - **Horizontal Position**: Centered (same x-axis as robot centerline)
   - Why: Simplifies image processing — no need for left/right offset compensation
   - Validated: Lane marker detection is symmetric; no bias left/right
-
-#### Camera Calibration Process
-1. **Lens Distortion Correction** (OpenCV undistort)
-   - Captured 20 calibration images of checkerboard pattern
-   - Computed camera matrix and distortion coefficients
-   - Applied to all frames before processing
-   - Switched to raw picture capturing in order to maximize FOV.
-
-2. **White Balance Tuning**
-   - Tested under fluorescent, LED, and natural lighting
-   - Set Pi Camera 3 auto-white-balance to "tungsten" (most consistent)
-   - Result: Color detection accuracy improved from 82% to 97%
-
-3. **Exposure Lock**
-   - Disabled auto-exposure after 10 warm-up frames
-   - Prevents flicker when passing under overhead lights or shadows
-   - Exposure time: 3.5ms (constant throughout run)
-
-4. **FOV Coverage Validation**
-   - Lane markers visible from 8cm away (bottom of frame) to 150cm ahead (top)
-   - Obstacle detection range: 20cm to 120cm (handles all typical scenarios)
-   - Tested with obstacles at 10, 20, 30, 50, 80, 100cm — all detected reliably
-
-#### Sensor-Only Design Trade-off
-- **Original plan**: Add ToF distance sensor + IMU gyro
-  - Tested: Processing latency jumped from 150ms → 600ms (4× slower)
-  - Decision: Removed extra sensors; camera-only gives better responsiveness
-  - Validation: 150ms latency allows reaction before hitting obstacles at 0.88 m/s
+  
 ---
 
 ### 8. Full Power Budget
@@ -633,7 +605,6 @@ All control gains were tuned iteratively on the actual track:
 - **Parking**: 100% success rate (15/15 attempts)
 - **Processing latency**: Consistent 150ms ± 10ms (no frame drops)
 
-Code: [`CHALLENGE_CONFIG`](code/XX_2025_package/classes/image_algoriths.py#L_START-L_END) (all tunable parameters in one place)
 ---
 ## Performance & Validation
 
@@ -804,13 +775,6 @@ This repository documents the design, build, and code for our WRO robot — incl
 
 ---
 
-### How to Assemble the Robot
-
-Step-by-step mechanical assembly instructions, 3D models, and CAD files.
-
-[Go to Assembly](models/README.md#2-the-assembly)
-
----
 
 ### How to Wire All Components
 
