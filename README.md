@@ -607,46 +607,6 @@ final_angle = pillar_angle if pillar_angle is not None else wall_angle
 <img width="1000" alt="obstacle_challenge_flowchart" src="https://github.com/user-attachments/assets/f9ecee20-1275-4063-8bc4-4ed42df223a9" />
 
 ---
-### Edge Case Handling & Robustness
-
-#### 1. Lighting Transitions
-**Problem**: Sudden shadows (overhead lights, passing under structures) cause color detection to fail
-**Solution**:
-- LAB color space is lighting-invariant (vs. HSV which fails in shadows)
-- Added 5-frame buffer: ignore isolated detections (noise filtering)
-- If color detection fails for 3+ consecutive frames, fall back to wall-following only
-- **Test result**: 100% success under 3 different lighting conditions
-
-Code: [`ImageAlgorithms.is_color_stable()`](code/XX_2025_package/classes/image_algoriths.py#L_START-L_END)
-
-#### 2. Rapid Direction Changes (Zigzag Obstacles)
-**Problem**: Robot overshoots when obstacles are close together (high-frequency steering corrections)
-**Solution**:
-- Derivative term in PD controller smooths abrupt angle changes
-- Limited max steering change per frame: `max_delta = 5°`
-- Wall-following gains dampened when inner wall is too close
-
-Code: 
-- [`ImageAlgorithms.calculate_servo_angle_from_walls()`](code/XX_2025_package/classes/image_algoriths.py#L_START-L_END) (PD controller)
-- [`ImageAlgorithms.check_inner_wall_crash()`](code/XX_2025_package/classes/image_algoriths.py#L_START-L_END) (gain damping)
-
-#### 3. Parking Detection Failure
-**Problem**: Pink parking block might not be detected if camera angle drifts
-**Solution**:
-- Timeout fallback: if parking block not found after 30 laps, execute fixed sequence
-- Pre-computed encoder ticks ensure consistent movement regardless of vision
-- Validated: Parking succeeds even if camera focus is slightly degraded
-
-Code: [`Navigator.state_approach_parking()`](code/XX_2025_package/classes/navigator.py#L_START-L_END)
-
-#### 4. Encoder Drift
-**Problem**: Motor encoder can report incorrect ticks if wheel slips
-**Solution**:
-- Motor control uses both encoder feedback AND wall-following to self-correct
-- If encoder ticks deviate >10% from expected, reduce speed temporarily
-- Validated: Wall-following vision catches any drift, prevents accumulation
-
-Code: [`ImageAlgorithms.validate_encoder_consistency()`](code/XX_2025_package/classes/image_algoriths.py#L_START-L_END)
 
 ### Testing & Tuning Evidence
 
