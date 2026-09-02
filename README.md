@@ -229,7 +229,7 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 - **Test 2: Turning Radius Consistency**
   - Ran 10 consecutive full-lock turns at fixed speed
-  - Measured turn radius: 15.2cm ± 0.3cm (very consistent)
+  - Measured turn radius: 11.9cm ± 0.3cm (very consistent)
   - Validates Ackermann geometry implementation
 
 - **Test 3: Differential Performance**
@@ -238,8 +238,8 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 #### Chassis Stability Testing
 - Tested center of gravity by tilting at different angles
-- Battery centered at 127mm (middle of chassis) keeps CG low and stable
-- No tipping during sharp turns even at full speed (0.88 m/s)
+- Battery centered at 35mm (middle of chassis) keeps CG low and stable
+- No tipping during sharp turns even at full speed (1.29 m/s)
 
 #### Mechanical Durability
 - Ran 15 consecutive laps without any 3D-printed parts cracking
