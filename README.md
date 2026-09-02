@@ -1027,10 +1027,6 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 **Step 1: Set Up Raspberry Pi**
 - Follow complete guide in [code/md/raspberry_pi_setup.md](code/md/raspberry_pi_setup.md)
-- Install Python 3.9+, pip, git
-- Create virtual environment: `python3 -m venv wro_env`
-- Activate: `source wro_env/bin/activate`
-- Install dependencies: `pip install -r requirements.txt`
 - Time estimate: 30-45 minutes
 
 **Step 2: Load Arduino Firmware**
