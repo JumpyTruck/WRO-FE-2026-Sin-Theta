@@ -60,7 +60,6 @@ This repository contains everything needed to understand, build, and improve upo
    - [The State Machine](#7-the-state-machine)
    - [Arbitration](#8-arbitration)
    - [Autonomous Navigation Flowcharts](#autonomous-navigation-flowcharts)
-   - [Edge Case Handling & Robustness](#edge-case-handling--robustness)
    - [Testing & Tuning Evidence](#testing--tuning-evidence)
 8. [Performance & Validation](#performance--validation)
    - [Benchmark Results](#benchmark-results)
@@ -615,8 +614,8 @@ All control gains were tuned iteratively on the actual track:
 
 | Parameter | Initial Value | Final Value | Reason for Change |
 |-----------|---------------|-------------|-------------------|
-| `AREA_WALL_KP` | 0.8 | 1.2 | Weak turns; increased responsiveness |
-| `AREA_WALL_KD` | 0.3 | 0.6 | Oscillation at corners; added damping |
+| `AREA_WALL_KP` | 0.8 | 0.005 | Weak turns; increased responsiveness |
+| `AREA_WALL_KD` | 0.3 | 0.001 | Oscillation at corners; added damping |
 | `GREEN_PILLAR_KP` | 0.5 | 0.7 | Green pillar avoidance too timid |
 | `RED_PILLAR_KP` | 0.5 | 0.75 | Red pillar avoidance too timid |
 | `WALL_OPENING_AREA` | 50 | 35 | Gap detection triggered too late; lowered threshold |
