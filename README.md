@@ -4,10 +4,6 @@
 
 Hello! We are **Team Sin Theta**, competing in the WRO Future Engineers 2026 Challenge, bringing together three years of combined robotics experience from previous competition teams. This year, we've unified our expertise to design a high-precision autonomous robot that prioritizes **consistency, reliability, and engineering rigor**. We previously competed under two teams, The Robertos (Aarav) and VHR Motors (Harshad, Rajas)
 
-Our robot demonstrates advanced mechanical design (100% Ackermann steering geometry), elegant electrical architecture (dual independent power rails to eliminate brownout), and intelligent vision-based navigation using only a single camera sensor. We've validated our design through extensive testing: **15 consecutive laps with 100% success rate** under varying lighting conditions, and we've documented every design decision—including the failures that shaped our final solution.
-
-**What makes our documentation strong:** We don't just show you the winning design; we show you the engineering journey. Our PCB evolved through three iterations after thermal failure and servo burnout. Our software prioritizes **predictability over speed** (90% accuracy at 52s vs. 80% accuracy at 42s). Our mechanical design balances the competing constraints of turning radius, weight distribution, and component access.
-
 This repository contains everything needed to understand, build, and improve upon our design: 3D CAD files, full electrical schematics, detailed assembly instructions, and our complete engineering journal documenting trade-offs and lessons learned.
 
 ---
