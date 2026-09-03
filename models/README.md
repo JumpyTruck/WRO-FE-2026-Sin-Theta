@@ -194,35 +194,9 @@ The rear drivetrain was designed around the motor, differential, and rear wheels
 
 #### 5. Mounting & Coupling
 
-Additional CAD designs were created for mounting components and connecting the motor to the drivetrain.
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/835408aa-e0ad-429c-b7e4-860bc8e3e62b" width="450">
-    </td>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/3c08f9e3-0631-4f10-9adb-55721ab2cb71" width="450">
-    </td>
-  </tr>
-</table>
 
 ---
 
 #### 6. Complete Robot
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/81fb3c33-7f9e-419c-99c4-76afcae5621d" width="500">
-</p>
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/0c307909-5943-4f71-b58f-66a1c21ec9f9" width="500">
-    </td>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/2bacd053-ec0a-4207-bb49-d4b5b8f2829f" width="500">
-    </td>
-  </tr>
-</table>
 
