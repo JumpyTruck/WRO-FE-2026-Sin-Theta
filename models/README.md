@@ -1,4 +1,3 @@
-```markdown
 ### Mechanical Design Approach
 
 This section shows the mechanical design of our robot, including our design choices, 3D-printed structure, steering, and rear drivetrain.
@@ -226,4 +225,4 @@ Additional CAD designs were created for mounting components and connecting the m
     </td>
   </tr>
 </table>
-```
+
