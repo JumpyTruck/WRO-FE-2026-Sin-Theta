@@ -189,14 +189,8 @@ The rear drivetrain was designed around the motor, differential, and rear wheels
 <p align="center">
   <img src="https://github.com/user-attachments/assets/3aeff81b-75b5-4ff3-892a-9b631c7bdd1b" width="700">
 </p>
-
 ---
 
-#### 5. Mounting & Coupling
-
-
----
-
-#### 6. Complete Robot
+#### 5. Complete Robot
 
 
