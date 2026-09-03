@@ -1,4 +1,4 @@
-```markdown
+
 ### Mechanical Design Approach
 
 [All PNG, STP and STL files are in this directory](./CAD_3D_Printed_Parts/)
@@ -138,4 +138,3 @@ The final CAD combines the chassis layers, steering system, rear drivetrain, cam
     </td>
   </tr>
 </table>
-```
