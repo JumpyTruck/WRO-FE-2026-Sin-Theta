@@ -447,7 +447,7 @@ Every raw frame is turned into a few simpler images that everything else in the 
 <table>
 <tr>
 <td align="center"><b>Open Challenge</b><img width="500" alt="open challenge" src="https://github.com/user-attachments/assets/429709f0-8062-4c43-a8cf-c6dd5bbc4fa1" /></td>
-<td align="center"><b>Obstacle Challenge</b><img width="5400" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
+<td align="center"><b>Obstacle Challenge</b><img width="400" alt="obstacle image" src="https://github.com/user-attachments/assets/87d2941a-16b4-49da-b081-a9f8339a81ce" /></td>
 </tr>
 </table>
 </div>
@@ -514,7 +514,7 @@ pillar_angle_deg = 90 + np.degrees(rad_angle)
 ```
 
 <div align="center">
-  <img width="450" alt="obstacle_triangle_labeled" src="https://github.com/user-attachments/assets/ecedeb62-0d14-40cd-9f1c-848b308f0825" />
+  <img width="450" alt="angle obstacle" src="https://github.com/user-attachments/assets/0a83348c-89fd-4fac-aac8-77f92a4196aa" />
 </div>
 
 That angle becomes the steering angle, nudged by a fixed offset and a colour-specific gain — green and red pillars are passed on opposite sides:
