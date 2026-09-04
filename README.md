@@ -446,8 +446,8 @@ Every raw frame is turned into a few simpler images that everything else in the 
 <div align="center">
 <table>
 <tr>
-td align="center"><b>Open Challenge</b><img width="400"alt="open challenge" src="https://github.com/user-attachments/assets/429709f0-8062-4c43-a8cf-c6dd5bbc4fa1" /></td>
-<td align="center"><b>Obstacle Challenge</b><img width="500" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
+<td align="center"><b>Open Challenge</b><img width="500" alt="open challenge" src="https://github.com/user-attachments/assets/429709f0-8062-4c43-a8cf-c6dd5bbc4fa1" /></td>
+<td align="center"><b>Obstacle Challenge</b><img width="5400" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
 </tr>
 </table>
 </div>
@@ -455,7 +455,7 @@ td align="center"><b>Open Challenge</b><img width="400"alt="open challenge" src=
 #### Mat ROI — the drivable floor, walls = black, floor = white
 
 <div align="center">
-<b>Mat ROI</b><img width="500" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/>
+<img width="500" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/>
 </div>
 
 #### Colour masks — one black/white mask per colour: blue, orange, green, red, pink
