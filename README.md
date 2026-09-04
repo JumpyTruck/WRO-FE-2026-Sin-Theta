@@ -238,8 +238,6 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 ---
 
-## Exploded View of Current Robot
-
 <table align="center">
   <tr>
     <td align="center">
