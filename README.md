@@ -1058,6 +1058,9 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - Measure: Lap time, parking accuracy, any crashes
 - Record results in testing log
 
+**Step 5: Run Combinations**
+- Run the (Random Combination Generator - Obstacle)[code/Random-Combination-Generator/Obstacle_Random_Gen.py] to test all combinations of obstacles, to tweak the code for overall consistency
+
 **First Test Checkpoint:**
 - [ ] Robot can wall-follow for 1 full lap without crashing
 - [ ] Robot avoids obstacles without overshooting
