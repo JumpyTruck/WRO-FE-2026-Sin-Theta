@@ -1004,11 +1004,15 @@ Follow along with this schematic of the entire electrical architecture for the n
 #### Phase 3: Software Setup (1-2 hours)
 
 **Step 1: Set Up Raspberry Pi**
-- Follow complete guide in [Raspberry Pi Setup](code/md/raspberrypi_setup.md)
+
+- Follow the complete guide: [Raspberry Pi Setup](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/md/raspberrypi_setup.md)
+- This covers OS updates, camera setup, dependencies, and pulling this repo onto the Pi.
 - Time estimate: 30-45 minutes
+- Verification: `python3 ObstacleChallenge.py` runs and the status LED turns on, waiting for the start button.
 
 **Step 2: Load Arduino Firmware**
-- Download Arduino IDE (or use command-line tools)
+
+- Download Arduino IDE
 - Open `code/arduino/motor_control/motor_control.ino`
 - Select board: Arduino Nano
 - Select port: USB serial port
@@ -1017,22 +1021,25 @@ Follow along with this schematic of the entire electrical architecture for the n
 - Verification: Arduino IDE shows "Upload successful"
 
 **Step 3: Test Pi-Nano Communication**
+
 - Run test script: `python code/test_serial_communication.py`
 - Expected output: "Connected to Arduino at /dev/ttyUSB0"
 - Send test command: Pi sends speed=50, Nano echoes back
 - Time estimate: 5 minutes
 - If fails: Check USB cable, verify Arduino uploaded correctly
 
-**Step 3: Tune Color Detection**
-- Run LAB Dragger (labadjuster.py)[code/md/labadjuster.py]
+**Step 4: Tune Color Detection**
+
+- Run LAB Adjuster ([labadjuster.py](code/md/labadjuster.py))
 - For each color (blue, green, red, orange, pink):
   - Show actual obstacle/line on track
-  - Adjust HSV/LAB thresholds until detection is 100%+ accurate, in various positions and lighting conditions
+  - Adjust LAB thresholds until detection is 100%+ accurate, in various positions and lighting conditions
   - Save thresholds to `ObstacleChallenge.py`
 - Time estimate: 20-30 minutes
 - Test: Run on practice mat; verify all colors detected reliably
 
-**Software Testing Checkpoint:**
+**Software Testing Checkpoint**
+
 - [ ] Raspberry Pi boots and runs Python scripts
 - [ ] Arduino Nano receives and executes motor commands
 - [ ] Serial communication between Pi and Nano is reliable (no dropped packets)
