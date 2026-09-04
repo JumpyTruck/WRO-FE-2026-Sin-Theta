@@ -447,7 +447,7 @@ Every raw frame is turned into a few simpler images that everything else in the 
 <table>
 <tr>
 <td align="center"><b>Open Challenge</b><img width="500" alt="open challenge" src="https://github.com/user-attachments/assets/429709f0-8062-4c43-a8cf-c6dd5bbc4fa1" /></td>
-<td align="center"><b>Obstacle Challenge</b><img width="400" alt="obstacle image" src="https://github.com/user-attachments/assets/87d2941a-16b4-49da-b081-a9f8339a81ce" /></td>
+<td align="center"><b>Obstacle Challenge</b><img width="500" alt="obstacle image" src="https://github.com/user-attachments/assets/87d2941a-16b4-49da-b081-a9f8339a81ce" /></td>
 </tr>
 </table>
 </div>
@@ -463,12 +463,12 @@ Every raw frame is turned into a few simpler images that everything else in the 
 <div align="center">
 <table>
 <tr>
-<td align="center"><b>Obstacle Mask</b><br><img width="300" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
+<td align="center"><b>Obstacle Mask</b><br><img width="400" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
 <td align="center"><b>Blue Mask</b><br><img width="300" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td>
 </tr>
 <tr>
-<td align="center"><b>Orange Mask</b><br><img width="300" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
-<td align="center"><b>Parking Block</b><br><img width="300" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479"/></td>
+<td align="center"><b>Orange Mask</b><br><img width="400" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
+<td align="center"><b>Parking Block</b><br><img width="400" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479"/></td>
 </tr>
 </table>
 </div>
