@@ -444,18 +444,25 @@ For full message formats and protocol details, see [Communication Protocol](code
 Every raw frame is turned into a few simpler images that everything else in the code works from:
 
 - **Frame** — the raw camera view, cropped to the useful area
-- **Colour masks** — one black/white mask per colour: blue, orange, green, red, pink
 - **Mat ROI** — the drivable floor, walls = black, floor = white
+- **Colour masks** — one black/white mask per colour: blue, orange, green, red, pink
 
 <div align="center">
 
 <table>
-<tr><td align="center"><b>Original Frame</b><br><img width="400" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
-<td align="center"><b>Mat ROI</b><br><img width="400" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/></td></tr>
-<tr><td align="center"><b>Obstacle Mask</b><br><img width="400" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
-<td align="center"><b>Blue Line</b><br><img width="400" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td></tr>
-<tr><td align="center"><b>Orange Line</b><br><img width="400" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
-<td align="center"><b>Parking Block</b><br><img width="400" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479"/></td></tr>
+<tr>
+<td align="center"><b>Original Frame</b><br><img width="400" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
+<td align="center"><b><img width="400" alt="open challenge" src="https://github.com/user-attachments/assets/ce474c36-33ac-42b7-893f-75f4db047ce6" /></td>
+</tr>
+<tr>
+<td align="center" colspan="2"><b>Mat ROI</b><br><img width="500" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/></td>
+</tr>
+<tr>
+<td align="center"><b>Obstacle Mask</b><br><img width="200" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
+<td align="center"><b>Blue Mask</b><br><img width="200" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td>
+<td align="center"><b>Orange Mask</b><br><img width="200" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
+<td align="center"><b>Parking Block</b><br><img width="200" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479"/></td>
+</tr>
 </table>
 
 </div>
