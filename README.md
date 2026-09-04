@@ -464,7 +464,7 @@ Every raw frame is turned into a few simpler images that everything else in the 
 <table>
 <tr>
 <td align="center"><b>Obstacle Mask</b><br><img width="400" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
-<td align="center"><b>Blue Mask</b><br><img width="300" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td>
+<td align="center"><b>Blue Mask</b><br><img width="400" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td>
 </tr>
 <tr>
 <td align="center"><b>Orange Mask</b><br><img width="400" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
