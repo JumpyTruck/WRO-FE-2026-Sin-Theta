@@ -1074,7 +1074,7 @@ Follow along with this schematic of the entire electrical architecture for the n
 - Record results in testing log
 
 **Step 5: Run Combinations**
-- Run the ([Random Combination Generator - Obstacle](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/Random%20Combination%20Generator/Obstacle_Random_Gen.py)) to test all combinations of obstacles, to tweak the code for overall consistency
+- Run the ([Random Combination Generator](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/Random%20Combination%20Generator/Obstacle_Random_Gen.py)) to test all combinations of obstacles, to tweak the code for overall consistency
 
 **First Test Checkpoint:**
 - [ ] Robot can wall-follow for 1 full lap without crashing
