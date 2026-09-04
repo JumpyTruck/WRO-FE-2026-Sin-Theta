@@ -905,14 +905,14 @@ This repository documents the design, build, and code for our WRO robot — incl
 #### Phase 1: Mechanical Assembly (4-6 hours)
 
 **Step 1: 3D Print Parts**
-- Download STL files from [models/README.md](models/CAD-3D-Printed-Parts)
+- Download STL files from [CAD 3D Printed Parts](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models/CAD%203D%20Printed%20Parts)
 - Printer settings: Bambulabs X1 Carbon (or equivalent FDM), PLA material, 15% infill
 - Print time: ~24 hours for all parts
 - Cost: ~$5.11 in filament
 - Quality check: No layer separation; all mounting holes aligned
 
 **Step 2: Assemble Chassis**
-- Follow detailed assembly guide in [models/README.md](models/README.md#2-the-assembly)
+- Follow detailed assembly guide [Here](models/README.md#2-the-assembly)
 - Time estimate: 45 Minutes
 - Tools needed: M3 bolts, M3 nuts, screwdriver, 2.5mm Allen wrench, sandpaper (smooth print edges)
 - Order of assembly: Base plate → Battery mount → Motor clamp → See Step 3 → Second story → Third story
