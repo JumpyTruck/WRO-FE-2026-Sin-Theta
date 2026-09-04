@@ -26,9 +26,9 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
   </tr>
 </table>
 
-<b>Aarav Daudia:</b>
-<b>Harshad Mahajan:</b>
-<b>Rajas Salunke:</b>
+<b>Aarav Daudia:</b><br>
+<b>Harshad Mahajan:</b><br>
+<b>Rajas Salunke:</b><br>
 
 ---
 
