@@ -1,16 +1,16 @@
 # Source Code
 
-## [Open Challenge](md/OpenChallenge.py)
+## [Open Challenge](OpenChallenge.py)
 This is the final code ran to complete the open challenge
 
 ---
 
-## [Obstacle Challenge](md/ObstacleChallenge.py)
+## [Obstacle Challenge](ObstacleChallenge.py)
 This is the final code ran to complete the obstacle challenge.
 
 ---
 
-## [LAB Value Dragger](md/labadjuster.py)
+## [LAB Value Dragger](labadjuster.py)
 This code is utilized to find the LAB values for the Red and Green obstacle, Pink Parking blocks, as well as the Blue and Orange lines.
 
 ---
