@@ -897,7 +897,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 #### Phase 1: Mechanical Assembly (4-6 hours)
 
 **Step 1: 3D Print Parts**
-- Download STL files from `models/CAD_3D_Printed_Pieces/`
+- Download STL files from [models/README.md](models/CAD-3D-Printed-Parts)
 - Printer settings: Bambulabs X1 Carbon (or equivalent FDM), PLA material, 15% infill
 - Print time: ~24 hours for all parts
 - Cost: ~$5.11 in filament
@@ -905,7 +905,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 **Step 2: Assemble Chassis**
 - Follow detailed assembly guide in [models/README.md](models/README.md#2-the-assembly)
-- Time estimate: 2-3 hours
+- Time estimate: 45 Minutes
 - Tools needed: M3 bolts, M3 nuts, screwdriver, 2.5mm Allen wrench, sandpaper (smooth print edges)
 - Order of assembly: Base plate → Battery mount → Motor clamp → See Step 3 → Second story → Third story
 
@@ -920,7 +920,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - Mount servo in servo holder (inverted)
 - Attach steering arm at ~12° angle
 - Connect steering T and cross-link
-- Time estimate: 45 minutes
+- Time estimate: 20 minutes
 - Validation: Steering moves smoothly full-lock left to right; no binding
 
 **Mechanical Testing Checkpoint:**
@@ -935,7 +935,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 #### Phase 2: Electrical Assembly (3-4 hours)
 
 **Step 1: Gather All Components**
-- See complete [Bill of Materials](electrical/Bill_of_Materials.csv)
+- See complete [Parts List](#parts-list)
 - Total cost: $449.37
 - Verify all items received before starting
 
@@ -951,21 +951,21 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - Solder input from battery (12.8V rail)
 - Solder output to 5V rail
 - Mount 8.4V UBEC for servo power
-- Time estimate: 45 minutes
+- Time estimate: 20 minutes
 - Voltage check: 5V rail outputs 5.0V ± 0.1V; 8.4V rail outputs 8.4V ± 0.2V
 
 **Step 4: Wire Motor & Servo**
 - DRV8871 motor driver: Connect 12.8V in, PWM signal from Nano
 - Servo: Connect to UBEC 8.4V out, PWM signal from Nano
 - Motor encoder: Connect 5V, GND, and pulse line to Nano
-- Time estimate: 45 minutes
+- Time estimate: 15 minutes
 - Signal check: Use multimeter to verify all ground connections
 
 **Step 5: Wire Raspberry Pi & Arduino Nano**
 - Power Pi from 5V buck converter (5V and GND)
 - Power Nano from 5V buck converter (5V and GND)
 - Serial connection: Pi UART TX → Nano RX; Pi UART RX → Nano TX
-- Camera: Connect Pi Camera 3 to Pi's CSI/DSI connector
+- Camera: Connect 15 Camera 3 to Pi's CSI/DSI connector
 - Time estimate: 30 minutes
 
 **Step 6: Mount Electronics in Chassis**
@@ -973,7 +973,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - Mount PCB on second story PCB holder
 - Mount Raspberry Pi on third story Pi holder
 - Secure camera on camera stand at 155° angle
-- Time estimate: 30 minutes
+- Time estimate: 10 minutes
 - Mechanical check: No loose wires; all components secured
 
 **Electrical Testing Checkpoint:**
@@ -983,14 +983,14 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - [ ] All GND connections are solid (multimeter reads 0Ω between points)
 - [ ] Motor driver responds to PWM commands (test with function generator)
 - [ ] Servo moves smoothly when sent PWM signal (use Nano test code)
-- [ ] Camera captures frames (test with `raspistill` command)
+- [ ] Camera captures frames
 
 ---
 
 #### Phase 3: Software Setup (1-2 hours)
 
 **Step 1: Set Up Raspberry Pi**
-- Follow complete guide in [code/md/raspberry_pi_setup.md](code/md/raspberry_pi_setup.md)
+- Follow complete guide in [Raspberry Pi Setup](code/md/raspberrypi_setup.md)
 - Time estimate: 30-45 minutes
 
 **Step 2: Load Arduino Firmware**
@@ -1009,19 +1009,12 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - Time estimate: 5 minutes
 - If fails: Check USB cable, verify Arduino uploaded correctly
 
-**Step 4: Calibrate Camera**
-- Run calibration: `python code/calibrate_camera.py`
-- Procedure: Show checkerboard pattern to camera (15+ angles)
-- Output: Saves calibration file to `code/camera_calibration.npz`
-- Time estimate: 15-20 minutes
-- Verification: Distortion correction removes barrel/pincushion effects
-
-**Step 5: Tune Color Detection**
-- Run color picker: `python code/tune_colors.py`
+**Step 3: Tune Color Detection**
+- Run LAB Dragger (labadjuster.py)[code/md/labadjuster.py]
 - For each color (blue, green, red, orange, pink):
   - Show actual obstacle/line on track
-  - Adjust HSV/LAB thresholds until detection is 95%+ accurate
-  - Save thresholds to `code/XX_2025_package/utils/config.py`
+  - Adjust HSV/LAB thresholds until detection is 100%+ accurate, in various positions and lighting conditions
+  - Save thresholds to `ObstacleChallenge.py`
 - Time estimate: 20-30 minutes
 - Test: Run on practice mat; verify all colors detected reliably
 
@@ -1059,7 +1052,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - Test with: Green, Red, Orange obstacles at different distances (20cm, 50cm, 80cm)
 - If fails: Adjust `GREEN_PILLAR_KP`, `RED_PILLAR_KP`, `PILLAR_STEER_OFFSET_DEG`
 
-**Step 4: Test Complete Run
+**Step 4: Test Complete Run**
 - Run full state machine (wait → warmup → drive laps → park)
 - Expected: Robot completes 3 laps + parks in pink zone
 - Measure: Lap time, parking accuracy, any crashes
@@ -1076,21 +1069,15 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 ### Commit History (Showing Design Evolution)
 
-Key commits documenting the engineering process:
+Prior to this and last year's competition, we had limited experience with the Raspberry Pi, thus we were unaware one could push code directly from the Pi through Git. Therefore, we have been simply copying and pasting our code into the repository, which explains why we do not have an extensive commit history.
 
-1. **Initial Setup** - Project structure, basic README, team info
-2. **Mechanical v1** - Chassis CAD, parallel steering design
-3. **Mechanical v2** - Switched to Ackermann steering after testing tire scrub
-4. **Electrical v1** - Initial PCB schematic with 7805 linear regulator
-5. **Electrical Issue** - Documented thermal failure (15.6W dissipation, 150-175°C)
-6. **Electrical v2** - Redesigned with buck converter (85-95% efficiency)
-7. **Electrical v3** - Servo burnout fix: added UBEC, switched to high-torque servo
-8. **Software Base** - Vision pipeline, wall-following algorithm
-9. **Software Tuning** - Calibrated PD controller gains with testing data
-10. **Software v2** - Added obstacle avoidance with arctan2 geometry
-11. **Software v3** - Implemented state machine with all states
-12. **Camera Cal** - Added camera calibration procedure, switched HSV→LAB
-13. **Final Tuning** - All parameters locked in before competition
+---
+
+### Future Fixes
+
+1) Beginning to push code directly from the Raspberry Pi through Git in order to build a commit history.
+2) Implement Dynamic Ranges to improve obstacle, line, and parking block detection in a multitude of lighting conditions.
+3) Improving on our Acceleration and Deceleration code to a point that it becomes as reliable as fixed code, therefore we can improve our lap times overall.
 
 ---
 
