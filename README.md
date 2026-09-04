@@ -964,33 +964,38 @@ Follow along with this schematic of the entire electrical architecture for the n
 [Go to Schematic](electrical/Electrical_Schematic.png)
 
 **Step 2: Solder Battery Connections**
-- Solder battery pack leads to main power distribution
-- Add 3A fuse in series between battery positive and main rail
-- Use heat shrink tubing to insulate all connections
-- Time estimate: 30 minutes
-- Safety check: Multimeter reads 12.8V ± 0.2V on battery rails
+- Solder battery pack leads to a switch
+- Solder switch positive and negative ends to the PCB board
+- Time estimate: 20 minutes
 
 **Step 3: Install Power Regulators**
 - Mount 5V buck converter to PCB
-- Solder input from battery (12.8V rail)
-- Solder output to 5V rail
-- Mount 8.4V UBEC for servo power
-- Time estimate: 20 minutes
-- Voltage check: 5V rail outputs 5.0V ± 0.1V; 8.4V rail outputs 8.4V ± 0.2V
+- Solder battery(Positive) to 5V Input positive on buck converter
+- Solder battery(Negative) to 5V Input negative on buck converter
+- Solder Buck converter OUTPUT (Positive) to 5V Rail
+- Solder Buck converter OUTPUT (Negative) to Ground Rail
+- Mount 8.4V UBEC voltage regulator
+- Solder Battery Positive to Input positive on UBEC
+- Solder Battery Negative to Input negative on UBEC
+- Connect UBEC Output Positive to Servo VCC
+- Connect UBEC Output Negative to Servo GND
+- Time estimate: 60 minutes
 
 **Step 4: Wire Motor & Servo**
-- DRV8871 motor driver: Connect 12.8V in, PWM signal from Nano
-- Servo: Connect to UBEC 8.4V out, PWM signal from Nano
+- DRV8871 Motor Driver: Connect Power Positive and Negative to Battery Positive and Negative
+- DRV8871 Motor Driver: Connect Output 1 and 2 to Motor M1 and M2
+- DRV8871 Motor Driver: Connect In1 and In2 to Nano
+- DRV8871 Motor Driver: Connect GND to Nano GND
+- Servo: Connect Servo PWM to Analog Pin on Nano 
 - Motor encoder: Connect 5V, GND, and pulse line to Nano
-- Time estimate: 15 minutes
-- Signal check: Use multimeter to verify all ground connections
-
+- Time estimate: 80 minutes
+  
 **Step 5: Wire Raspberry Pi & Arduino Nano**
 - Power Pi from 5V buck converter (5V and GND)
 - Power Nano from 5V buck converter (5V and GND)
 - Serial connection: Pi UART TX → Nano RX; Pi UART RX → Nano TX
 - Camera: Connect 15 Camera 3 to Pi's CSI/DSI connector
-- Time estimate: 30 minutes
+- Time estimate: 15 minutes
 
 **Step 6: Mount Electronics in Chassis**
 - Place battery in center of base plate (battery holder)
