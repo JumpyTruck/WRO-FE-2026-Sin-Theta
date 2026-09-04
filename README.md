@@ -6,7 +6,7 @@ Hello! We are **Team Sin Theta**, competing in the WRO Future Engineers 2026 Cha
 
 **Team VHR Github:** https://github.com/RAJAS2025/VHR-WRO-FE-June-2025
 
-**Team The Robertos:** https://github.com/Abdu1Hak/WRO-2025
+**Team The Robertos Github:** https://github.com/Abdu1Hak/WRO-2025
 
 This repository contains everything needed to understand, build, and improve upon our design: 3D CAD files, full electrical schematics, detailed assembly instructions, and our complete engineering journal documenting trade-offs and lessons learned.
 
