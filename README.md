@@ -99,30 +99,30 @@ https://youtu.be/TrZud6jrQio
   <tr>
     <td align="center">
       <b>Top View</b><br><br>
-      <img width="220" alt="IMG_2360" src="https://github.com/user-attachments/assets/488c0949-fab7-4cdb-90b6-f47f4dfcaa29" />
+      <img width="220" alt="Top (1)" src="https://github.com/user-attachments/assets/12f03260-fe27-45aa-9d0d-b7ac5e8adaf8" />
     </td>
     <td align="center">
       <b>Right View</b><br><br>
-      <img width="220" alt="IMG_2358" src="https://github.com/user-attachments/assets/101af993-0053-4d73-8710-59cf7fc3d8bc" />
+      <img width="220" alt="Right" src="https://github.com/user-attachments/assets/7d922ae5-534e-45f3-b75c-50dae895e83b" />
     </td>
     <td align="center">
       <b>Front View</b><br><br>
-      <img width="220"alt="IMG_2357" src="https://github.com/user-attachments/assets/9ec74514-c036-4e2a-9e0f-bb02dfa7063b" />
+      <img width="220" alt="Front" src="https://github.com/user-attachments/assets/22cb7bc2-e6e9-45c4-b806-f69188af754d" />
     </td>
   </tr>
 
   <tr>
     <td align="center">
       <b>Bottom View</b><br><br>
-      <img width="220" alt="IMG_2361" src="https://github.com/user-attachments/assets/d67f76cc-255e-481e-a65d-cab145b7653c" />
+      <img width="220" alt="Bottom" src="https://github.com/user-attachments/assets/8b9e93aa-8d3f-41b5-b3c4-90d69205594b" />
     </td>
     <td align="center">
       <b>Left View</b><br><br>
-      <img width="220" alt="IMG_2356" src="https://github.com/user-attachments/assets/09d1da9c-4b3d-48e9-953b-bf2d5d2d3519" />
+      <img width="220" alt="Left" src="https://github.com/user-attachments/assets/fdb86ebf-7b75-4f5e-81ed-56de3df246a0" />
     </td>
     <td align="center">
       <b>Rear View</b><br><br>
-      <img width="220" alt="IMG_2359" src="https://github.com/user-attachments/assets/1868c46f-d27c-46af-9c2c-331342825c3c" />
+      <img width="220" alt="Rear (1)" src="https://github.com/user-attachments/assets/e1715649-a0fd-4f61-87bb-0e7fd1df7c19" />
     </td>
   </tr>
 </table>
