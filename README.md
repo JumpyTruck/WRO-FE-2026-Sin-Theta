@@ -908,6 +908,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 | Metal 3D Printed Parts | [Rear Axle Adapter](models/CAD%203D%20Printed%20Parts/Rear%20Axle.STL) | $16.50 |
 | Total Cost|  | $449.37 |
 
+(Click the Blue for purchase site)
 ---
 ### How to Rebuild This Robot
 
