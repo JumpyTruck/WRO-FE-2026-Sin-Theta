@@ -447,7 +447,7 @@ Every raw frame is turned into a few simpler images that everything else in the 
 <table>
 <tr>
 <td align="center"><b>Original Frame</b><br><img width="400" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
-<td align="center"><b>Cropped Frame</b><br><img width="400" src="PLACEHOLDER_URL"/></td>
+<td align="center"><b><img width="400"alt="open challenge" src="https://github.com/user-attachments/assets/429709f0-8062-4c43-a8cf-c6dd5bbc4fa1" /></td>
 </tr>
 </table>
 </div>
