@@ -1089,12 +1089,6 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 ---
 
-### Commit History (Showing Design Evolution)
-
-Prior to this and last year's competition, we had limited experience with the Raspberry Pi, thus we were unaware one could push code directly from the Pi through Git. Therefore, we have been simply copying and pasting our code into the repository, which explains why we do not have an extensive commit history.
-
----
-
 ### Future Fixes
 
 1) Beginning to push code directly from the Raspberry Pi through Git in order to build a commit history.
