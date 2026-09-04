@@ -148,7 +148,8 @@ This section covers how our robot moves: the chassis structure, drivetrain, stee
 
 ### 1) Robot Dimensions & Weight
 The robot was sized to fit all electrical components while keeping the robot compact.
-<img width="650" alt="Camera Dimensions Image" src="https://github.com/user-attachments/assets/df89dbee-9f2c-427c-88de-a55c871200e3"/>
+<img width="650" alt="Dimensions" src="https://github.com/user-attachments/assets/e3e3cb14-47ec-40e1-b22b-690e2bc438c1" />
+
 
 [Why We Chose These Dimensions](models/README.md#11-dimensions)
 
