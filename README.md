@@ -2,9 +2,17 @@
 
 ## Introduction
 
-Hello! We are **Team Sin Theta**, competing in the WRO Future Engineers 2026 Challenge, bringing together three years of combined robotics experience from previous competition teams. This year, we've unified our expertise to design a high-precision autonomous robot that prioritizes **consistency, reliability, and engineering rigor**. We previously competed under two teams, The Robertos (Aarav) and VHR Motors (Harshad, Rajas)
+Hello! We are **Team Sin Theta**, competing in the WRO Future Engineers 2026 Challenge, bringing together three years of combined robotics experience from previous competition teams. This year, we've unified our expertise to design a high-precision autonomous robot that prioritizes **consistency, reliability, and engineering rigor**. We previously competed under two teams, The Robertos[aka AA Batteries] (Aarav) and VHR Motors (Harshad, Rajas)
 
 This repository contains everything needed to understand, build, and improve upon our design: 3D CAD files, full electrical schematics, detailed assembly instructions, and our complete engineering journal documenting trade-offs and lessons learned.
+
+<br><br><br>
+
+Here are the repo links for our previous year competition teams:
+
+<b>The Robertos (AA Batteries):</b>https://github.com/Abdu1Hak/WRO-2025.git<br>
+<b>VHR Motors:</b>https://github.com/RAJAS2025/VHR-WRO-FE-June-2025.git
+
 
 ---
 
