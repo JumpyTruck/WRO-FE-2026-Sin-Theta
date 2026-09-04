@@ -1125,12 +1125,3 @@ Follow along with this schematic of the entire electrical architecture for the n
 Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
 
 [Go to Engineering Journal](./docs/engineering-journal.md)
-
----
-
-## Previous Years
-
-Here are the repo links for our previous year competition teams:
-
-<b>The Robertos (AA Batteries):</b> https://github.com/Abdu1Hak/WRO-2025.git<br>
-<b>VHR Motors:</b> https://github.com/RAJAS2025/VHR-WRO-FE-June-2025.git
