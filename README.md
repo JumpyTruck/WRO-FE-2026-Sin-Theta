@@ -909,6 +909,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 | Total Cost|  | $449.37 |
 
 (Click the Blue for purchase site)
+
 ---
 ### How to Rebuild This Robot
 
