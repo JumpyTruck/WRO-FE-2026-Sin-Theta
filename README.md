@@ -791,15 +791,6 @@ The image shows the main robot iterations during development. Each version was t
 This repository documents the design, build, and code for our WRO robot — including the mechanical models, custom PCB/electronics, full parts list, and the engineering journal tracking our design decisions along the way. Use the sections below to navigate to whatever you need, whether that's rebuilding the robot from scratch or understanding why we made the choices we did.
 
 ---
-
-
-### How to Wire All Components
-
-Here is a schematic which shows the entire electrical architecture of our robot
-
-[Go to Schematic](electrical/Electrical_Schematic.png)
-
----
 ### Setting Up the Raspberry Pi
 
 For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](code/md/raspberrypi_setup.md)
@@ -957,6 +948,10 @@ For installing dependencies, setting up a virtual environment, and getting the P
 - See complete [Parts List](#parts-list)
 - Total cost: $449.37
 - Verify all items received before starting
+ 
+Follow along with this schematic of the entire electrical architecture for the next steps
+
+[Go to Schematic](electrical/Electrical_Schematic.png)
 
 **Step 2: Solder Battery Connections**
 - Solder battery pack leads to main power distribution
@@ -1089,7 +1084,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 ---
 
-### Future Fixes
+### Future Improvements
 
 1) Beginning to push code directly from the Raspberry Pi through Git in order to build a commit history.
 2) Implement Dynamic Ranges to improve obstacle, line, and parking block detection in a multitude of lighting conditions.
