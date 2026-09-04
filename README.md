@@ -94,7 +94,6 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
     - [Commit History](#commit-history-showing-design-evolution)
     - [Future Fixes](#future-fixes)
 13. [Engineering Journal](#engineering-journal)
-14. [Previous Years](#previous-years)
 
 ---
 
@@ -205,7 +204,7 @@ To reduce tire scrub and improve cornering accuracy, we use 100% Ackermann steer
 **The Math:**
 With a wheelbase of 7.18" and a front track width of 3.00", we calculated the required steering angle as follows:
 
-<img width="500" alt="Ackermann Calculations" src="https://github.com/user-attachments/assets/b1abda45-6370-409a-8c45-db80839f1d7b" />
+<img width="500" alt="steering calculations" src="https://github.com/user-attachments/assets/826d66a1-7090-4872-bf1a-172ea52779a7" />
 
 This gives a target steering angle of ~12° at full lock to achieve true 100% Ackermann geometry.
 
