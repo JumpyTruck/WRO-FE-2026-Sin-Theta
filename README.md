@@ -897,7 +897,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 | Battery Pack | [IFR 18650 4S1P 12.8V 2000mAh Li-ion Battery Pack](https://www.amazon.ca/Battery-Replacement-Lefant-Cleaner-2000mAh/dp/B0CL6585ZC/ref=sr_1_5?dib=eyJ2IjoiMSJ9.SyMUzHywkEVCptQq-mRIHfSf8YODd7PT5qicZbkRvGkel4nui-2hUdoZqrSH2-Zg17dbDlhRv5AB_zAuHtgyrzlJff1rf74M_6iRWl3iBaH9hPumUNG2gIkGsc9oZuIgAan1QyNRIsoufm4hMOtxGpHcC58JeiRSkELtAhjaautnqIAG6mO5tPzg7rmIN2leTVUsgBJeTlMSrjbJ06ujqQYKz--dNW7OIStqvioBo50CPfBT-kJfm-fAKW7yZRYfnIWRfssIQkMkkOF8qTZ0laFYgKgo-625IfnI-RyRlLc.JaSQjkbTQY3CrOOxz3OXUhFG_bn0ri3AIUVQ7Kztyvk&dib_tag=se&gad_source=1&hvadid=788660666612&hvdev=c&hvexpln=0&hvlocphy=9000820&hvnetw=g&hvocijid=3661388621925926758--&hvqmt=e&hvrand=3661388621925926758&hvtargid=kwd-302656658098&hydadcr=1497_13820500&keywords=18650%2B4s1p&mcid=e55eb9c816e53de09557bb72239e94db&qid=1773772443&sr=8-5&th=1)  | $39.99 |
 | 3D Printed Parts | [Parts/Models](models) | $5.11 |
 | Metal 3D Printed Parts | [Rear Metal Axles](models/CAD%203D%20Printed%20Parts/Rear%20Axle.STL) | $16.50 |
-| Total Cost|  | $449.37 |
+| Total Cost|  | $443.62 |
 
 (Click the Blue for purchase site)
 
@@ -946,7 +946,7 @@ For installing dependencies, setting up a virtual environment, and getting the P
 
 **Step 1: Gather All Components**
 - See complete [Parts List](#parts-list)
-- Total cost: $449.37
+- Total cost: $443.62
 - Verify all items received before starting
  
 Follow along with this schematic of the entire electrical architecture for the next steps
