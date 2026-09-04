@@ -2,11 +2,7 @@
 
 ## Introduction
 
-Hello! We are **Team Sin Theta**, competing in the WRO Future Engineers 2026 Challenge, and this is our second year participating in Future Engineers. We previously competed under two teams, The Robertos (Aarav) and VHR Motors (Harshad, Rajas). This year, we've unified our expertise to design a high-precision autonomous robot that prioritizes **consistency, reliability, and engineering rigor**. 
-
-**Team VHR Github:** https://github.com/RAJAS2025/VHR-WRO-FE-June-2025
-
-**Team The Robertos Github:** https://github.com/Abdu1Hak/WRO-2025
+Hello! We are **Team Sin Theta**, competing in the WRO Future Engineers 2026 Challenge, bringing together three years of combined robotics experience from previous competition teams. This year, we've unified our expertise to design a high-precision autonomous robot that prioritizes **consistency, reliability, and engineering rigor**. We previously competed under two teams, The Robertos (Aarav) and VHR Motors (Harshad, Rajas)
 
 This repository contains everything needed to understand, build, and improve upon our design: 3D CAD files, full electrical schematics, detailed assembly instructions, and our complete engineering journal documenting trade-offs and lessons learned.
 
@@ -140,9 +136,20 @@ https://youtu.be/TrZud6jrQio
 
 ## Exploded View of Current Robot
 
-<img alt="Exploded" src="v-photos/Exploded!.png" />
-Here is the exploded view of our robot design in CAD; eloquently delineating all of its individual, bespoke components.
-
+<table align="center">
+  <tr>
+    <td align="center">
+      <b>Exploded View</b><br><br>
+      <img width="540" alt="Exploded" src="v-photos/Exploded!.png" />
+      <b>Here is the exploded view of our robot design in CAD; eloquently delineating all of its individual, bespoke components.</b><br><br>
+    </td>
+    <td align="center">
+      <b>Full Assembly View</b><br><br>
+      <img width="740" alt="Intact" src="v-photos/Intact.png" />
+      <b>This is the complete assembly of our competition robot, as it was all dreamt up and designed on CAD</b><br><br>
+    </td>
+  </tr>
+  
 ---
 
 ## Mobility & Mechanical Design
@@ -238,6 +245,11 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 - **Differential:** Rear metal differential, allowing both drive wheels to rotate at different speeds while cornering. This reduces mechanical stress and improves stability through turns.
 [Why We Chose This Differential](models/README.md#13-differential)
+
+---
+
+## Final Assembly
+<img alt="Intact" src="v-photos/Intact.png" />
 
 ---
 ### Mechanical Testing & Validation
@@ -905,14 +917,14 @@ This repository documents the design, build, and code for our WRO robot — incl
 #### Phase 1: Mechanical Assembly (4-6 hours)
 
 **Step 1: 3D Print Parts**
-- Download STL files from [CAD 3D Printed Parts](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models/CAD%203D%20Printed%20Parts)
+- Download STL files from [models/README.md](models/CAD-3D-Printed-Parts)
 - Printer settings: Bambulabs X1 Carbon (or equivalent FDM), PLA material, 15% infill
 - Print time: ~24 hours for all parts
 - Cost: ~$5.11 in filament
 - Quality check: No layer separation; all mounting holes aligned
 
 **Step 2: Assemble Chassis**
-- Follow detailed assembly guide [Here](models/README.md#2-the-assembly)
+- Follow detailed assembly guide in [models/README.md](models/README.md#2-the-assembly)
 - Time estimate: 45 Minutes
 - Tools needed: M3 bolts, M3 nuts, screwdriver, 2.5mm Allen wrench, sandpaper (smooth print edges)
 - Order of assembly: Base plate → Battery mount → Motor clamp → See Step 3 → Second story → Third story
