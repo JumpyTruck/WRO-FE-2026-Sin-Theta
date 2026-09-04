@@ -791,12 +791,6 @@ The image shows the main robot iterations during development. Each version was t
 This repository documents the design, build, and code for our WRO robot — including the mechanical models, custom PCB/electronics, full parts list, and the engineering journal tracking our design decisions along the way. Use the sections below to navigate to whatever you need, whether that's rebuilding the robot from scratch or understanding why we made the choices we did.
 
 ---
-### Setting Up the Raspberry Pi
-
-For installing dependencies, setting up a virtual environment, and getting the Pi ready to run this code, see [Raspberry Pi Setup Guide](code/md/raspberrypi_setup.md)
-
----
----
 
 ## Safety Measures & Reliability
 
