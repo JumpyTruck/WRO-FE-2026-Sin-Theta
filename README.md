@@ -134,6 +134,12 @@ https://youtu.be/TrZud6jrQio
   </tr>
 </table>
 
+## Exploded View of Current Robot
+
+<img alt="Exploded" src="v-photos/Exploded!.png" />
+Here is the exploded view of our robot design in CAD; eloquently delineating all of its individual, bespoke components.
+
+---
 
 ## Mobility & Mechanical Design
 
