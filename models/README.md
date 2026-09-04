@@ -211,7 +211,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 
 ### 2.3 Rear Axle Assembly
 
-- **Motor adapter:** matches motor's D-shaft to the differential's square input.
+- **Motor adapter:** matches motor's D-shaft to the differential's square input. (Print in PETG for toughness and ductility)
 - **Gear holder:** connects to the differential to hold it in place.
 - **Axle supports:** hold the axles in place via bearings, keep them aligned and stop sagging.
 - **Axles:** custom metal axles adapt diff output to LEGO wheels.
