@@ -8,6 +8,12 @@ This repository contains everything needed to understand, build, and improve upo
 
 ---
 
+## Design Philosophy
+
+Our design philosophy was to maximize consistency rather than peak speed. Throughout development we prioritized repeatable autonomous behaviour, resulting in a camera-based robot with Ackermann steering, a split Raspberry Pi–Arduino architecture, and a documented engineering process supported by quantitative testing, design iterations, and failure analysis. By striving to maximize overall efficiency, our resultant robot operates at the peak of robotic capability in both design and programming.
+
+---
+
 ## The Team
 <table>
   <tr>
@@ -28,9 +34,10 @@ This repository contains everything needed to understand, build, and improve upo
 
 1. [Introduction](#introduction)
 2. [The Team](#the-team)
-3. [Performance Videos](#performance-videos)
-4. [The Robot](#the-robot)
-5. [Mobility & Mechanical Design](#mobility--mechanical-design)
+3. [Design Philosophy](#design-philosophy)
+4. [Performance Videos](#performance-videos)
+5. [The Robot](#the-robot)
+6. [Mobility & Mechanical Design](#mobility--mechanical-design)
    - [Design Decisions Summary](#design-decisions-summary)
    - [Robot Dimensions & Weight](#1-robot-dimensions--weight)
    - [Drive System](#2-drive-system)
@@ -38,7 +45,7 @@ This repository contains everything needed to understand, build, and improve upo
    - [Chassis Assembly](#4-chassis-assembly)
    - [Wheels & Differential](#5-wheels--differential)
    - [Mechanical Testing & Validation](#mechanical-testing--validation)
-6. [Power & Sensor Architecture](#power--sensor-architecture)
+7. [Power & Sensor Architecture](#power--sensor-architecture)
    - [Battery](#1-battery)
    - [5V Buck Converter](#2-5v-buck-converter)
    - [UBEC Voltage Regulator](#3-ubec-voltage-regulator)
@@ -49,7 +56,7 @@ This repository contains everything needed to understand, build, and improve upo
    - [Camera Placement Rationale](#camera-placement-rationale)
    - [Full Power Budget](#8-full-power-budget)
    - [Bringing It All Together](#bringing-it-all-together)
-7. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
+8. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
    - [Raspberry Pi + Arduino Nano](#raspberry-pi--arduino-nano)
    - [Vision Pipeline](#1-vision-pipeline)
    - [Wall Following](#2-wall-following)
@@ -61,26 +68,26 @@ This repository contains everything needed to understand, build, and improve upo
    - [Arbitration](#8-arbitration)
    - [Autonomous Navigation Flowcharts](#autonomous-navigation-flowcharts)
    - [Testing & Tuning Evidence](#testing--tuning-evidence)
-8. [Performance & Validation](#performance--validation)
+9. [Performance & Validation](#performance--validation)
    - [Benchmark Results](#benchmark-results)
    - [Validation Tests](#validation-tests)
-9. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
+10. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
    - [Trade-offs](#trade-offs)
    - [Constraints](#constraints)
    - [Risk and Failures](#risk-and-failures)
    - [Iterations](#iterations)
-10. [Safety Measures & Reliability](#safety-measures--reliability)
+11. [Safety Measures & Reliability](#safety-measures--reliability)
     - [Hardware Safeguards](#hardware-safeguards)
     - [Software Safeguards](#software-safeguards)
     - [Testing & Validation for Reliability](#testing--validation-for-reliability)
     - [Competition-Day Safety Checklist](#competition-day-safety-checklist)
     - [Known Limitations & Mitigation](#known-limitations--mitigation)
-11. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
+12. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
     - [Parts List](#parts-list)
     - [How to Rebuild This Robot](#how-to-rebuild-this-robot)
     - [Commit History](#commit-history-showing-design-evolution)
     - [Future Fixes](#future-fixes)
-12. [Engineering Journal](#engineering-journal)
+13. [Engineering Journal](#engineering-journal)
 
 ---
 
