@@ -15,5 +15,5 @@ This code is utilized to find the LAB values for the Red and Green obstacle, Pin
 
 ---
 
-## [Random Combination Generator](Random-Combination-Generator/Obstacle_Random_Gen.py)
+## [Random Combination Generator](Random Combination Generator/Obstacle_Random_Gen.py)
 This is the code we run to test the obstacle challenge code, it generates random combinations to fully test our robots capabilities. You can find more [here](Random Combination Generator/README.md)
