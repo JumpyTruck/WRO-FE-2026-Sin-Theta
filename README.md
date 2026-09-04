@@ -46,7 +46,7 @@ This repository contains everything needed to understand, build, and improve upo
    - [Motor Driver (DRV8871)](#5-motor-driver-drv8871)
    - [Servo](#6-servo)
    - [Raspberry Pi 4B + Camera](#7-raspberry-pi-4b--camera)
-   - [Camera Calibration & Placement](#camera-calibration--placement)
+   - [Camera Placement Rationale](#camera-placement-rationale)
    - [Full Power Budget](#8-full-power-budget)
    - [Bringing It All Together](#bringing-it-all-together)
 7. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
@@ -78,6 +78,9 @@ This repository contains everything needed to understand, build, and improve upo
 11. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
     - [Parts List](#parts-list)
     - [How to Rebuild This Robot](#how-to-rebuild-this-robot)
+    - [Commit History](#commit-history-showing-design-evolution)
+    - [Future Fixes](#future-fixes)
+12. [Engineering Journal](#engineering-journal)
 
 ---
 
