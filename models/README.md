@@ -253,4 +253,4 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 Our robot features a protruding bumper from the nose of the robot, serving a multitude of purposes:
   1) Prevents the robot from becoming stuck on any wall or obstacle.
   2) The thick tape securing the bumper acts as a shock absorber to reduce stress on the chassis and rest of the robot during crashes.
-  3) It also serves a decorative purpose, sporting our team name “Sin Theta”, letting everyone know which team is running for.
+  3) And of course, a F1 inspired car must have a front bumper so we had to add it, sporting our team name “Sin Theta”, letting everyone know which team is running for.
