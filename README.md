@@ -297,7 +297,7 @@ This is our PCB and how it works:
 
 ---
 
-### 1. Battery
+### 1) Battery
 
 - 12.8V 2000mAh Li-ion battery pack (4S1P) — 4 cells in series for voltage, single parallel group for capacity
 - Acts as the single main power source for the entire board
@@ -308,7 +308,7 @@ This is our PCB and how it works:
 
 ---
 
-### 2. 5V Buck Converter
+### 2) 5V Buck Converter
 
 - Steps the 12.8V battery rail down to a steady 5V supply
 - Powers the Arduino Nano, the motor encoder, and the rest of the shared logic electronics off a single regulated rail
@@ -319,7 +319,7 @@ This is our PCB and how it works:
 
 ---
 
-### 3. UBEC Voltage Regulator
+### 3) UBEC Voltage Regulator
 
 - 2 to 8S LiPo UBEC rated for 8A, regulating the 12.8V battery rail down to 8.4V for the steering servo
 - Runs on a completely separate power path from the buck converter and logic electronics
@@ -330,7 +330,7 @@ This is our PCB and how it works:
 
 ---
 
-### 4. Arduino Nano
+### 4) Arduino Nano
 
 - Acts as the "slave" controller in the system, taking direction from the Raspberry Pi rather than making decisions itself
 - Receives steering and speed values from the Pi over a serial connection every processing cycle
@@ -342,7 +342,7 @@ This is our PCB and how it works:
 
 ---
 
-### 5. Motor Driver (DRV8871)
+### 5) Motor Driver (DRV8871)
 
 - Adafruit DRV8871 H-bridge motor driver, dedicated to driving the 12V 37D metal gear motor
 - Powered directly from the 12.8V battery rail on its motor-power side, so the motor gets full, unregulated battery voltage
@@ -353,7 +353,7 @@ This is our PCB and how it works:
 
 ---
 
-### 6. Servo
+### 6) Servo
 
 - 9g coreless servo (full metal gear, 4 KG·cm torque, 4.8–8.4V): the steering actuator, powered by the dedicated UBEC at 8.4V and commanded directly by the Nano's PWM output
 - Servo Port: a dedicated 3-wire connector (power, ground, PWM) that keeps the UBEC's power and the Nano's control signal cleanly routed to the servo, isolated from the rest of the board's electronics
@@ -362,7 +362,7 @@ This is our PCB and how it works:
 
 ---
 
-### 7. Raspberry Pi 4B + Camera
+### 7) Raspberry Pi 4B + Camera
 
 - Raspberry Pi 4B: the robot's main processing unit, responsible for all high-level perception and decision-making
 - Pi Camera Module 3 Wide: captures the competition mat in real time and feeds it into the onboard computer vision pipeline
@@ -375,8 +375,7 @@ This is our PCB and how it works:
 
 [More Info on Camera](electrical#51-main-controller-raspberry-pi-4b)
 
----
-### Camera Placement Rationale
+#### Camera Placement Rationale
 
 - **Height**: Mounted 155° down-angle on 3D-printed stand (top plate)
   - Why: Gives clear view of both near lane markers and distant obstacles
@@ -389,7 +388,7 @@ This is our PCB and how it works:
   
 ---
 
-### 8. Full Power Budget
+### 8) Full Power Budget
 
 | Component | Input Voltage | Normal Current | Peak Current | Power |
 |---|---|---|---|---|
@@ -443,28 +442,37 @@ For full message formats and protocol details, see [Communication Protocol](code
 
 Every raw frame is turned into a few simpler images that everything else in the code works from:
 
-- **Frame** — the raw camera view, cropped to the useful area
-- **Mat ROI** — the drivable floor, walls = black, floor = white
-- **Colour masks** — one black/white mask per colour: blue, orange, green, red, pink
+
+#### Frame — the raw camera view, cropped to the useful area
 
 <div align="center">
-
 <table>
 <tr>
 <td align="center"><b>Original Frame</b><br><img width="400" src="https://github.com/user-attachments/assets/44a4c8ec-7285-4efb-81c2-64d730164e3c"/></td>
-<td align="center"><b><img width="400" alt="open challenge" src="https://github.com/user-attachments/assets/ce474c36-33ac-42b7-893f-75f4db047ce6" /></td>
-</tr>
-<tr>
-<td align="center" colspan="2"><b>Mat ROI</b><br><img width="500" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/></td>
-</tr>
-<tr>
-<td align="center"><b>Obstacle Mask</b><br><img width="200" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
-<td align="center"><b>Blue Mask</b><br><img width="200" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td>
-<td align="center"><b>Orange Mask</b><br><img width="200" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
-<td align="center"><b>Parking Block</b><br><img width="200" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479"/></td>
+<td align="center"><b>Cropped Frame</b><br><img width="400" src="PLACEHOLDER_URL"/></td>
 </tr>
 </table>
+</div>
 
+#### Mat ROI — the drivable floor, walls = black, floor = white
+
+<div align="center">
+<img width="500" src="https://github.com/user-attachments/assets/bf9f8363-a913-4540-ab93-6496d6b0d15e"/>
+</div>
+
+#### Colour masks — one black/white mask per colour: blue, orange, green, red, pink
+
+<div align="center">
+<table>
+<tr>
+<td align="center"><b>Obstacle Mask</b><br><img width="300" src="https://github.com/user-attachments/assets/5547e388-27f7-47b5-99c0-d11c96ab7267"/></td>
+<td align="center"><b>Blue Mask</b><br><img width="300" src="https://github.com/user-attachments/assets/67a684e8-f9d6-4233-be04-23a351eac95e"/></td>
+</tr>
+<tr>
+<td align="center"><b>Orange Mask</b><br><img width="300" src="https://github.com/user-attachments/assets/ea2c966c-bf3d-491c-b23d-528c3a7366ce"/></td>
+<td align="center"><b>Parking Block</b><br><img width="300" src="https://github.com/user-attachments/assets/5cc00415-8d91-419e-889f-fa8259658479"/></td>
+</tr>
+</table>
 </div>
 
 ---
