@@ -6,14 +6,6 @@ Hello! We are **Team Sin Theta**, competing in the WRO Future Engineers 2026 Cha
 
 This repository contains everything needed to understand, build, and improve upon our design: 3D CAD files, full electrical schematics, detailed assembly instructions, and our complete engineering journal documenting trade-offs and lessons learned.
 
-<br><br><br>
-
-Here are the repo links for our previous year competition teams:
-
-<b>The Robertos (AA Batteries):</b>https://github.com/Abdu1Hak/WRO-2025.git<br>
-<b>VHR Motors:</b>https://github.com/RAJAS2025/VHR-WRO-FE-June-2025.git
-
-
 ---
 
 ## Design Philosophy
@@ -98,6 +90,7 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
     - [Commit History](#commit-history-showing-design-evolution)
     - [Future Fixes](#future-fixes)
 13. [Engineering Journal](#engineering-journal)
+14. [Previous Years](#previous-years)
 
 ---
 
@@ -1129,3 +1122,12 @@ Follow along with this schematic of the entire electrical architecture for the n
 Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
 
 [Go to Engineering Journal](./docs/engineering-journal.md)
+
+---
+
+## Previous Years
+
+Here are the repo links for our previous year competition teams:
+
+<b>The Robertos (AA Batteries):</b> https://github.com/Abdu1Hak/WRO-2025.git<br>
+<b>VHR Motors:</b> https://github.com/RAJAS2025/VHR-WRO-FE-June-2025.git
