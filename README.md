@@ -250,6 +250,7 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
       <b>This is the complete assembly of our competition robot, as it was all dreamt up and designed on CAD</b><br><br>
     </td>
   </tr>
+</table>
 
 ---
 
