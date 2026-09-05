@@ -1044,7 +1044,7 @@ Follow along with this schematic of the entire electrical architecture for the n
 
 **Step 2: Load Arduino Firmware and Verify Pi-Nano Communications**
 
-- Follow Complete Guide: [Serial Test][code/Serial Test Code/README.md]
+- Follow Complete Guide: [Serial Test](code/Serial%20Test%20Code/README.md)
 - Time estimate: 15 minutes
 
 **Step 3: Tune Color Detection**
