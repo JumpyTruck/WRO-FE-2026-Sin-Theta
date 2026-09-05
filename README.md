@@ -35,7 +35,7 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
 Feel free to check out my new website: https://crimeinsight.pages.dev/  <br><br>
 
 
-<b>Harshad Mahajan:</b> Hi, I am in Grade 12 and going to John Fraser Secondary School. This is my 2nd year competing in WRO. I'm interested in coding, building robots, and exploring creative ideas. I also enjoy sports and traveling.<br><br>
+<b>Harshad Mahajan:</b> Hi, I am in Grade 12 and going to John Fraser Secondary School. This is my 2nd year competing in WRO. I'm interested in coding, building robots, and exploring creative ideas. I also enjoy sports and traveling. My previous robotics experience comes from WRO FE in 2025 and Zone_01 in 2024.<br><br>
 Here's my Linkedin: https://www.linkedin.com/in/harshad-mahajan-9580362ba/ 
 
 
