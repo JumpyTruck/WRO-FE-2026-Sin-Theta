@@ -648,8 +648,8 @@ All control gains were tuned iteratively on the actual track:
 |-----------|---------------|-------------|-------------------|
 | `AREA_WALL_KP` | 0.8 | 0.005 | Weak turns; increased responsiveness |
 | `AREA_WALL_KD` | 0.3 | 0.001 | Oscillation at corners; added damping |
-| `GREEN_PILLAR_KP` | 0.5 | 0.7 | Green pillar avoidance too timid |
-| `RED_PILLAR_KP` | 0.5 | 0.75 | Red pillar avoidance too timid |
+| `GREEN_PILLAR_KP` | 0.5 | 1.35 | Green pillar avoidance too timid |
+| `RED_PILLAR_KP` | 0.5 | 1.35 | Red pillar avoidance too timid |
 | `WALL_OPENING_AREA` | 50 | 35 | Gap detection triggered too late; lowered threshold |
 | `OPENING_BOOST_MULT` | 1.5 | 2.0 | Gaps not sharp enough; increased boost |
 
