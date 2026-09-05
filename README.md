@@ -922,20 +922,27 @@ This repository documents the design, build, and code for our WRO robot — incl
 ### Parts List
 
 | Category | Component | Price |
-|---|---|---|
-| Processing Controller | [Raspberry Pi 4b](https://www.pishop.ca/product/raspberry-pi-4-model-b-8gb/?src=raspberrypi) | $230.95 |
-| Slave Controller | [Arduino Nano](https://www.pishop.ca/product/arduino-nano-every-with-headers/) | $19.95 |
-| Vision | [Raspberry Pi Camera Module 3 Wide](https://www.pishop.ca/product/raspberry-pi-camera-module-3-wide/)  | $50.95 |
-| Motor | [12V 37D Metal Gearmotor](https://ca.robotshop.com/products/e-s-motor-12v-37d-metal-gearmotor-w-11ppr-encoder-80d-wheel-kits-510rpm)  | $26.88 |
-| Motor Driver | [Adafruit DRV8871](https://www.adafruit.com/product/3190?srsltid=AfmBOoo9CELevBMdlZMrcvmU8TppcRFMJ9G6S75iH-5KoBfW2q0VHMKY)  | $7.50 |
-| Servo | [8.4V High-Torque Coreless Servo](https://www.amazon.ca/HOOYIJ-Coreless-4-8-8-4V-Fixed-Wing-Aircraft/dp/B0FXM7YKKN/ref=sr_1_14_sspa?s=toys&sr=1-14-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9tdGY&th=1)  | $17.00 |
-| Servo Power Convertor | [8.4V 10A UBEC](https://www.amazon.ca/dp/B0CN3429PF?ref=cm_sw_r_cso_cp_apan_dp_HCEG458FH8NZZRDGSBJ8&ref_=cm_sw_r_cso_cp_apan_dp_HCEG458FH8NZZRDGSBJ8&social_share=cm_sw_r_cso_cp_apan_dp_HCEG458FH8NZZRDGSBJ8)  | $25.99|
-| Power Convertor | [5V DC-DC Buck Converter](https://www.amazon.ca/MECCANIXITY-Converter-Regulator-Adjustment-Transformers/dp/B0DY12RRXR/ref=sr_1_13?dib=eyJ2IjoiMSJ9.3sWfhjIcc1hoJKPByHKjQzfCH0S0_tXvBwEmbrq57EEsfzixvilVTwhsCveKQSBaNZqgyQJTxCo5C9yerE1r5elG9u093WkifXW83a9RlNllLggT_F8Z9E8w-55ohEAbu9P5b_MA-sca0QRabGxf0B3XgP79bZBKm38Gu3GT9zsq_GJRk7swHEtNhVmSDtl1z0zSfFW6qcEwORIHBxjltqSy6EQhqgG8c1gbn0PrSmKLIdnZKwbrqg4lifURV7BEdmNg6BltoxBZiHJi5o6krPBpBiZGUqTkTp3suYNkd34.8sCd033aO_QgAAnLNCuCS9cYF853a2honx0sxnwS6qI&dib_tag=se&gad_source=1&hvadid=788539018764&hvdev=c&hvexpln=0&hvlocphy=9000820&hvnetw=g&hvocijid=2954761463201213509--&hvqmt=e&hvrand=2954761463201213509&hvtargid=kwd-297985746855&hydadcr=19993_13722699&keywords=5v%2Bbuck%2Bconverter&mcid=677e0020ddd137299ce8ef2104e81969&qid=1787718756&sr=8-13&th=1)  | $2.80 |
-| Battery Pack | [IFR 18650 4S1P 12.8V 2000mAh Li-ion Battery Pack](https://www.amazon.ca/Battery-Replacement-Lefant-Cleaner-2000mAh/dp/B0CL6585ZC/ref=sr_1_5?dib=eyJ2IjoiMSJ9.SyMUzHywkEVCptQq-mRIHfSf8YODd7PT5qicZbkRvGkel4nui-2hUdoZqrSH2-Zg17dbDlhRv5AB_zAuHtgyrzlJff1rf74M_6iRWl3iBaH9hPumUNG2gIkGsc9oZuIgAan1QyNRIsoufm4hMOtxGpHcC58JeiRSkELtAhjaautnqIAG6mO5tPzg7rmIN2leTVUsgBJeTlMSrjbJ06ujqQYKz--dNW7OIStqvioBo50CPfBT-kJfm-fAKW7yZRYfnIWRfssIQkMkkOF8qTZ0laFYgKgo-625IfnI-RyRlLc.JaSQjkbTQY3CrOOxz3OXUhFG_bn0ri3AIUVQ7Kztyvk&dib_tag=se&gad_source=1&hvadid=788660666612&hvdev=c&hvexpln=0&hvlocphy=9000820&hvnetw=g&hvocijid=3661388621925926758--&hvqmt=e&hvrand=3661388621925926758&hvtargid=kwd-302656658098&hydadcr=1497_13820500&keywords=18650%2B4s1p&mcid=e55eb9c816e53de09557bb72239e94db&qid=1773772443&sr=8-5&th=1)  | $39.99 |
+| :--- | :--- | :--- |
+| Processing Controller | [Raspberry Pi 4b](https://pishop.ca "Pi4 Board 8GB") | $230.95 |
+| Slave Controller | [Arduino Nano](https://pishop.ca "Arduino Nano Every") | $19.95 |
+| Vision | [Raspberry Pi Camera Module 3 Wide](https://pishop.ca "Camera Module 3 Wide") | $50.95 |
+| Motor | [12V 37D Metal Gearmotor](https://robotshop.com "12V 37D Gearmotor") | $26.88 |
+| Motor Driver | [Adafruit DRV8871](https://adafruit.com "Adafruit DRV8871") | $7.50 |
+| Servo | [8.4V High-Torque Coreless Servo](https://amazon.ca "Amazon Canada HOOYIJ Servo") | $17.00 |
+| Servo Power Convertor | [8.4V 10A UBEC](https://amazon.ca "Amazon Canada 8A UBEC") | $25.99 |
+| Power Convertor | [5V DC-DC Buck Converter](https://amazon.ca "Amazon Canada MINI560 Buck Converter") | $2.80 |
+| Battery Pack | [IFR 18650 4S1P 12.8V 2000mAh Li-ion Battery Pack](https://amazon.ca "Amazon Canada ZTHY Battery Pack") | $39.99 |
 | 3D Printed Parts | [Parts/Models](models) | $5.11 |
 | Metal 3D Printed Parts | [Rear Metal Axles](models/CAD%203D%20Printed%20Parts/Rear%20Axle.STL) | $16.50 |
-| Total Cost|  | $443.62 |
+| Mechanical Hardware | VEX Standoffs (1”, 1 ½”) | $1.50 |
+| Mechanical Hardware | Bearings (*4) | $1.00 |
+| Mechanical Hardware | Screws, Fasteners (M2, M3) | $1.50 |
+| Mechanical Hardware | VEX Nylon Spacers (¼”, ⅛”) | $0.25 |
+| Mechanical Hardware | SPIKE Wheels (*4) | $8.00 |
+| Mechanical Hardware | Metal Differential | $8.00 |
+| | **Total Cost** | **$478.87** |
 
+(~$15.00(~1.25 rolls) of filament (PLA, PETG) were used through all iterations)
 (Click the Blue for purchase site)
 
 ---
