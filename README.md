@@ -574,19 +574,6 @@ After 12 quarter-turns, the robot switches into parking mode.
 
 The final manoeuvre uses **encoder ticks** rather than time for every move, so it covers the same distance no matter the speed:
 
-<div align="center">
-<table>
-<tr>
-<td align="center" width="50%"><b>Counter Clockwise</b><br>Follows the pink block straight after the last turn.<br>
-<img width="400" alt="IMG_2594-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/2b2381f4-c1f1-4e4a-8960-5962c048d737" />
-</td>
-<td align="center" width="50%"><b>Clockwise</b><br>Does a U-turn first, then follows the pink block.<br>
-<img width="400" alt="IMG_2596-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/b96c7a6a-3dda-4819-8dd1-4a5a56780e92" />
-</td>
-</tr>
-</table>
-</div>
-
 ---
 
 ### 7) The State Machine
