@@ -710,10 +710,10 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - Since our focus is on **consistency and accuracy** rather than raw lap time, we chose fixed speed instead
 - A predictable, repeatable speed profile made the robot's behavior easier to tune and trust across multiple runs
 
-| Speed | Accuracy | Time (without parking) |
+| Speed | Accuracy | Time |
 |---|---|---|
-| Fixed Speed | 90% | 52s |
-| Variable Speed | 80% | 42s |
+| Fixed Speed | 90% | 70s |
+| Variable Speed | 80% | 60s |
 
 #### LAB color space instead of HSV
 - Originally considered HSV for color detection
