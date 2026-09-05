@@ -48,7 +48,7 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
 
 This guide maps out the central engineering subsystems, hardware configurations, and asset directories across our **WRO Future Engineers 2026** competition entry:
 
-*   **[`code/`](code/)**: Contains all autonomous control scripts executing across our hardware hierarchy. This includes our primary competition routines ([Open Challenge](code/OpenChallenge.py) and [Obstacle Challenge](code/ObstcaleChallenge.py)), hardware abstraction testing utilities, and low-level microcontroller firmware [Arduino Code](code/Arduino_Serial.ino).
+*   **[`code/`](code/)**: Contains all autonomous control scripts executing across our hardware hierarchy. This includes our primary competition routines ([Open Challenge](code/OpenChallenge.py) and [Obstacle Challenge](code/ObstacleChallenge.py)), hardware abstraction testing utilities, and low-level microcontroller firmware [Arduino Code](code/Arduino_Serial.ino).
 *   **[`electrical/`](electrical/)**: Houses our hardware topology designs, system-level wiring interconnect layouts, and core schematic capture distributions tracking our data busses and electrical power delivery distribution networks.
 *   **[`models/`](models/)**: Holds production-ready manufacturing blueprints, mechanical CAD definitions, and 3D printable STL assets for prototyping vehicle panels as well as high-load functional components like machined custom metal drive axles.
 *   **[`t-photos/`](t-photos/)**: Our dedicated **Team Photography Gallery** celebrating the individuals driving the project.
