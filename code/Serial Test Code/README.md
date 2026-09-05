@@ -19,7 +19,7 @@ This guide demonstrates how to verify serial communication between a **Raspberry
 
 ---
 
-# Step 1 - Upload the [Arduino Test Sketch](Serial_Test_Nano.ino)
+## Step 1 - Upload the [Arduino Test Sketch](Serial_Test_Nano.ino)
 
 1. Open the Arduino IDE.
 2. Connect the Arduino Nano to your computer.
@@ -29,7 +29,7 @@ This guide demonstrates how to verify serial communication between a **Raspberry
 
 ---
 
-# Step 2 - Connect the Arduino to the Raspberry Pi
+## Step 2 - Connect the Arduino to the Raspberry Pi
 
 Disconnect the Arduino from your computer and connect it to the Raspberry Pi using the USB cable.
 
@@ -37,7 +37,7 @@ The Arduino should automatically appear as a serial device.
 
 ---
 
-# Step 3 - Install PySerial
+## Step 3 - Install PySerial
 
 On the Raspberry Pi, install the required Python library.
 
@@ -47,7 +47,7 @@ pip3 install pyserial
 
 ---
 
-# Step 4 - Identify the Serial Port
+## Step 4 - Identify the Serial Port
 
 Run:
 
@@ -77,7 +77,7 @@ If unsure, unplug the Arduino, run the command, plug it back in, and run the com
 
 ---
 
-# Step 5 - Create the Python Test Script
+## Step 5 - Create the Python Test Script
 
 Create a new file:
 
@@ -91,7 +91,7 @@ Save the file.
 
 ---
 
-# Step 6 - Run the Test
+## Step 6 - Run the Test
 
 Execute the script.
 
@@ -101,7 +101,7 @@ python3 serial_test.py
 
 ---
 
-# Expected Output
+## Expected Output
 
 If everything is working correctly, you should see output similar to:
 
@@ -118,9 +118,9 @@ Arduino: Heartbeat
 
 ---
 
-# Troubleshooting
+## Troubleshooting
 
-## Permission Denied
+### Permission Denied
 
 If you receive a permission error:
 
@@ -142,7 +142,7 @@ sudo reboot
 
 ---
 
-## Port Not Found
+### Port Not Found
 
 Verify the Arduino is detected:
 
@@ -158,7 +158,7 @@ ls /dev/ttyACM*
 
 ---
 
-## No Output
+### No Output
 
 Check that:
 
@@ -169,7 +169,7 @@ Check that:
 
 ---
 
-# Success Criteria
+## Success Criteria
 
 The test is successful when:
 
