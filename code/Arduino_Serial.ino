@@ -40,12 +40,6 @@ void setup() {
 }
 
 void encoderISR() {
-  // Direction via C2 wasn't reliable on this wiring. handleMove() (and
-  // therefore set_motor(..., ticks=...) on the Pi side) only ever cares
-  // about abs(encoderTicks - startTicks), i.e. magnitude of movement, not
-  // sign -- so a monotonically-increasing counter is all that's actually
-  // needed. This matches the standalone encoder-test sketch that was
-  // confirmed working by hand.
   encoderTicks++;
 }
 
