@@ -1045,7 +1045,7 @@ Follow along with this schematic of the entire electrical architecture for the n
 **Step 2: Load Arduino Firmware**
 
 - Download Arduino IDE
-- Open `code/arduino/motor_control/motor_control.ino`
+- Download and Open [Arduino_Serial](code/Arduino_Serial.io)
 - Select board: Arduino Nano
 - Select port: USB serial port
 - Click Upload
