@@ -978,7 +978,7 @@ This repository documents the design, build, and code for our WRO robot — incl
  
 Follow along with this schematic of the entire electrical architecture for the next steps
 
-[Go to Schematic](electrical/Electrical_Schematic.png)
+[Go to Schematic](electrical/Schematic_WRO-Sinθ-Final-Schematics_2026-09-03.png)
 
 **Step 2: Solder Battery Connections**
 - Solder battery pack leads to a switch
