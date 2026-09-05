@@ -91,8 +91,7 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
 12. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
     - [Parts List](#parts-list)
     - [How to Rebuild This Robot](#how-to-rebuild-this-robot)
-    - [Commit History](#commit-history-showing-design-evolution)
-    - [Future Fixes](#future-fixes)
+    - [Future Improvements](#future-improvements)
 13. [Engineering Journal](#engineering-journal)
 
 ---
