@@ -19,7 +19,7 @@ This guide demonstrates how to verify serial communication between a **Raspberry
 
 ---
 
-## Step 1 - Upload the [Arduino Test Sketch](Serial_Test_Nano.ino)
+## Step 1 - Upload the Arduino Test Sketch
 
 1. Open the Arduino IDE.
 2. Connect the Arduino Nano to your computer.
