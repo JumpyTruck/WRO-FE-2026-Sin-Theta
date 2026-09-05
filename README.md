@@ -108,9 +108,9 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
 ## Performance Videos
 
 ### Open Challenge
-https://youtu.be/c_hOybq6sdY
+https://youtu.be/3cM_T3cttLk
 ### Obstacle Challenge
-https://youtu.be/TrZud6jrQio 
+https://youtu.be/weySsihPY30
 
 ---
 
@@ -506,6 +506,7 @@ angle = STEER_CENTER - control
 if area_left < WALL_OPENING_AREA and area_right > 100:
     area_right = area_right * OPENING_BOOST_MULT + OPENING_BOOST_ADD
 ```
+
 ---
 
 ### 3) Obstacle Avoidance
@@ -517,8 +518,9 @@ To steer around a pillar, the robot needs two numbers:
 - With both legs known, trigonometry (`arctan2`) gives the angle between them — that angle is how much to steer
 
 ```python
-rad_angle = np.arctan2(y_center - FRAME_HEIGHT, x_center - aim_x)
-pillar_angle_deg = 90 + np.degrees(rad_angle)
+horizontal_distance = x_center - target_x
+vertical_distance = FRAME_HEIGHT - y_center
+pillar_angle_deg = np.degrees(np.arctan2(horizontal_distance, vertical_distance))
 ```
 
 <div align="center">
@@ -541,18 +543,18 @@ else:          # pass on the right
 Two safety checks run every frame on the track mask:
 
 ```python
-outer_crash = navigator.is_hitting_outer_wall(direction, track_image, frame)
-inner_crash = navigator.is_hitting_inner_wall(direction, track_image, frame)
+outer_crash = navigator.is_hitting_outer_wall(direction, track_image)
+inner_crash = navigator.is_hitting_inner_wall(direction, track_image)
 ```
 
-- **Outer wall too close (blue dot)** → ignore normal steering entirely, force a hard turn away from it
-- **Inner wall too close (blue line)** → don't force a turn, just soften the wall-following gains so the correction is gentler:
+- **Outer wall too close** → ignore normal steering entirely, force a hard turn away from it
+- **Inner wall too close** → don't force a turn, just soften the wall-following gains so the correction is gentler:
 
 ```python
 kp = AREA_WALL_KP_DAMPED if damped else AREA_WALL_KP
 ```
 
-Both checks latch into a small state — once triggered, the robot stays in recovery until the crash condition actually clears.
+Both checks latch into a small state (`WallState.NONE` / `INNER` / `OUTER`) — once triggered, the robot stays in recovery until the crash condition actually clears.
 
 ---
 
@@ -569,10 +571,23 @@ After 12 quarter-turns, the robot switches into parking mode.
 ### 6) Parking
 
 - Looks for the **pink block** and drives toward it
-- If a pillar is closer than the pink block, avoiding the pillar still takes priority
+- If a pillar is closer than the pink block, avoiding the pillar still takes priority:
+
+```python
+pillar_is_closer = (
+    pillar_found is not None
+    and pillar_found[1] >= PILLAR_TRACK_START_Y
+    and (pink_y is None or pillar_found[1] > pink_y)
+)
+```
+
 - Once close enough and lined up, stops and reverses in using a fixed sequence of hard turns
 
 The final manoeuvre uses **encoder ticks** rather than time for every move, so it covers the same distance no matter the speed:
+
+```python
+drive(MOTOR_REVERSE, PARK_SPEED, 1000)
+```
 
 ---
 
@@ -585,7 +600,6 @@ The whole run is one state machine that moves forward through these states in or
 - **Detect start direction** — compares open floor on the left vs. right half of the frame
 - **Exit start park** — a fixed manoeuvre out of the starting box, checking for a pillar first
 - **Drive laps** — the main loop: wall-follow, dodge pillars, count quarter-turns
-- **U-turn to parking wall** — clockwise runs only; turns to face the pink wall
 - **Approach parking spot** — tracks the pink wall until lined up, then reverses in
 
 ```python
@@ -606,6 +620,10 @@ Inside the drive-laps state, several systems all want a say in the steering angl
 4. **Wall Following** → normal wall following runs
 
 ```python
+pillar_angle = navigator.get_steer_angle(direction, green_mask_on_track, red_mask_on_track, track_image)
+wall_angle = area_wall_follow_angle(track_image, direction, blue_area=blue_area,
+                                     orange_area=orange_area, damped=navigator.inner_wall_warning)
+
 final_angle = pillar_angle if pillar_angle is not None else wall_angle
 ```
 
