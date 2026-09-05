@@ -30,7 +30,7 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
   </tr>
 </table>
 
-<b>Aarav Daudia:</b>Hello Judges, my name is Aarav, and I am a grade 12 student with a passion for creating things that blend engineering, technology, and design. Whether I am modeling mechanical parts in CAD, programming robots, wiring electronics, or building websites and machine learning tools, I am drawn to projects that turn curiosity into something real and useful This is my second year competing in WRO FE, with my previous robotics experience coming in WRO FE, VEX, WRO Robosports, FLL, FRC, and Zone_01.<br><br>
+<b>Aarav Daudia:</b> Hello Judges, my name is Aarav, and I am a grade 12 student with a passion for creating things that blend engineering, technology, and design. Whether I am modeling mechanical parts in CAD, programming robots, wiring electronics, or building websites and machine learning tools, I am drawn to projects that turn curiosity into something real and useful This is my second year competing in WRO FE, with my previous robotics experience coming in WRO FE, VEX, WRO Robosports, FLL, FRC, and Zone_01.<br><br>
 Feel free to check out my new website: https://crimeinsight.pages.dev/  <br><br>
 <b>Harshad Mahajan:</b><br><br>
 <b>Rajas Salunke:</b><br>
