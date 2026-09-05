@@ -63,18 +63,8 @@ pip install pyserial numpy gpiozero RPi.GPIO
 
 Clone the repo:
 
-git clone https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta.git
-cd WRO-FE-2026-Sin-Theta
-
-If you've already cloned it and just need the latest changes:
-
-git pull
-
-**No internet on the Pi?** Copy the code over from another machine on the same network instead:
-
-scp -r ./code pi@<pi-ip-address>:/home/pi/WRO-FE-2026-Sin-Theta/
-
-All commands from here on assume you're inside the `WRO-FE-2026-Sin-Theta` folder.
+`git clone https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta.git`
+`cd WRO-FE-2026-Sin-Theta`
 
 ## 9) Wiring Check
 
