@@ -33,8 +33,13 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
 
 <b>Aarav Daudia:</b> Hello Judges, my name is Aarav, and I am a grade 12 student with a passion for creating things that blend engineering, technology, and design. Whether I am modeling mechanical parts in CAD, programming robots, wiring electronics, or building websites and machine learning tools, I am drawn to projects that turn curiosity into something real and useful This is my second year competing in WRO FE, with my previous robotics experience coming in WRO FE, VEX, WRO Robosports, FLL, FRC, and Zone_01.<br><br>
 Feel free to check out my new website: https://crimeinsight.pages.dev/  <br><br>
-<b>Harshad Mahajan:</b><br><br>
-<b>Rajas Salunke:</b><br>
+
+<b>Harshad Mahajan:</b> Hi, I am in Grade 12 and going to John Fraser Secondary School. This is my 2nd year competing in WRO. I'm interested in coding, building robots, and exploring creative ideas. I also enjoy sports and traveling. 
+Here's my Linkedin: https://www.linkedin.com/in/harshad-mahajan-9580362ba/ 
+
+<b>Rajas Salunke:</b> Hello Im Rajas, I am a student at Fletchers Meadow Secondary School who is currently in Grade 12. This is my 3rd year competing in WRO with experience in Robomission (Junior Category),  and 1 year in WRO future engineers with this being my second year in Future Engineers. 
+Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/ 
+
 
 ---
 
