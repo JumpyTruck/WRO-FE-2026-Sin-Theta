@@ -583,11 +583,7 @@ pillar_is_closer = (
 
 - Once close enough and lined up, stops and reverses in using a fixed sequence of hard turns
 
-The final manoeuvre uses **encoder ticks** rather than time for every move, so it covers the same distance no matter the speed:
-
-```python
-drive(MOTOR_REVERSE, PARK_SPEED, 1000)
-```
+The final manoeuvre uses **encoder ticks** rather than time for every move, so it covers the same distance no matter the speed
 
 ---
 
