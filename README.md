@@ -1042,25 +1042,12 @@ Follow along with this schematic of the entire electrical architecture for the n
 - Time estimate: 30-45 minutes
 - Verification: `python3 ObstacleChallenge.py` runs and the status LED turns on, waiting for the start button.
 
-**Step 2: Load Arduino Firmware**
+**Step 2: Load Arduino Firmware and Verify Pi-Nano Communications**
 
-- Download Arduino IDE
-- Download and Open [Arduino_Serial](code/Arduino_Serial.io)
-- Select board: Arduino Nano
-- Select port: USB serial port
-- Click Upload
-- Time estimate: 10 minutes
-- Verification: Arduino IDE shows "Upload successful"
+- Follow Complete Guide: [Serial Test][code/Serial Test Code/README.md]
+- Time estimate: 15 minutes
 
-**Step 3: Test Pi-Nano Communication**
-
-- Run test script: `python code/test_serial_communication.py`
-- Expected output: "Connected to Arduino at /dev/ttyUSB0"
-- Send test command: Pi sends speed=50, Nano echoes back
-- Time estimate: 5 minutes
-- If fails: Check USB cable, verify Arduino uploaded correctly
-
-**Step 4: Tune Color Detection**
+**Step 3: Tune Color Detection**
 
 - Run LAB Adjuster ([labadjuster.py](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/labadjuster.py))
 - For each color (blue, green, red, orange, pink):
