@@ -1082,7 +1082,7 @@ Follow along with this schematic of the entire electrical architecture for the n
 - Run wall-following mode only (no obstacles)
 - Expected: Robot hugs the left wall, maintains consistent distance
 - Measure: Distance to wall should vary <2cm throughout lap
-- If fails: Adjust `AREA_WALL_KP` and `AREA_WALL_KD` in config.py
+- If fails: Adjust `AREA_WALL_KP` and `AREA_WALL_KD` in code ([Open Challenge](code/OpenChallenge.py), [Obstacle Challenge](ObstacleChallenge.py))
 
 **Step 3: Test Obstacle Avoidance**
 - Place green obstacle in path
