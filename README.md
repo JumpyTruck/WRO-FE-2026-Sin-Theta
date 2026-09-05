@@ -1053,7 +1053,8 @@ Follow along with this schematic of the entire electrical architecture for the n
 
 **Step 2: Load Arduino Firmware and Verify Pi-Nano Communications**
 
-- Follow Complete Guide: [Serial Test](code/Serial%20Test%20Code/README.md)
+- Test serial communication between Raspberry Pi and Arduino Nano: [Serial Test](code/Serial%20Test%20Code/README.md)
+- Download the Arduino motor controller code: [Arduino Nano Code](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/code/Arduino_Serial.ino)
 - Time estimate: 15 minutes
 
 **Step 3: Tune Color Detection**
