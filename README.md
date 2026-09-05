@@ -1130,7 +1130,7 @@ Follow along with this schematic of the entire electrical architecture for the n
 
 ### Future Improvements
 
-1) Beginning to push code directly from the Raspberry Pi through Git in order to build a commit history.
+1) Begin to push code directly from the Raspberry Pi through Git in order to build a commit history.
 2) Implement Dynamic Ranges to improve obstacle, line, and parking block detection in a multitude of lighting conditions.
 3) Improving on our Acceleration and Deceleration code to a point that it becomes as reliable as fixed code, therefore we can improve our lap times overall.
 
