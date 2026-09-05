@@ -16,23 +16,21 @@ CAMERA_PIC_WIDTH = 640
 CAMERA_PIC_HEIGHT = 360
 PIC_WIDTH = 640
 PIC_HEIGHT = 280
-CAMERA_WARMUP_FRAMES = 10  # throwaway captures so AWB/AE settle before we trust anything
+CAMERA_WARMUP_FRAMES = 10  # throwaway captures so camera settle before we trust anything
 
 # threshold used to split floor (white) from wall/shadow (black)
 GRAY_THRESHOLD = 75
 
-# HSV colour ranges for the turn markers, tuned by hand on the mat
-BLUE_LOWER = np.array([27, 120, 94])
-BLUE_UPPER = np.array([138, 167, 124])
-ORANGE_LOWER = np.array([103, 126, 135])
-ORANGE_UPPER = np.array([171, 156, 185])
+# LAB colour range for the blue line
+BLUE_LOWER = np.array([22, 131, 75])
+BLUE_UPPER = np.array([95, 158, 112])
 
 # --- steering geometry ---
 STEER_CENTER = 97
 MAX_STEER_OFFSET = 43
 STEER_MIN = STEER_CENTER - MAX_STEER_OFFSET
 STEER_MAX = STEER_CENTER + MAX_STEER_OFFSET
-STEER_SIGN = -1  # flips left/right if the servo is mounted reversed
+STEER_SIGN = -1  
 
 # --- run config ---
 MOTOR_FORWARD = 1
@@ -51,7 +49,7 @@ TURN_MIN_TIME = 0.25
 TURN_MAX_TIME = 2.0
 TURN_COOLDOWN_TIME = 0.2
 
-# --- fixed side wall ROIs, no mirroring since we only ever drive one way round ---
+# --- wall follow config ---
 ROI_LEFT_WALL = [0, 84, 128, 210]
 ROI_RIGHT_WALL = [512, 84, 640, 210]
 WALL_CENTER_OFFSET = 0
@@ -60,7 +58,7 @@ OPENING_BOOST_MULT = 2
 OPENING_BOOST_ADD = 25000
 AREA_WALL_KP = 0.003
 AREA_WALL_KD = 0.0001
-HARD_TURN_SIGN = -1  # fixed turn direction for the "lost both walls" fallback, no direction enum here to derive it from
+HARD_TURN_SIGN = -1  
 
 
 class TurnState(Enum):
@@ -124,7 +122,6 @@ def drive(motor_direction, speed, ticks=None):
     speed = max(0, min(255, int(speed)))
 
     if ticks is not None:
-        # tick-based moves reset the encoder count first so distance is relative to now
         reset_tick_counter()
         return drive_ticks(motor_direction, speed, int(ticks))
 
@@ -163,12 +160,8 @@ def reset_tick_counter():
     ser.readline()
 
 
-def blue_mask_of(hsv_img):
-    return cv2.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
-
-
-def orange_mask_of(hsv_img):
-    return cv2.inRange(hsv_img, ORANGE_LOWER, ORANGE_UPPER)
+def blue_mask_of(lab_img):
+    return cv2.inRange(lab_img, BLUE_LOWER, BLUE_UPPER)
 
 
 def crop_frame(image, x_start, x_end, y_start, y_end):
@@ -189,7 +182,6 @@ def get_track_boundary(binary_image, fallback_image):
 
     contour = max(contours, key=cv2.contourArea)
 
-    # simplify into a polygon, works fine for curved or irregular track edges
     epsilon = 0.001 * cv2.arcLength(contour, True)
     mat_roi = cv2.approxPolyDP(contour, epsilon, True)
 
@@ -200,7 +192,7 @@ def get_track_boundary(binary_image, fallback_image):
 
 
 def get_wall_rois():
-    # always the same two fixed ROIs, no mirroring or direction check needed
+    # wall follow ROIs
     return ROI_LEFT_WALL, ROI_RIGHT_WALL
 
 
@@ -257,7 +249,7 @@ def area_wall_follow_angle(track_image, blue_area=0):
     angle = STEER_CENTER - control
 
     # neither wall visible at all, deep in a corner -- hard turn using the blue
-    # marker as a tiebreak (fixed sign since there's no direction enum here)
+    # marker as a tiebreak
     if area_left == 0 and area_right == 0:
         if blue_area > TURN_MARKER_ENTER_AREA:
             angle = STEER_CENTER + HARD_TURN_SIGN * 35
@@ -268,8 +260,7 @@ def area_wall_follow_angle(track_image, blue_area=0):
 
 
 class LapCounter:
-    # counts corners (quarter turns) by watching how big the blue marker
-    # gets as we drive past it, then confirming once it shrinks back down
+    # counts corners (quarter turns) by watching the blue line
     def __init__(self):
         self.state = TurnState.IDLE
         self.quarter_turns = 0
@@ -377,9 +368,7 @@ class RobotController:
         self.state = RunState.DRIVE_LAPS
 
     def _state_drive_laps(self):
-        # covers the whole race in one loop: no separate parking phase here
-        # like the obstacle challenge, so process a frame, steer, count turns,
-        # check if we're done, repeat
+        # covers the whole race in one loop
         while True:
             raw_frame = self.picam2.capture_array()
 
@@ -389,16 +378,15 @@ class RobotController:
                 CAMERA_PIC_HEIGHT - PIC_HEIGHT, CAMERA_PIC_HEIGHT
             )
 
-            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+            lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             blurred = cv2.bilateralFilter(gray, d=9, sigmaColor=75, sigmaSpace=75)
             _, binary = cv2.threshold(blurred, GRAY_THRESHOLD, 255, cv2.THRESH_BINARY)
 
-            # force blue/orange lines to read as FLOOR (white) before cleanup
-            blue_mask = blue_mask_of(hsv)
-            orange_mask = orange_mask_of(hsv)
-            line_mask = cv2.bitwise_or(blue_mask, orange_mask)
+            # force the blue line to read as FLOOR (white) before cleanup
+            blue_mask = blue_mask_of(lab)
+            line_mask = blue_mask
             binary[line_mask > 0] = 255
 
             clean = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8))
