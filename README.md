@@ -42,7 +42,18 @@ Here's my Linkedin: https://www.linkedin.com/in/harshad-mahajan-9580362ba/
 <b>Rajas Salunke:</b> Hello Im Rajas, I am a student at Fletchers Meadow Secondary School who is currently in Grade 12. This is my 3rd year competing in WRO with experience in Robomission (Junior Category),  and 1 year in WRO future engineers with this being my second year in Future Engineers.<br><br> 
 Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/ 
 
+---
 
+## Repository Roadmap
+
+This guide maps out the central engineering subsystems, hardware configurations, and asset directories across our **WRO Future Engineers 2026** competition entry:
+
+*   **[`code/`](code/)**: Contains all autonomous control scripts executing across our hardware hierarchy. This includes our primary competition routines ([Open Challenge](OpenChallenge.py) and [Obstacle Challenge](ObstcaleChallenge.py)), hardware abstraction testing utilities, and low-level microcontroller firmware [Arduino Code](Arduino_Serial.ino).
+*   **[`electrical/`](electrical/)**: Houses our hardware topology designs, system-level wiring interconnect layouts, and core schematic capture distributions tracking our data busses and electrical power delivery distribution networks.
+*   **[`models/`](models/)**: Holds production-ready manufacturing blueprints, mechanical CAD definitions, and 3D printable STL assets for prototyping vehicle panels as well as high-load functional components like machined custom metal drive axles.
+*   **[`t-photos/`](t-photos/)**: Our dedicated **Team Photography Gallery** celebrating the individuals driving the project.
+*   **[`v-photos/`](v-photos/)**: Contains images (CAD and physical) of our robot for this year.
+*   **Main README**: Contains all information for this year's competition.
 ---
 
 ## Table of Contents
@@ -50,9 +61,10 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
 1. [Introduction](#introduction)
 2. [The Team](#the-team)
 3. [Design Philosophy](#design-philosophy)
-4. [Performance Videos](#performance-videos)
-5. [The Robot](#the-robot)
-6. [Mobility & Mechanical Design](#mobility--mechanical-design)
+4. [Repository Roadmap](#repository-roadmap)
+5. [Performance Videos](#performance-videos)
+6. [The Robot](#the-robot)
+7. [Mobility & Mechanical Design](#mobility--mechanical-design)
    - [Design Decisions Summary](#design-decisions-summary)
    - [Robot Dimensions & Weight](#1-robot-dimensions--weight)
    - [Drive System](#2-drive-system)
@@ -60,7 +72,7 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
    - [Chassis Assembly](#4-chassis-assembly)
    - [Wheels & Differential](#5-wheels--differential)
    - [Mechanical Testing & Validation](#mechanical-testing--validation)
-7. [Power & Sensor Architecture](#power--sensor-architecture)
+8. [Power & Sensor Architecture](#power--sensor-architecture)
    - [Battery](#1-battery)
    - [5V Buck Converter](#2-5v-buck-converter)
    - [UBEC Voltage Regulator](#3-ubec-voltage-regulator)
@@ -71,7 +83,7 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
    - [Camera Placement Rationale](#camera-placement-rationale)
    - [Full Power Budget](#8-full-power-budget)
    - [Bringing It All Together](#bringing-it-all-together)
-8. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
+9. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
    - [Raspberry Pi + Arduino Nano](#raspberry-pi--arduino-nano)
    - [Vision Pipeline](#1-vision-pipeline)
    - [Wall Following](#2-wall-following)
@@ -83,10 +95,10 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
    - [Arbitration](#8-arbitration)
    - [Autonomous Navigation Flowcharts](#autonomous-navigation-flowcharts)
    - [Testing & Tuning Evidence](#testing--tuning-evidence)
-9. [Performance & Validation](#performance--validation)
+10. [Performance & Validation](#performance--validation)
    - [Benchmark Results](#benchmark-results)
    - [Validation Tests](#validation-tests)
-10. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
+11. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
    - [Trade-offs](#trade-offs)
    - [Constraints](#constraints)
    - [Risk and Failures](#risk-and-failures)
@@ -1130,7 +1142,7 @@ Follow along with this schematic of the entire electrical architecture for the n
 
 ### Future Improvements
 
-1) Begin to push code directly from the Raspberry Pi through Git in order to build a commit history.
+1) Beginning to push code directly from the Raspberry Pi through Git in order to build a commit history.
 2) Implement Dynamic Ranges to improve obstacle, line, and parking block detection in a multitude of lighting conditions.
 3) Improving on our Acceleration and Deceleration code to a point that it becomes as reliable as fixed code, therefore we can improve our lap times overall.
 
