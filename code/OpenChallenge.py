@@ -3,100 +3,164 @@ import numpy as np
 from picamera2 import Picamera2
 import serial
 import time
-from enum import Enum
+import RPi.GPIO as GPIO
+from gpiozero import LED
+from enum import Enum, auto
 
-# =========================
-# ARDUINO NANO SERIAL
-# =========================
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
-time.sleep(2)
+# --- GPIO pins ---
+START_BUTTON_PIN = 26
+STATUS_LED_PIN = 16
 
-# =========================
-# MOTOR COMMAND SENTINELS
-# =========================
-MOTOR_START_CMD = 888
-MOTOR_STOP_CMD = 999
-LAPS_TARGET = 3  # stop the motor after this many full laps (12 quarter-turns)
-
-# How long (seconds) to keep driving straight AFTER the final turn completes
-FINISH_DRIVE_SECONDS = 1.5
-
-
-def send_motor_start():
-    ser.write(f"{MOTOR_START_CMD}\n".encode())
-    print("[motor] START sent to ESP32")
-
-
-def send_motor_stop():
-    ser.write(f"{MOTOR_STOP_CMD}\n".encode())
-    print("[motor] STOP sent to ESP32")
-
-
-motor_started = False
-race_finished = False
-
-# =========================
-# CAMERA  
-# =========================
+# --- camera capture size vs the cropped frame we actually process ---
 CAMERA_PIC_WIDTH = 640
 CAMERA_PIC_HEIGHT = 360
 PIC_WIDTH = 640
 PIC_HEIGHT = 280
+CAMERA_WARMUP_FRAMES = 10  # throwaway captures so AWB/AE settle before we trust anything
 
-picam2 = Picamera2()
+# threshold used to split floor (white) from wall/shadow (black)
+GRAY_THRESHOLD = 75
 
-sensor_mode = picam2.sensor_modes[1]
-sensor_width, sensor_height = sensor_mode["size"]
+# HSV colour ranges for the turn markers, tuned by hand on the mat
+BLUE_LOWER = np.array([27, 120, 94])
+BLUE_UPPER = np.array([138, 167, 124])
+ORANGE_LOWER = np.array([103, 126, 135])
+ORANGE_UPPER = np.array([171, 156, 185])
 
-config = picam2.create_still_configuration(
-    raw={"size": (sensor_width, sensor_height)},
-    main={"format": "RGB888", "size": (CAMERA_PIC_WIDTH, CAMERA_PIC_HEIGHT)}
-)
-picam2.configure(config)
-picam2.start()
+# --- steering geometry ---
+STEER_CENTER = 97
+MAX_STEER_OFFSET = 43
+STEER_MIN = STEER_CENTER - MAX_STEER_OFFSET
+STEER_MAX = STEER_CENTER + MAX_STEER_OFFSET
+STEER_SIGN = -1  # flips left/right if the servo is mounted reversed
 
-# small warm-up so the sensor/AWB/AE settle before we trust any frame
-# (this is on top of the explicit motor start -- belt and suspenders)
-for _ in range(10):
-    picam2.capture_array()
+# --- run config ---
+MOTOR_FORWARD = 1
+MOTOR_REVERSE = 2
+DRIVE_SPEED = 255
+LAPS_TARGET = 3
+TOTAL_QUARTER_TURNS = LAPS_TARGET * 4  # each corner = one quarter turn
+FINISH_DRIVE_SECONDS = 1  # keep wall-following this long after the final turn, then stop
 
-# =========================
-# PD GAINS
-# =========================
-Kp = 0.2
-Kd = 0.0025
-prev_error = 0
+# --- corner marker detection for lap counting ---
+TURN_MARKER_ENTER_AREA = 150
+TURN_MARKER_EXIT_AREA = 60
+TURN_ENTER_CONFIRM_FRAMES = 3
+TURN_EXIT_CONFIRM_FRAMES = 2
+TURN_MIN_TIME = 0.25
+TURN_MAX_TIME = 2.0
+TURN_COOLDOWN_TIME = 0.2
 
-# =========================
-# TARGET POINT
-# =========================
-FIRST_TARGET_X = 1
-FIRST_TARGET_Y = 220
+# --- fixed side wall ROIs, no mirroring since we only ever drive one way round ---
+ROI_LEFT_WALL = [0, 84, 128, 210]
+ROI_RIGHT_WALL = [512, 84, 640, 210]
+WALL_CENTER_OFFSET = 0
+WALL_OPENING_AREA = 700
+OPENING_BOOST_MULT = 2
+OPENING_BOOST_ADD = 25000
+AREA_WALL_KP = 0.003
+AREA_WALL_KD = 0.0001
+HARD_TURN_SIGN = -1  # fixed turn direction for the "lost both walls" fallback, no direction enum here to derive it from
 
-SECOND_TARGET_X = 1
-SECOND_TARGET_Y = 280
 
-ORIGINAL_TARGET_X_LEFT = 70
-ORIGINAL_TARGET_X_RIGHT = 570
-ORIGINAL_TARGET_Y = PIC_HEIGHT - 1
+class TurnState(Enum):
+    IDLE = auto()
+    TURNING = auto()
 
-# =========================
-# WALL BRIGHTNESS THRESHOLD 
-# =========================
-GRAY_THRESHOLD = 100
 
-# =========================
-# POLYGON MARGIN
-# =========================
-POLYGON_MARGIN_PX = 20
+class RunState(Enum):
+    WARM_UP_CAMERA = auto()
+    WAIT_FOR_BUTTON = auto()
+    DRIVE_LAPS = auto()
+    FINISHED = auto()
 
-# =========================================================================
-# COLOR MASKS
-# =========================================================================
-BLUE_LOWER = np.array([82, 0, 61])
-BLUE_UPPER = np.array([118, 255, 255])
-ORANGE_LOWER = np.array([0, 18, 92])
-ORANGE_UPPER = np.array([19, 255, 255])
+
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+time.sleep(2)  # give the board time to boot before we send anything
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(START_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+status_led = LED(STATUS_LED_PIN)
+
+
+def wait_for_start_button():
+    # lights the LED and blocks until the button (wired to GND) is pressed,
+    # with a small debounce so a noisy edge can't fake a press
+    status_led.on()
+    print("[button] waiting for start button on GPIO26...")
+    while GPIO.input(START_BUTTON_PIN) == GPIO.HIGH:
+        time.sleep(0.02)
+
+    time.sleep(0.05)
+    if GPIO.input(START_BUTTON_PIN) == GPIO.HIGH:
+        return wait_for_start_button()
+
+    status_led.off()
+    print("[button] start button pressed -- starting run")
+
+    # wait for release so a held button doesn't do anything unexpected later
+    while GPIO.input(START_BUTTON_PIN) == GPIO.LOW:
+        time.sleep(0.02)
+
+
+def to_servo_angle(logical_angle):
+    # our angle convention increases clockwise, the servo expects the opposite
+    if STEER_SIGN == -1:
+        return int(round(2 * STEER_CENTER - logical_angle))
+    return int(round(logical_angle))
+
+
+def set_steering_angle(angle):
+    angle = max(STEER_MIN, min(STEER_MAX, angle))
+    servo_angle = to_servo_angle(angle)
+    ser.write(f"SERVO,{servo_angle}\n".encode())
+    ser.flush()
+    return angle
+
+
+def drive(motor_direction, speed, ticks=None):
+    motor_direction = max(0, min(2, int(motor_direction)))
+    speed = max(0, min(255, int(speed)))
+
+    if ticks is not None:
+        # tick-based moves reset the encoder count first so distance is relative to now
+        reset_tick_counter()
+        return drive_ticks(motor_direction, speed, int(ticks))
+
+    ser.write(f"MOTOR,{motor_direction},{speed}\n".encode())
+    return None
+
+
+def stop():
+    ser.write(b"STOP\n")
+
+
+def drive_ticks(motor_direction, speed, ticks, timeout=11.0):
+    motor_direction = max(0, min(2, int(motor_direction)))
+    speed = max(0, min(255, int(speed)))
+    ticks = int(abs(ticks))
+
+    ser.reset_input_buffer()
+    ser.write(f"MOVE,{motor_direction},{speed},{ticks}\n".encode())
+
+    # wait for the board to report it finished the move
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        line = ser.readline().decode(errors="ignore").strip()
+        if not line:
+            continue
+        if line.startswith("DONE"):
+            parts = line.split(",")
+            moved = int(parts[1]) if len(parts) > 1 else None
+            return moved
+    return None
+
+
+def reset_tick_counter():
+    ser.reset_input_buffer()
+    ser.write(b"RESET\n")
+    ser.readline()
 
 
 def blue_mask_of(hsv_img):
@@ -107,341 +171,301 @@ def orange_mask_of(hsv_img):
     return cv2.inRange(hsv_img, ORANGE_LOWER, ORANGE_UPPER)
 
 
-# =========================================================================
-# DIRECTION DETECTION
-# =========================================================================
-class Direction(Enum):
-    LEFT = -1
-    RIGHT = 1
+def crop_frame(image, x_start, x_end, y_start, y_end):
+    return image[y_start:y_end, x_start:x_end]
 
 
-def line_length(mask):
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+def get_track_boundary(binary_image, fallback_image):
+    # outer contours of the floor mask
+    contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # keep only the blob the robot is actually standing on, so noise elsewhere
+    # in the frame doesn't get mistaken for the track
+    robot_point = (PIC_WIDTH / 2, PIC_HEIGHT - 10)
+    contours = [cnt for cnt in contours if cv2.pointPolygonTest(cnt, robot_point, False) >= 0]
+
     if not contours:
-        return 0.0
-    largest = max(contours, key=cv2.contourArea)
-    (_, _), (rw, rh), _ = cv2.minAreaRect(largest)
-    return max(rw, rh)
+        return fallback_image, None
+
+    contour = max(contours, key=cv2.contourArea)
+
+    # simplify into a polygon, works fine for curved or irregular track edges
+    epsilon = 0.001 * cv2.arcLength(contour, True)
+    mat_roi = cv2.approxPolyDP(contour, epsilon, True)
+
+    mask = np.zeros_like(binary_image)
+    cv2.fillPoly(mask, [mat_roi], 255)
+    result = cv2.bitwise_and(binary_image, mask)
+    return result, mat_roi
 
 
-def detect_initial_direction(hsv_img, polygon_mask):
-    blue_line = cv2.bitwise_and(blue_mask_of(hsv_img), blue_mask_of(hsv_img), mask=polygon_mask)
-    orange_line = cv2.bitwise_and(orange_mask_of(hsv_img), orange_mask_of(hsv_img), mask=polygon_mask)
-
-    blue_len = line_length(blue_line)
-    orange_len = line_length(orange_line)
-    print(f"[direction calibration] blue_len={blue_len:.1f}  orange_len={orange_len:.1f}")
-
-    # TODO: verify this ternary matches reality on your mat -- flip it if backwards
-    return Direction.LEFT if blue_len > orange_len else Direction.RIGHT
+def get_wall_rois():
+    # always the same two fixed ROIs, no mirroring or direction check needed
+    return ROI_LEFT_WALL, ROI_RIGHT_WALL
 
 
-direction = None  # set once the first frame's polygon is available
+def largest_wall_contour(track_image, roi, min_area=50):
+    x1, y1, x2, y2 = roi
+    region = track_image[y1:y2, x1:x2]
+    if region.size == 0:
+        return None, 0
+    walls_as_white = cv2.bitwise_not(region)  # flip so walls (0) become the foreground (255)
+    contours, _ = cv2.findContours(walls_as_white, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if not contours:
+        return None, 0
+    cnt = max(contours, key=cv2.contourArea)
+    area = cv2.contourArea(cnt)
+    if area <= min_area:
+        return None, 0
+    return cnt, area
 
 
-LAP_TURN_DEBOUNCE_SECONDS = 2.0
-last_turn_time = 0.0
-quarter_lap_count = 0
-lap_count = 0
-
-# =========================================================================
-# FINAL-LAP FINISH STATE MACHINE
-# =========================================================================
-final_lap_triggered = False
-finishing = False
-finish_start_time = None
+def largest_wall_area(track_image, roi, min_area=50):
+    _, area = largest_wall_contour(track_image, roi, min_area)
+    return area
 
 
-def register_corner_turn():
-    global last_turn_time, quarter_lap_count, lap_count, final_lap_triggered
-    now = time.time()
-
-    if now - last_turn_time > LAP_TURN_DEBOUNCE_SECONDS:
-        quarter_lap_count += 1
-        if quarter_lap_count % 4 == 0:
-            lap_count += 1
-            print(f"[laps] lap {lap_count} complete")
-
-        if lap_count >= LAPS_TARGET and not final_lap_triggered:
-            final_lap_triggered = True
-            print("[laps] final corner detected -- will finish this turn, then coast to a stop")
-
-        last_turn_time = now
+def draw_wall_rois(frame, rois, color=(255, 204, 0)):
+    for x1, y1, x2, y2 in rois:
+        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+    return frame
 
 
-Y_CORNER_THRESHOLD = 155
-Y_DROP_THRESHOLD = 25
-
-prev_y_for_corner = None
-in_corner = False
+_prev_area_wall_error = 0.0
 
 
-def update_corner_state(y):
-    """Returns (corner_active, just_entered, just_exited)."""
-    global prev_y_for_corner, in_corner
+def area_wall_follow_angle(track_image, blue_area=0):
+    # main driving controller: compares how much wall is visible on each
+    # side and steers toward the side with less wall (more open space)
+    global _prev_area_wall_error
 
-    if prev_y_for_corner is None:
-        prev_y_for_corner = y
-        return False, False, False
+    roi_left, roi_right = get_wall_rois()
+    area_left = largest_wall_area(track_image, roi_left)
+    area_right = largest_wall_area(track_image, roi_right)
 
-    dy = prev_y_for_corner - y
-    just_entered = False
-    just_exited = False
+    # if one side has basically nothing, treat it as a big opening so we commit to the turn
+    if area_left < WALL_OPENING_AREA and area_right > 100:
+        area_right = area_right * OPENING_BOOST_MULT + OPENING_BOOST_ADD
+    elif area_right < WALL_OPENING_AREA and area_left > 100:
+        area_left = area_left * OPENING_BOOST_MULT + OPENING_BOOST_ADD
 
-    if not in_corner:
+    wall_error = (area_left - area_right) - WALL_CENTER_OFFSET
+    derivative = wall_error - _prev_area_wall_error
+    control = (wall_error * AREA_WALL_KP) + (derivative * AREA_WALL_KD)
+    _prev_area_wall_error = wall_error
 
-        if y <= Y_CORNER_THRESHOLD and dy > Y_DROP_THRESHOLD:
-            in_corner = True
-            just_entered = True
+    angle = STEER_CENTER - control
 
-    else:
-
-        if y > Y_CORNER_THRESHOLD:
-            in_corner = False
-            just_exited = True
-
-    prev_y_for_corner = y
-
-    return in_corner, just_entered, just_exited
-
-
-def send_angle(angle):
-    ser.write((str(angle) + "\n").encode())
-    ser.flush()
-
-
-def crop_image(img, x_start, x_end, y_start, y_end):
-    return img[y_start:y_end, x_start:x_end]
-
-
-prevang = None
-
-while True:
-    raw_frame = picam2.capture_array()
-
-    frame = crop_image(
-        raw_frame,
-        0, CAMERA_PIC_WIDTH,
-        CAMERA_PIC_HEIGHT - PIC_HEIGHT, CAMERA_PIC_HEIGHT
-    )
-
-    #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-    h, w = frame.shape[:2]
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-    # =========================
-    # STEP 1: GRAYSCALE + BLUR 
-    # =========================
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    blurred = cv2.bilateralFilter(gray, d=9, sigmaColor=75, sigmaSpace=75)
-
-    # =========================
-    # STEP 2: BINARY THRESHOLD 
-    # =========================
-    _, binary = cv2.threshold(blurred, GRAY_THRESHOLD, 255, cv2.THRESH_BINARY)
-
-    # force blue/orange lines to read as FLOOR (white) before cleanup
-    line_mask = cv2.bitwise_or(blue_mask_of(hsv), orange_mask_of(hsv))
-    binary[line_mask > 0] = 255
-
-    # =========================
-    # STEP 3: CLEAN UP NOISE 
-    # =========================
-    kernel = np.ones((5, 5), np.uint8)
-    clean = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
-
-    # =========================
-    # STEP 4: DYNAMIC POLYGON MASK 
-    # =========================
-    contours, _ = cv2.findContours(clean, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    polygon_mask = np.zeros_like(clean)
-
-    if len(contours) > 0:
-        largest = max(contours, key=cv2.contourArea)
-        epsilon = 0.003 * cv2.arcLength(largest, True)
-        polygon_points = cv2.approxPolyDP(largest, epsilon, True)
-
-        cv2.fillPoly(polygon_mask, [polygon_points], 255)
-
-        dilate_kernel = np.ones((POLYGON_MARGIN_PX, POLYGON_MARGIN_PX), np.uint8)
-        polygon_mask = cv2.dilate(polygon_mask, dilate_kernel)
-
-        cv2.polylines(frame, [polygon_points], True, (0, 0, 255), 2)
-
-    # =========================
-    # STEP 5: APPLY THE POLYGON MASK
-    # =========================
-    polygon_image = cv2.bitwise_and(clean, clean, mask=polygon_mask)
-
-    if direction is None:
-        direction = detect_initial_direction(hsv, polygon_mask)
-        print(f"Direction locked: {direction.name}")
-
-        # camera pipeline is confirmed working and we know which way to
-        # steer -- only NOW is it safe to let the motor spin.
-        if not motor_started:
-            send_motor_start()
-            motor_started = True
-
-        continue
-
-    # =========================================================================
-    # POINT-TRACKING / PD LOGIC -- direction picks which half of the frame
-    # =========================================================================
-    if direction == Direction.LEFT:
-        side_mask_source = np.zeros_like(polygon_image)
-        side_mask_source[:, :w // 2] = polygon_image[:, :w // 2]
-        side_wall_white = cv2.bitwise_not(side_mask_source)
-        side_wall_white = cv2.bitwise_and(side_wall_white, side_wall_white, mask=polygon_mask)
-        side_wall_white[:, w // 2:] = 0
-    else:
-        side_mask_source = np.zeros_like(polygon_image)
-        side_mask_source[:, w // 2:] = polygon_image[:, w // 2:]
-        side_wall_white = cv2.bitwise_not(side_mask_source)
-        side_wall_white = cv2.bitwise_and(side_wall_white, side_wall_white, mask=polygon_mask)
-        side_wall_white[:, :w // 2] = 0
-
-    contours2, _ = cv2.findContours(side_wall_white, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    angle = 100
-    wall_pixel_count = cv2.countNonZero(side_wall_white)
-
-    if len(contours2) > 0:
-        points = np.concatenate(contours2)
-        xs = points[:, 0, 0]
-        ys = points[:, 0, 1]
-
-        if direction == Direction.LEFT:
-            valid = xs < w // 2
+    # neither wall visible at all, deep in a corner -- hard turn using the blue
+    # marker as a tiebreak (fixed sign since there's no direction enum here)
+    if area_left == 0 and area_right == 0:
+        if blue_area > TURN_MARKER_ENTER_AREA:
+            angle = STEER_CENTER + HARD_TURN_SIGN * 35
         else:
-            valid = xs >= w // 2
-        xs = xs[valid]
-        ys = ys[valid]
+            angle = STEER_CENTER + HARD_TURN_SIGN * 20
 
-        if len(xs) > 0:
-            max_y = np.max(ys)
-            bottom = ys == max_y
-            xs_b = xs[bottom]
-            ys_b = ys[bottom]
+    return max(STEER_MIN, min(STEER_MAX, angle))
 
-            if direction == Direction.LEFT:
-                idx = np.argmax(xs_b)   # lowest, leftmost-half point -> as far right as the wall reaches
-            else:
-                idx = np.argmax(xs_b)   # lowest, rightmost-half point -> as far right as the wall reaches (x max, y max)
-            x = xs_b[idx]
-            y = ys_b[idx]
 
-            # ---------------------------------------
-            # Dynamic target point based on quarter
-            # ---------------------------------------
-            if quarter_lap_count == 0:
-                # Before first turn
-                if direction == Direction.LEFT:
-                    target_x = FIRST_TARGET_X
-                    Kp = 0.1
-                    Kd = 0.0015
-                else:
-                    target_x = w - FIRST_TARGET_X
-                target_y_use = FIRST_TARGET_Y
+class LapCounter:
+    # counts corners (quarter turns) by watching how big the blue marker
+    # gets as we drive past it, then confirming once it shrinks back down
+    def __init__(self):
+        self.state = TurnState.IDLE
+        self.quarter_turns = 0
+        self._enter_confirm_count = 0
+        self._exit_confirm_count = 0
+        self._turn_start_time = 0.0
+        self._cooldown_until = 0.0
 
-            elif quarter_lap_count == 1:
-                # After first turn
-                if direction == Direction.LEFT:
-                    target_x = SECOND_TARGET_X
-                    Kp = 0.13
-                    Kd = 0.0015
-                else:
-                    target_x = w - SECOND_TARGET_X
-                target_y_use = SECOND_TARGET_Y
+    def update(self, blue_mask, track_mask):
+        now = time.time()
+        marker_mask = cv2.bitwise_and(blue_mask, blue_mask, mask=track_mask)
+        marker_area = cv2.countNonZero(marker_mask)
 
-            else:
-                # After second turn onwards
-                if direction == Direction.LEFT:
-                    target_x = ORIGINAL_TARGET_X_LEFT
-                    Kp = 0.2
-                    Kd = 0.0025
-                else:
-                    target_x = ORIGINAL_TARGET_X_RIGHT
-                target_y_use = ORIGINAL_TARGET_Y
+        if self.state == TurnState.IDLE:
+            # cooldown stops us re-triggering on the same marker right after counting it
+            if now >= self._cooldown_until:
+                self._enter_confirm_count = (
+                    self._enter_confirm_count + 1 if marker_area > TURN_MARKER_ENTER_AREA else 0
+                )
+                if self._enter_confirm_count >= TURN_ENTER_CONFIRM_FRAMES:
+                    self.state = TurnState.TURNING
+                    self._turn_start_time = now
+                    self._exit_confirm_count = 0
+                    self._enter_confirm_count = 0
+        else:
+            turn_elapsed = now - self._turn_start_time
+            self._exit_confirm_count = (
+                self._exit_confirm_count + 1 if marker_area < TURN_MARKER_EXIT_AREA else 0
+            )
+            should_exit = (
+                (turn_elapsed >= TURN_MIN_TIME and self._exit_confirm_count >= TURN_EXIT_CONFIRM_FRAMES)
+                or (turn_elapsed >= TURN_MAX_TIME)  # safety cutoff in case we never see it shrink
+            )
+            if should_exit:
+                self.quarter_turns += 1
+                self.state = TurnState.IDLE
+                self._cooldown_until = now + TURN_COOLDOWN_TIME
+                self._enter_confirm_count = 0
+                self._exit_confirm_count = 0
 
-            cv2.circle(frame, (x, y), 8, (0, 0, 255), -1)
-            cv2.circle(frame, (target_x, target_y_use), 8, (0, 255, 0), -1)
 
-            if direction == Direction.LEFT:
-                error_x = target_x - x
-            else:
-                error_x = x - target_x
+class RobotController:
+    # state machine script
+    def __init__(self):
+        self.state = RunState.WARM_UP_CAMERA
+        self.picam2 = None
 
-            error_y = target_y_use - y
-            error = error_x + error_y
+        self.lap_counter = LapCounter()
+        self.lap_count = 0
+        self.quarter_lap_count = 0
 
-            derivative = error - prev_error
-            control = (Kp * error) + (Kd * derivative)
-            prev_error = error
+        self.motor_started = False
+        self.race_finished = False
+        self.finishing = False
+        self.finish_start_time = None
+        self.run_start_time = None
 
-            turn_sign = 1 if direction == Direction.LEFT else -1
+        self.prevang = None
+        self.first_frame_done = False
 
-            corner_active, corner_just_started, corner_just_exited = update_corner_state(y)
+        self._handlers = {
+            RunState.WARM_UP_CAMERA: self._state_warm_up_camera,
+            RunState.WAIT_FOR_BUTTON: self._state_wait_for_button,
+            RunState.DRIVE_LAPS: self._state_drive_laps,
+        }
 
-            if corner_active:
-                angle = 140 if direction == Direction.LEFT else 50
+    def run(self):
+        while self.state != RunState.FINISHED:
+            handler = self._handlers[self.state]
+            handler()
+        self._cleanup()
 
-                if corner_just_started:
-                    register_corner_turn()
+    def _cleanup(self):
+        if not self.race_finished:
+            stop()
+        if self.picam2 is not None:
+            self.picam2.stop()
+        ser.close()
+        status_led.off()
+        GPIO.cleanup()
 
-            else:
-                angle = 110 + turn_sign * control
-         #       angle = max(108, min(112, angle))
+    def _state_warm_up_camera(self):
+        self.picam2 = Picamera2()
+        sensor_mode = self.picam2.sensor_modes[1]
+        sensor_width, sensor_height = sensor_mode["size"]
 
-            # ---------------------------------------------------------------
-            # FINAL-LAP FINISH HANDLING
-            # ---------------------------------------------------------------
-            if corner_just_exited and final_lap_triggered and not finishing:
-                finishing = True
-                finish_start_time = time.time()
-                print("[laps] final turn complete -- wall-following for a bit before stopping")
+        config = self.picam2.create_video_configuration(
+            raw={"size": (sensor_width, sensor_height)},
+            main={"format": "RGB888", "size": (CAMERA_PIC_WIDTH, CAMERA_PIC_HEIGHT)},
+            controls={"FrameRate": 30},
+        )
+        self.picam2.configure(config)
+        self.picam2.start()
 
-            angle = round(angle)
-            if prevang is None or prevang != angle:
-                send_angle(angle)
-                #time.sleep(0.02)
-                prevang = angle
-            print(
-                f"X:{x}, "
-                f"Y:{y}, "
-                f"error:{error:.2f}, "
-                f"angle:{angle}, "
-                f"in_corner:{in_corner}, "
-                f"quarterlaps:{quarter_lap_count}, "
-                f"laps:{lap_count}, "
-                f"finishing:{finishing}"
+        # let auto exposure/white balance settle before we start reading frames for real
+        for _ in range(CAMERA_WARMUP_FRAMES):
+            self.picam2.capture_array()
+
+        self.state = RunState.WAIT_FOR_BUTTON
+
+    def _state_wait_for_button(self):
+        # don't move (or even start reading frames for real) until the button is pressed
+        wait_for_start_button()
+        self.run_start_time = time.time()
+        self.state = RunState.DRIVE_LAPS
+
+    def _state_drive_laps(self):
+        # covers the whole race in one loop: no separate parking phase here
+        # like the obstacle challenge, so process a frame, steer, count turns,
+        # check if we're done, repeat
+        while True:
+            raw_frame = self.picam2.capture_array()
+
+            frame = crop_frame(
+                raw_frame,
+                0, CAMERA_PIC_WIDTH,
+                CAMERA_PIC_HEIGHT - PIC_HEIGHT, CAMERA_PIC_HEIGHT
             )
 
-            # once we've finished coasting long enough after the final turn,
-            # stop the motor and end the run.
-            if finishing and (time.time() - finish_start_time >= FINISH_DRIVE_SECONDS):
-                print(f"[race] {LAPS_TARGET} laps complete -- motor stopped, ending run")
-                send_motor_stop()
-                race_finished = True
+            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            blurred = cv2.bilateralFilter(gray, d=9, sigmaColor=75, sigmaSpace=75)
+            _, binary = cv2.threshold(blurred, GRAY_THRESHOLD, 255, cv2.THRESH_BINARY)
+
+            # force blue/orange lines to read as FLOOR (white) before cleanup
+            blue_mask = blue_mask_of(hsv)
+            orange_mask = orange_mask_of(hsv)
+            line_mask = cv2.bitwise_or(blue_mask, orange_mask)
+            binary[line_mask > 0] = 255
+
+            clean = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8))
+
+            track_image, mat_roi = get_track_boundary(clean, clean)
+
+            track_mask = np.zeros_like(clean)
+            if mat_roi is not None:
+                cv2.fillPoly(track_mask, [mat_roi], 255)
+
+            # camera pipeline confirmed working on the first processed frame --
+            # only now is it safe to let the motor spin
+            if not self.first_frame_done:
+                self.first_frame_done = True
+                if not self.motor_started:
+                    drive(MOTOR_FORWARD, DRIVE_SPEED)
+                    self.motor_started = True
+
+            # only count marker/wall pixels inside the drivable area
+            blue_area = cv2.countNonZero(cv2.bitwise_and(blue_mask, blue_mask, mask=track_mask))
+
+            prev_quarter_turns = self.lap_counter.quarter_turns
+            self.lap_counter.update(blue_mask, track_mask)
+            self.quarter_lap_count = self.lap_counter.quarter_turns
+
+            if self.quarter_lap_count > prev_quarter_turns:
+                if self.quarter_lap_count % 4 == 0:
+                    self.lap_count = self.quarter_lap_count // 4
+                    print(f"[laps] lap {self.lap_count} complete")
+
+                if self.quarter_lap_count >= TOTAL_QUARTER_TURNS and not self.finishing:
+                    self.finishing = True
+                    self.finish_start_time = time.time()
+                    print("[laps] final turn complete -- wall-following for a bit before stopping")
+
+            roi_left, roi_right = get_wall_rois()
+            draw_wall_rois(frame, [roi_left, roi_right])
+
+            angle = area_wall_follow_angle(track_image, blue_area=blue_area)
+
+            angle = round(angle)
+            if self.prevang is None or self.prevang != angle:
+                set_steering_angle(angle)
+                self.prevang = angle
+
+            print(
+                f"blue_area:{blue_area}, "
+                f"angle:{angle}, "
+                f"quarterlaps:{self.quarter_lap_count}, "
+                f"laps:{self.lap_count}, "
+                f"finishing:{self.finishing}"
+            )
+
+            # keep wall-following normally for FINISH_DRIVE_SECONDS after the
+            # final turn, then just stop -- no separate fixed-distance move
+            if self.finishing and (time.time() - self.finish_start_time >= FINISH_DRIVE_SECONDS):
+                print(f"[race] {LAPS_TARGET} laps complete -- stopping")
+                stop()
+                set_steering_angle(STEER_CENTER)
+                self.race_finished = True
+
+                total_run_time = time.time() - self.run_start_time
+                print(f"[timer] total run time: {total_run_time:.2f} seconds")
                 break
 
-    # ---- display lap info on the frame
-    cv2.putText(frame, f"Laps: {lap_count}  Quarters: {quarter_lap_count}",
-                (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        self.state = RunState.FINISHED
 
-    cv2.imshow("frame", frame)
-    cv2.imshow("wall mask (side)", side_wall_white)
-    cv2.imshow("polygon mask", polygon_mask)
-    cv2.imshow("polygon image (wall=black, floor=white)", polygon_image)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# make sure the motor is off no matter how we exited the loop
-if not race_finished:
-    send_motor_stop()
-
-picam2.stop()
-cv2.destroyAllWindows()
-ser.close()
+if __name__ == "__main__":
+    RobotController().run()
