@@ -54,6 +54,7 @@ This guide maps out the central engineering subsystems, hardware configurations,
 *   **[`t-photos/`](t-photos/)**: Our dedicated **Team Photography Gallery** celebrating the individuals driving the project.
 *   **[`v-photos/`](v-photos/)**: Contains images (CAD and physical) of our robot for this year.
 *   **Main README**: Contains all information for this year's competition.
+*   **[Engineering Journal](Team_SinTheta_Engineering_Journal.docx)**: This is our engineering journal for this year.
 ---
 
 ## Table of Contents
@@ -1152,4 +1153,4 @@ Follow along with this schematic of the entire electrical architecture for the n
 
 Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
 
-[Go to Engineering Journal](./docs/engineering-journal.md)
+[Go to Engineering Journal](Team_SinTheta_Engineering_Journal.docx)
