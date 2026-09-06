@@ -1153,4 +1153,4 @@ Follow along with this schematic of the entire electrical architecture for the n
 
 Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
 
-[Go to Engineering Journal](Team_SinTheta_Engineering_Journal.docx.pdf)
+[Go to Engineering Journal](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/Team_SinTheta_Engineering_Journal.pdf)
