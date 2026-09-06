@@ -65,15 +65,15 @@ This guide maps out the central engineering subsystems, hardware configurations,
 4. [Repository Roadmap](#repository-roadmap)
 5. [Performance Videos](#performance-videos)
 6. [The Robot](#the-robot)
-7. [Mobility & Mechanical Design](#mobility--mechanical-design)
-   - [Design Decisions Summary](#design-decisions-summary)
+7. [Design Decisions Summary](#design-decisions-summary)
+8. [Mobility & Mechanical Design](#mobility--mechanical-design)
    - [Robot Dimensions & Weight](#1-robot-dimensions--weight)
    - [Drive System](#2-drive-system)
    - [Steering System](#3-steering-system)
    - [Chassis Assembly](#4-chassis-assembly)
    - [Wheels & Differential](#5-wheels--differential)
    - [Mechanical Testing & Validation](#mechanical-testing--validation)
-8. [Power & Sensor Architecture](#power--sensor-architecture)
+9. [Power & Sensor Architecture](#power--sensor-architecture)
    - [Battery](#1-battery)
    - [5V Buck Converter](#2-5v-buck-converter)
    - [UBEC Voltage Regulator](#3-ubec-voltage-regulator)
@@ -84,7 +84,7 @@ This guide maps out the central engineering subsystems, hardware configurations,
    - [Camera Placement Rationale](#camera-placement-rationale)
    - [Full Power Budget](#8-full-power-budget)
    - [Bringing It All Together](#bringing-it-all-together)
-9. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
+10. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
    - [Raspberry Pi + Arduino Nano](#raspberry-pi--arduino-nano)
    - [Vision Pipeline](#1-vision-pipeline)
    - [Wall Following](#2-wall-following)
@@ -96,7 +96,7 @@ This guide maps out the central engineering subsystems, hardware configurations,
    - [Arbitration](#8-arbitration)
    - [Autonomous Navigation Flowcharts](#autonomous-navigation-flowcharts)
    - [Testing & Tuning Evidence](#testing--tuning-evidence)
-10. [Performance & Validation](#performance--validation)
+11. [Performance & Validation](#performance--validation)
    - [Benchmark Results](#benchmark-results)
    - [Validation Tests](#validation-tests)
 11. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
@@ -163,13 +163,7 @@ https://youtu.be/weySsihPY30
   
 ---
 
-## Mobility & Mechanical Design
-
-This section covers how our robot moves: the chassis structure, drivetrain, steering geometry, and wheels/differential. Each part was chosen and iterated on to maximize turning precision, stability, and reliability while keeping the robot compact enough for the WRO Future Engineers mat. Calculations behind our steering geometry and part choices are included below so the design can be understood and reproduced.
-
----
-
-### Design Decisions Summary
+## Design Decisions Summary
 
 | Decision | Option A | Option B (Chosen) | Why? |
 |----------|----------|-------------------|------|
@@ -178,6 +172,12 @@ This section covers how our robot moves: the chassis structure, drivetrain, stee
 | **Vision** | HSV color space | LAB color space | Better under competition lighting |
 | **Power** | Linear 7805 | Buck converter | 39% → 85% efficiency, no thermal shutdown |
 | **Control** | Single board (ESP32) | Split (Pi + Nano) | 150ms vs 600ms latency |
+
+---
+
+## Mobility & Mechanical Design
+
+This section covers how our robot moves: the chassis structure, drivetrain, steering geometry, and wheels/differential. Each part was chosen and iterated on to maximize turning precision, stability, and reliability while keeping the robot compact enough for the WRO Future Engineers mat. Calculations behind our steering geometry and part choices are included below so the design can be understood and reproduced.
 
 ---
 
