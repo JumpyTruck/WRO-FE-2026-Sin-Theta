@@ -1003,7 +1003,6 @@ This repository documents the design, build, and code for our WRO robot — incl
 
 **Step 1: Gather All Components**
 - See complete [Parts List](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main#parts-list)
-- Total cost: $443.62
 - Verify all items received before starting
  
 Follow along with this schematic of the entire electrical architecture for the next steps
