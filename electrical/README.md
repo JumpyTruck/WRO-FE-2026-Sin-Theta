@@ -131,7 +131,9 @@ At 5 V, it draws **0.05 A normal / 0.10 A peak (0.25 W)**.
 - A custom designed PCB organizes wiring between components, giving cleaner cable management, reliable connections, a compact fit inside the chassis, and easier debugging
 - It includes a dedicated **servo port** (power, ground, PWM), isolated from the main power rail after servo current spikes were found to cause shutdowns elsewhere
 - It also includes a dedicated **motor encoder port** for wheel encoder feedback, enabling closed loop control of distance and speed
-<img width="215" alt="pcb" src="IMAGE">
+
+<img width="475" alt="custom_pcb" src="https://github.com/user-attachments/assets/8ccbb641-272b-4bb4-acf0-41441fdde15a" />
+
 
 ---
 
@@ -143,4 +145,5 @@ All components are integrated into the final chassis as a compact, reliable syst
 
 The systems are separated through dedicated logic and power paths after earlier testing showed shared power rails caused shutdowns under load.
 
-<img width="250" alt="elec" src="IMAGE">
+<img width="475" alt="IMG_2393" src="https://github.com/user-attachments/assets/d828fa5f-ddc5-42ac-8869-78a2ae7ef902" />
+
