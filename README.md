@@ -430,7 +430,7 @@ This is our PCB and how it works:
 - A clean split between the Nano (actuation) and the Pi (perception/decision-making) keeps each system simple, testable, and independently upgradable
 - Together, these choices give the robot a stable, competition-ready electrical system with reliable steering and motor control under load
 
-[See Final Electrical Integration](electrical#7-final-electrical-integration)
+[See Final Electrical Integration](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#7-final-electrical-integration)
 
 ---
 
