@@ -186,7 +186,7 @@ The robot was sized to fit all electrical components while keeping the robot com
 <img width="650" alt="Dimensions" src="https://github.com/user-attachments/assets/e3e3cb14-47ec-40e1-b22b-690e2bc438c1" />
 
 
-[Why We Chose These Dimensions](models/README.md#11-dimensions)
+[Why We Chose These Dimensions](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models#11-dimensions)
 
 ---
 
@@ -200,7 +200,7 @@ For our drive system, we use a 12V DC Geared Motor. This motor has a built in en
 
 The motor's integrated encoder gives us speed and distance feedback, which we use for autonomous control.
 
-[More on Motor Choice](electrical#1-motor--drive-system)
+[More on Motor Choice](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#11-dc-motor-selection)
 
 ---
 
@@ -229,7 +229,7 @@ With a wheelbase of 7.18" and a front track width of 3.00", we calculated the re
 
 This gives a target steering angle of ~12° at full lock to achieve true 100% Ackermann geometry.
 
-[Why We Chose Ackermann](models/README.md#14-steering--ackermann)
+[Why We Chose Ackermann](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models#14-steering--ackermann)
 
 ---
 
@@ -245,17 +245,17 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 </div>
 
-[More Pictures and Info Here](models/README.md#21-chassis)
+[More Pictures and Info Here](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models#21-chassis)
 
 ---
 
 ### 5) Wheels & Differential
 
 - **Wheels:** LEGO SPIKE Prime wheels — compact, consistent grip, and lightweight.
-[Why We Chose These Wheels](models/README.md#12-wheel-choice)
+[Why We Chose These Wheels](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models#12-wheel-choice)
 
 - **Differential:** Rear metal differential, allowing both drive wheels to rotate at different speeds while cornering. This reduces mechanical stress and improves stability through turns.
-[Why We Chose This Differential](models/README.md#13-differential)
+[Why We Chose This Differential](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models#13-differential)
 
 ---
 
@@ -323,7 +323,7 @@ This is our PCB and how it works:
 - Feeds three separate paths directly at 12.8V: the DRV8871 motor driver, the 5V buck converter, and the servo UBEC
 - Chosen for a good balance of energy density, weight, and safe handling compared to a LiPo pack of similar capacity
 
-[More Info on Battery](electrical#3-main-power-system)
+[More Info on Battery](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#31-battery-pack)
 
 ---
 
@@ -334,7 +334,7 @@ This is our PCB and how it works:
 - A switching (buck) design rather than a linear regulator, so it can supply a higher output current with much less wasted heat
 - Centralizing all 5V logic onto one converter keeps the wiring simple and avoids multiple separate regulators on the board
 
-[More Info on Buck Converter](electrical#32-5v-dc-dc-buck-converter)
+[More Info on Buck Converter](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#32-5v-dc-dc-buck-converter)
 
 ---
 
@@ -345,7 +345,7 @@ This is our PCB and how it works:
 - This isolation means sudden current spikes from the servo (e.g., steering under load) can't drag down or brown out the 5V logic rail
 - Rated well above the servo's normal draw to comfortably absorb its peak current demands
 
-[More Info on UBEC](electrical#22-ubec-voltage-regulator)
+[More Info on UBEC](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#22-ubec-voltage-regulator)
 
 ---
 
@@ -357,7 +357,7 @@ This is our PCB and how it works:
 - Also reads the motor encoder to close the loop on speed and distance
 - Runs entirely off the 5V buck converter rail, drawing very little current itself
 
-[More Info on Arduino Nano](electrical#52-motor-controller-arduino-nano)
+[More Info on Arduino Nano](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#52-motor-controller-arduino-nano)
 
 ---
 
@@ -368,7 +368,7 @@ This is our PCB and how it works:
 - Its logic/control side is fed low-current PWM signals from the Nano, keeping the high-current motor path electrically separate from the sensitive logic side
 - Handles both direction and speed control for the drive motor from a single set of PWM inputs
 
-[More Info on Motor Driver](electrical#52-motor-controller-arduino-nano)
+[More Info on Motor Driver](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#12-motor-driver-adafruit-drv8871)
 
 ---
 
@@ -377,7 +377,7 @@ This is our PCB and how it works:
 - 9g coreless servo (full metal gear, 4 KG·cm torque, 4.8–8.4V): the steering actuator, powered by the dedicated UBEC at 8.4V and commanded directly by the Nano's PWM output
 - Servo Port: a dedicated 3-wire connector (power, ground, PWM) that keeps the UBEC's power and the Nano's control signal cleanly routed to the servo, isolated from the rest of the board's electronics
 
-[More Info on Servo](electrical#21-steering-servo)
+[More Info on Servo](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#21-steering-servo)
 
 ---
 
@@ -390,9 +390,9 @@ This is our PCB and how it works:
 - Full camera-capture-to-command cycle runs at roughly 150ms, keeping the robot responsive while driving
 - Powered off the same 5V buck converter rail as the rest of the logic electronics
 
-[More Info on Raspberry Pi](electrical#41-raspberry-pi-camera-module-3-wide)
+[More Info on Raspberry Pi](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#51-main-controller-raspberry-pi-4b)
 
-[More Info on Camera](electrical#51-main-controller-raspberry-pi-4b)
+[More Info on Camera](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#41-raspberry-pi-camera-module-3-wide)
 
 #### Camera Placement Rationale
 
