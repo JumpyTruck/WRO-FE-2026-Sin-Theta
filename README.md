@@ -429,6 +429,9 @@ This is our PCB and how it works:
 - A dedicated, isolated UBEC protects the board from servo current spikes so the rest of the electronics keep running smoothly
 - A clean split between the Nano (actuation) and the Pi (perception/decision-making) keeps each system simple, testable, and independently upgradable
 - Together, these choices give the robot a stable, competition-ready electrical system with reliable steering and motor control under load
+
+[See Final Electrical Integration](electrical#7-final-electrical-integration)
+
 ---
 
 ## Software Architecture & Obstacle Strategy
