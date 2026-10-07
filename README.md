@@ -550,7 +550,7 @@ vertical_distance = FRAME_HEIGHT - y_center
 pillar_angle_deg = np.degrees(np.arctan2(horizontal_distance, vertical_distance))
 ```
 
-**4. Calculate the steering angle.** The pillar angle is added to or subtracted (depending on colour) from a fixed offset (`PILLAR_STEER_OFFSET_DEG`) so that it can be mapped for a servo angle.
+**4. Calculate the steering angle.** The pillar angle is added to or subtracted (depending on colour) from a fixed offset (`PILLAR_STEER_OFFSET_DEG`) so that it can be mapped to a servo angle.
 ```python
 if is_green:
     steer_angle = STEER_CENTER - ((pillar_angle_deg + PILLAR_STEER_OFFSET_DEG) * GREEN_PILLAR_KP)
