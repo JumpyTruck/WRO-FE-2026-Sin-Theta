@@ -10,7 +10,7 @@ All STL and PNG files are in [this folder](https://github.com/JumpyTruck/WRO-FE-
 
 ### 1.1 Dimensions
 
-Sized around the Pi, driver board, motor, and steering, with a ~50 mm margin per side. Took inspiration from F1 cars — narrow, bigger length-to-width ratio turns tighter and stays more stable at high speed.
+The chassis is sized around the Raspberry Pi, driver board, motor, and steering mechanism, with a ~50 mm margin on each side. Inspired by F1 cars, we made it narrow and long: the narrow width lets it fit between pillars and walls, and the longer wheelbase keeps it stable at speed.
 
 <img width="300" alt="IMG_1527" src="https://github.com/user-attachments/assets/64442db8-6418-4848-9620-d98065398cd8" />
 
