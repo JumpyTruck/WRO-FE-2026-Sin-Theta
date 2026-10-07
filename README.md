@@ -527,32 +527,36 @@ if area_left < WALL_OPENING_AREA and area_right > 100:
 
 ### 3) Obstacle Avoidance
 
-To steer around a pillar, the robot needs two numbers:
+The robot measures the pillar's **x** and **y** distance, uses them to create a **right-angle triangle**, and then uses **trigonometry** to find the angle of that triangle. That angle is what the robot steers by.
 
-- **How far the pillar is from the aim x** (sideways) — one leg of the triangle
-- **How far the pillar is from the robot** (forward distance) — the other leg
-- With both legs known, trigonometry (`arctan2`) gives the angle between them — that angle is how much to steer
+**1. Get the x and y distances.**
+- **x (horizontal distance):** how far the pillar is sideways from the target x
+- **y (vertical distance):** how far ahead the pillar is, measured from the bottom of the image up to the pillar
 
 ```python
 horizontal_distance = x_center - target_x
 vertical_distance = FRAME_HEIGHT - y_center
-pillar_angle_deg = np.degrees(np.arctan2(horizontal_distance, vertical_distance))
 ```
+
+**2. Create a right-angle triangle.** x and y are the two perpendicular sides of a right-angle triangle. This allows us to draw the third line to create a right-angle triangle and calculate the **angle** of the triangle.
 
 <div align="center">
   <img width="450" alt="angle obstacle" src="https://github.com/user-attachments/assets/0a83348c-89fd-4fac-aac8-77f92a4196aa" />
 </div>
 
-That angle becomes the steering angle, nudged by a fixed offset and a colour-specific gain — green and red pillars are passed on opposite sides:
+**3. Use trigonometry to find the angle.** In a right-angle triangle, the angle can be found from its two sides using `arctan` (inverse tangent). Since we know x and y, `arctan2` gives us the angle directly.
 
 ```python
-if is_green:   # pass on the left
-    steer_angle = STEER_CENTER - ((pillar_angle_deg + PILLAR_STEER_OFFSET_DEG) * GREEN_PILLAR_KP)
-else:          # pass on the right
-    steer_angle = STEER_CENTER - ((pillar_angle_deg - PILLAR_STEER_OFFSET_DEG) * RED_PILLAR_KP)
+pillar_angle_deg = np.degrees(np.arctan2(horizontal_distance, vertical_distance))
 ```
 
----
+**4. Calculate the steering angle.** The pillar angle is added to or subtracted (depending on colour) from a fixed offset (`PILLAR_STEER_OFFSET_DEG`) so that it can be mapped for a servo angle.
+```python
+if is_green:
+    steer_angle = STEER_CENTER - ((pillar_angle_deg + PILLAR_STEER_OFFSET_DEG) * GREEN_PILLAR_KP)
+else:
+    steer_angle = STEER_CENTER - ((pillar_angle_deg - PILLAR_STEER_OFFSET_DEG) * RED_PILLAR_KP)
+```
 
 ### 4) Crash Detection
 
