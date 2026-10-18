@@ -44,6 +44,16 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
 
 ---
 
+## The Robots
+
+<img width="4080" height="3072" alt="Gemini" src="https://github.com/user-attachments/assets/ff5fd9fd-d501-48f2-b877-af7b3c33b6e8" />
+
+<br>
+
+This is an image of our two robots for this years competition, the one on the right is the evolved inters robot design and the one on the left is the original nationals robot design.
+
+---
+
 ## Repository Roadmap
 
 This guide maps out the central engineering subsystems, hardware configurations, and asset directories across our **WRO Future Engineers 2026** competition entry:
