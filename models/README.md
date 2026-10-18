@@ -70,7 +70,7 @@ Three stacked, modular plates — any layer pulls off without touching the other
   <tr>
     <td align="center">
       <strong>Base Plate — CAD</strong><br>
-      <img width="700" alt="Main_Chassis__Base_Plate__flipped" src="https://github.com/user-attachments/assets/f41fe5ae-92ba-4795-a446-b5e35cf6c5ec" />
+      <img width="1117" height="652" alt="Chassis" src="https://github.com/user-attachments/assets/fbd79960-1393-433f-947c-ecf25b1cd548" />
     </td>
   </tr>
   <tr>
@@ -125,13 +125,13 @@ Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses th
 
 #### Third Story — Pi Holder
 
-Holds the Pi. Partial wraparound wall, open sides for cables, includes the Camera Stand which raises the camera for a clear view of the mat.
+This is the holder for the Raspberry Pi, enclosed case for protection, maintaining cutaways for wire attachment sites, mounted lengthwise thus serial wire point rearward to reduce wires sticking out to hit obstacles, includes the Camera Stand which raises the camera for a clear view of the mat.
 
 <table>
   <tr>
     <td align="center">
       <strong>Third Story — CAD</strong><br>
-      <img width="700" alt="Third_Plate_flipped" src="https://github.com/user-attachments/assets/9f6199da-c54a-4941-9f24-dc59db6bdc6c" />
+      <img width="867" height="672" alt="Pi Reverse" src="https://github.com/user-attachments/assets/4959b27b-8df4-480a-93ae-d5f3bbe448d5" />
     </td>
   </tr>
   <tr>
