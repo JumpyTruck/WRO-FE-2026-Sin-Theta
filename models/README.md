@@ -64,7 +64,7 @@ Three stacked, modular plates — any layer pulls off without touching the other
 - Steering holder: trapezoid front section, 4 holes, servo cutout.
 - Battery holder: front-mounted, low, counterbalances rear motor.
 - Motor mount: mid-rear, upper/lower halves clamp the motor.
-- Rear axle points: cutouts + mounts for axle supports.
+- Rear axle points: cutouts + mounts for rear axle casing.
 
 <table>
   <tr>
@@ -211,21 +211,20 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
 
 ### 2.3 Rear Axle Assembly
 
+-**Rear axle casing:** this is the housing for the rear axle and the motor adapter, allows everything to mesh together, reduce friction in the axles/differential/adapter, and increase stability in the robots drive system.
 - **Motor adapter:** matches motor's D-shaft to the differential's square input. (Print in PETG for toughness and ductility)
-- **Gear holder:** connects to the differential to hold it in place.
-- **Axle supports:** hold the axles in place via bearings, keep them aligned and stop sagging.
 - **Axles:** custom metal axles adapt diff output to LEGO wheels.
 - **VEX spacers:** added on the rear axles to push the wheels further outward, giving clearance so they don't rub against the chassis/body.
 
 <table>
   <tr>
     <td align="center">
-      <strong>Motor Adapter</strong><br>
-      <img width="380" alt="Motor Adapter" src="https://github.com/user-attachments/assets/0ef57718-d420-4412-85b1-8dee268708e4" />
+      <strong>Rear Axle Casing</strong><br>
+      <img width="380" alt="Full Casing" src="https://github.com/user-attachments/assets/c4e8ea84-2eea-41aa-b0d1-4e4c67351540" />
     </td>
     <td align="center">
-      <strong>Gear Holder</strong><br>
-      <img width="380" alt="Gear Holder" src="https://github.com/user-attachments/assets/59c8193e-ff14-4034-82f1-83f2f6086f7d" />
+      <strong>Inside of View of Rear Axle Casing</strong><br>
+      <img width="380" alt="Inside of Casing" src="https://github.com/user-attachments/assets/902d689f-0fb5-4268-83a8-987c5e504808" />
     </td>
   </tr>
   <tr>
@@ -234,8 +233,8 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
       <img width="380" alt="Rear Axle" src="https://github.com/user-attachments/assets/7a0faa52-7937-44b5-be4f-8524e1fc855d" />
     </td>
     <td align="center">
-      <strong>Axle Support</strong><br>
-      <img width="380" alt="Axle Support" src="https://github.com/user-attachments/assets/1f7bf237-cc1a-4aed-9857-74ee0228efb3" />
+      <strong>Motor Adapter</strong><br>
+      <img width="380" alt="Motor Adapter" src="https://github.com/user-attachments/assets/7c15af01-9091-42e7-ab96-66d8cbe08ed9" />
     </td>
   </tr>
 </table>
@@ -244,7 +243,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Rear Axle Assembly — Installed</strong><br>
-      <img width="700" alt="Rear Axle Assembly" src="https://github.com/user-attachments/assets/3aeff81b-75b5-4ff3-892a-9b631c7bdd1b" />
+      <img width="1534" height="2814" alt="Rear Axle Attached png" src="https://github.com/user-attachments/assets/1f52425a-dc8b-4f88-8d8e-5b9f81c00c06" />
     </td>
   </tr>
 </table>
