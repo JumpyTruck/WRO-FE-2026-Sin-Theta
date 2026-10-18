@@ -396,15 +396,20 @@ This is our PCB and how it works:
 
 #### Camera Placement Rationale
 
-- **Height**: Mounted 155° down-angle on 3D-printed stand (top plate)
+- **Camera Angle**: Mounted 155° down-angle on 3D-printed stand (top plate)
   - Why: Gives clear view of both near lane markers and distant obstacles
   - Tested angles: 135°, 145°, 155°, 165° — 155° gave best FOV coverage
   - Field of view: ~160° horizontal, captures full track width from 10cm to 200cm ahead
 
-- **Horizontal Position**: Centered (same x-axis as robot centerline)
+- **Position Along Front Plane and Top Plane**: Centered (same x-axis as robot centerline)
   - Why: Simplifies image processing — no need for left/right offset compensation
   - Validated: Lane marker detection is symmetric; no bias left/right
-  
+    
+- **Position Along Right Plane**: ~6.09 Inches from front and ~4.26 Inches from rear, about **~58.8% of the full length measured from the nose**
+  - Why: The more rear-oriented allows the robot to see blocks for longer, thus allowing better avoidance of obstacles.
+  - Moved the camera position 18.3mm rearwards in reference to the national robot design.
+  - Validated: The robot sees an obstacle for ~340ms longer, thus allowing the major portions of the robot to pass said obstacle before looking for the next, thus reducing the chance of hitting the adjacent obstacle.
+    
 ---
 
 ### 8) Full Power Budget
