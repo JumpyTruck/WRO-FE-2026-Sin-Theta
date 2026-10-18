@@ -396,10 +396,15 @@ This is our PCB and how it works:
 
 #### Camera Placement Rationale
 
+- **Height**: The lens of the camera is mounted 225.5mm (214[Without wheels]+(28[Radius of wheels]-16.51[Difference between chassis and axle])
+  - Why: The height gives it a birds-eye-view of the mat, optimal for obstacle detection.
+  - Lowered the camera position by 14.0mm from national robot to reduce noise from signatures beyond the borders of the game field
+  - Validated: The camera's view now maintains ~15% less view of beyond-field objects.
+
 - **Camera Angle**: Mounted 155° down-angle on 3D-printed stand (top plate)
   - Why: Gives clear view of both near lane markers and distant obstacles
   - Tested angles: 135°, 145°, 155°, 165° — 155° gave best FOV coverage
-  - Field of view: ~160° horizontal, captures full track width from 10cm to 200cm ahead
+  - Validated/Field of view: ~160° horizontal, captures full track width from 10cm to 200cm ahead
 
 - **Position Along Front Plane and Top Plane**: Centered (same x-axis as robot centerline)
   - Why: Simplifies image processing — no need for left/right offset compensation
