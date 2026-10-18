@@ -20,13 +20,22 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
 ---
 
 ## The Team
+
 <table>
   <tr>
+    <td align="center">
+      <img width="600" alt="Canada" src="https://github.com/user-attachments/assets/1c11b125-4d0a-4a7b-abaf-72679e739e51" />
+    </td>
+    <td align="center">
+      <img width="600" alt="Comp" src="https://github.com/user-attachments/assets/e32b7854-0752-426e-a56c-f0f898676646" />
+    </td>
+  </tr>
+  <tr>
     <td>
-      <img width="400" alt="IMG_2625" src="https://github.com/user-attachments/assets/32d4ea75-2add-4411-ab06-82e23b420a01" />
+      <img width="600" alt="IMG_2625" src="https://github.com/user-attachments/assets/32d4ea75-2add-4411-ab06-82e23b420a01" />
     </td>
     <td>
-      <img width="400" alt="IMG_2626" src="https://github.com/user-attachments/assets/bf99cf43-8f0f-435f-9033-f25f51c2e1aa" />
+      <img width="600" alt="IMG_2626" src="https://github.com/user-attachments/assets/bf99cf43-8f0f-435f-9033-f25f51c2e1aa" />
     </td>
   </tr>
 </table>
