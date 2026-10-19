@@ -221,6 +221,20 @@ The motor's integrated encoder gives us speed and distance feedback, which we us
 
 [More on Motor Choice](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#11-dc-motor-selection)
 
+**This is the math describing the speed and acceleration capabilities of our robot from the motor RPM and Torque:**
+<table>
+  <tr>
+    <td align="center">
+      <strong>Max Speed - 0.598m/s resulting in a 21.7 second theoretical best open challenge time</strong><br>
+      <img width="1026" height="1333" alt="Speed Calulation - Motor" src="https://github.com/user-attachments/assets/5cfe72ca-f105-4c31-9682-5e190bf2e54b" />
+    </td>
+    <td align="center">
+      <strong>Max Acceleration - 15.36m/s^2; achieving top speed in 58.4 milliseconds</strong><br>
+      <img width="1016" height="1333" alt="Acceleration Calculation - Motor" src="https://github.com/user-attachments/assets/9babd668-7ed5-48c9-84dd-4cbb3b4a2c8b" />
+    </td>
+  </tr>
+</table>
+
 ---
 
 ### 3) Steering System
