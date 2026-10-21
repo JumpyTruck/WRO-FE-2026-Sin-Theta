@@ -31,10 +31,10 @@ Our design philosophy was to maximize consistency rather than peak speed. Throug
     </td>
   </tr>
   <tr>
-    <td>
-      <img width="600" alt="IMG_2625" src="https://github.com/user-attachments/assets/32d4ea75-2add-4411-ab06-82e23b420a01" />
+    <td align="center">
+      <img width="600" alt="teamphotomain" src="https://github.com/user-attachments/assets/0ec435cf-1783-4877-aadc-22e42f4db840" />
     </td>
-    <td>
+    <td align="center">
       <img width="600" alt="IMG_2626" src="https://github.com/user-attachments/assets/bf99cf43-8f0f-435f-9033-f25f51c2e1aa" />
     </td>
   </tr>
