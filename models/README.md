@@ -243,7 +243,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Rear Axle Assembly — Installed</strong><br>
-      <img width="1534" height="2814" alt="Rear Axle Attached png" src="https://github.com/user-attachments/assets/1f52425a-dc8b-4f88-8d8e-5b9f81c00c06" />
+      <img width="3995" height="3008" alt="Rear Axle Assembly" src="https://github.com/user-attachments/assets/f3cafbf5-ff0d-4a64-867b-973f18959075" />
     </td>
   </tr>
 </table>
