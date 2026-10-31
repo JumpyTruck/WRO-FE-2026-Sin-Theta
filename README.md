@@ -329,7 +329,7 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 #### Chassis Stability Testing
 - Tested center of gravity by tilting at different angles
 - Battery centered at 35mm (middle of chassis) keeps CG low and stable
-- No tipping during sharp turns even at full speed (1.29 m/s)
+- No tipping during sharp turns even at full speed (0.598 m/s)
 
 #### Mechanical Durability
 - Ran 15 consecutive laps without any 3D-printed parts cracking
