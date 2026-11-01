@@ -819,6 +819,17 @@ Building this robot meant constantly balancing the needs of four interconnected 
 ---
 ### Risk and Failures
 
+### System Failure Mode and Effects Analysis (FMEA)
+To systematically evaluate system reliability, we compiled an FMEA matrix analyzing our primary hardware and electrical risks, quantified by Severity (**S**), Occurrence (**O**), and Detection (**D**) on a scale of 1 to 10 (Risk Priority Number **RPN = S \times O \times D**).
+
+| Subsystem | Failure Mode | Potential Effect | S | O | D | RPN | Mitigation / Corrective Action Implemented |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
+| **Power (PCB v1)** | 7805 linear regulator dropping 7.8V @ ~2A | Thermal runaway; junction temp reaches ~175°C, triggering thermal shutdown. | 8 | 9 | 2 | **144** | Replaced linear regulator with an 85–95% efficient 5V DC-DC Buck Converter to eliminate excessive waste heat. |
+| **Electrical (Driver)** | DRV8871 VM pin tied to logic/servo lines | Overvoltage delivery (12.8V battery raw voltage instead of 5V logic), destroying the driver chip. | 9 | 4 | 3 | **108** | Corrected schematic routing; isolated motor power pins from logic level lines and verified pinout datasheets. |
+| **Actuation (Servo)** | MG90S servo under high steering load | Servo stalling, drawing 3.0–5.0A peak current spikes, causing system brownout and resetting the MCU. | 7 | 6 | 4 | **168** | Upgraded to a 9g Coreless Servo (metal gears, 4 KG·cm torque) powered by an independent 8.4V 8A UBEC. |
+| **Perception (Vision)** | Camera exposure shift under arena lighting | Color-space threshold failure; loss of line and obstacle detection. | 8 | 5 | 3 | **120** | Switched from HSV to LAB color space for superior stability under variable competition venue lighting. |
+| **Mobility (Steering)** | Parallel steering geometry setup | Severe tire scrub (~12° slip at full lock) causing unpredictable cornering trajectories. | 6 | 7 | 2 | **84** | Implemented 100% Ackermann geometry via custom CAD linkages, reducing tire slip to <2°. |
+
 #### PCB Version 1: Thermal Failure
 
 - After several test runs, the robot consistently shut down after about three corner turns, a repeatable pattern that pointed to a systematic issue rather than a random fault
