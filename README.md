@@ -820,7 +820,7 @@ Building this robot meant constantly balancing the needs of four interconnected 
 ### Risk and Failures
 
 ### System Failure Mode and Effects Analysis (FMEA)
-To systematically evaluate system reliability, we compiled an FMEA matrix analyzing our primary hardware and electrical risks, quantified by Severity (**S**), Occurrence (**O**), and Detection (**D**) on a scale of 1 to 10 (Risk Priority Number **RPN = S \times O \times D**).
+To systematically evaluate system reliability, we compiled an FMEA matrix analyzing our primary hardware and electrical risks, quantified by Severity (**S**), Occurrence (**O**), and Detection (**D**) on a scale of 1 to 10 (Risk Priority Number **RPN = S * O * D**).
 
 | Subsystem | Failure Mode | Potential Effect | S | O | D | RPN | Mitigation / Corrective Action Implemented |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
