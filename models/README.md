@@ -255,3 +255,20 @@ Our robot features a protruding bumper from the nose of the robot, serving a mul
   3) And of course, a F1 inspired car must have a front wing so we had to add it, sporting our team name “Sin Theta”, letting everyone know which team its running for.
 
 <img width="400" alt="Front Bumper" src="https://github.com/user-attachments/assets/0ba3e6d9-8801-4fea-8113-9d35bee00ea8" />
+
+## 3. Manufacturing & Material Specifications
+
+To ensure the structural integrity, impact resistance, and mechanical reliability of the chassis and drivetrain under competition conditions, all 3D printed parts follow standardized, optimized print profiles.
+
+### 3.1 Slicer Settings & Justification
+* **Infill (15% for Chassis / 100% for Motor Adapter):** 
+  * *Motor Adapter:* Printed at **100% infill (solid)**. Because it couples the high-torque 12V motor d-shaft directly to the square input of the metal differential, it experiences intense torsional shear and continuous impact stress, requiring maximum material density to prevent stripping or failure.
+  * *All Other Parts:* Uses 15% infill to maintain an optimal balance between strength and weight minimization. Higher infill adds unnecessary mass, increasing the robot's center of gravity and degrading acceleration, while 15% provides robust internal scaffolding.
+* **Infill Pattern (Gyroid):** Selected over standard grid or linear infills because gyroid infill distributes stress equally in all directions (isotropic strength) and prevents localized weakness during high-impact wall collisions or sudden braking.
+* **Wall Loops (5):** Crucial for structural rigidity. Increasing to 5 perimeters/walls significantly enhances outer shell strength, bolt-hole integrity, and snap-fit resilience compared to standard 2-wall setups, preventing parts like motor mounts or steering holders from shearing under high loads.
+* **Layer Height (0.2 mm):** Standardized across all structural and mechanical components to provide the ideal balance between print resolution, clean tolerances for interlocking modular plates, and structural layer bonding.
+* **Supports:** Automatically generated tree/organic supports enabled specifically for overhangs and complex geometries (such as servo mounts, camera brackets, and internal axle casing overhangs) to ensure clean bridging without compromising dimensional accuracy.
+
+### 3.2 Material Selection (PETG vs. PLA)
+* **PLA (Polylactic Acid):** Used for structural and functional parts  (Base plate/Chassis, PCB second story, Raspberry Pi third story/camera holder, as well as steering system) where strength, dimensional accuracy, and lightness are required to keep the robot completely stable during high-speed cornering.
+* **PETG (Polyethylene Terephthalate Glycol):** Used specifically for high-stress, high-torque mechanical components such as the **motor adapter** and critical drivetrain housings. PETG was chosen for its superior toughness, layer adhesion, and slight ductility—allowing it to absorb shock and torsional loads from the 12V motor without shattering.
