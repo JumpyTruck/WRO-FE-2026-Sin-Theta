@@ -161,3 +161,27 @@ The systems are separated through dedicated logic and power paths after earlier 
 
 <img width="475" alt="IMG_2393" src="https://github.com/user-attachments/assets/d828fa5f-ddc5-42ac-8869-78a2ae7ef902" />
 
+## 8. Summary Tables & System Architecture
+
+Here are tables describing and summarizing our electrical architecture:
+
+### 8.1 System Power Budget Table
+
+| Component | Operating Voltage | Normal Current | Peak Current | Normal Power | Peak Power | Power Rail / Source |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **12V 37D DC Motor** | 12.8 V | 0.40 A | 1.00 A | 5.12 W | 12.80 W | Main Battery (12.8V via DRV8871) |
+| **8.4V Coreless Servo** | 8.4 V | 0.50 A | 3.50 A | 4.20 W | 29.40 W | Isolated 8.4V 10A UBEC |
+| **Raspberry Pi 4B + Camera** | 5.0 V | 0.70 A | 1.20 A | 3.50 W | 6.00 W | 5V DC-DC Buck Converter |
+| **Arduino Nano** | 5.0 V | 0.05 A | 0.10 A | 0.25 W | 0.50 W | 5V DC-DC Buck Converter |
+| **DRV8871 Motor Driver** | 12.8 V | <0.05 A | <0.1 A | 0.64 W | 1.28 W | Main Battery (12.8V Logic/VM) |
+| **Total System** | — | **~1.70 A** | **~5.90 A** | **~13.71 W** | **~50.00 W (Peak)** | **4S1P 2000mAh Battery Pack** |
+
+### 8.2 Electrical Pinout & Interconnection Matrix
+
+| Source Device | Source Pin / Port | Destination Device | Destination Pin / Port | Communication / Protocol / Power Function |
+| :--- | :--- | :--- | :--- | :--- |
+| **Raspberry Pi 4B** | GPIO 14 (TX) / 15 (RX) | Arduino Nano | Digital Pins (D0/D1) | UART Serial Command Bus (115200 baud) |
+| **Arduino Nano** | PWM Pin (D9) | DRV8871 Driver | IN1 / IN2 Inputs | Motor Speed & Direction PWM Control |
+| **8.4V UBEC** | Output Rail | Steering Servo | VCC / GND | Isolated High-Current Power Supply (Brownout Prevention) |
+| **5V Buck Converter** | Output Rail | Raspberry Pi 4B & Nano | 5V Power Rails / VIN | Regulated Logic Power Supply |
+| **Motor Encoder** | 11PPR Encoder Pins | Arduino Nano | Interrupt Pins (D2/D3) | Closed-Loop Odometry / Tick Counting |
