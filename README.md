@@ -152,30 +152,30 @@ https://youtu.be/weySsihPY30
   <tr>
     <td align="center">
       <b>Top View</b><br><br>
-      <img width="300" alt="Top (1)" src="https://github.com/user-attachments/assets/12f03260-fe27-45aa-9d0d-b7ac5e8adaf8" />
+      <img width="300" alt="IntersRobotTop" src="https://github.com/user-attachments/assets/1e33ab6b-1536-4233-8f60-6a5e1d6b70ca" />
     </td>
     <td align="center">
       <b>Right View</b><br><br>
-      <img width="300" alt="Right" src="https://github.com/user-attachments/assets/7d922ae5-534e-45f3-b75c-50dae895e83b" />
+      <img width="300" alt="IntersRobotRight" src="https://github.com/user-attachments/assets/afe7c649-b3e4-4f47-87f3-b0b851250ff8" />
     </td>
     <td align="center">
       <b>Front View</b><br><br>
-      <img width="300" alt="Front" src="https://github.com/user-attachments/assets/22cb7bc2-e6e9-45c4-b806-f69188af754d" />
+      <img width="300" alt="IntersRobotFront" src="https://github.com/user-attachments/assets/5745188d-651e-40a9-b387-80617ff996c4" />
     </td>
   </tr>
 
   <tr>
     <td align="center">
       <b>Bottom View</b><br><br>
-      <img width="300" alt="Bottom" src="https://github.com/user-attachments/assets/8b9e93aa-8d3f-41b5-b3c4-90d69205594b" />
+      <img width="300" alt="IntersRobotBottom" src="https://github.com/user-attachments/assets/69372698-a407-4a08-a818-ccf7c2a7b9fc" />
     </td>
     <td align="center">
       <b>Left View</b><br><br>
-      <img width="300" alt="Left" src="https://github.com/user-attachments/assets/fdb86ebf-7b75-4f5e-81ed-56de3df246a0" />
+      <img width="300" alt="IntersRobotLeft" src="https://github.com/user-attachments/assets/6b7101aa-8bda-45ed-8b38-40be8ac37a82" />
     </td>
     <td align="center">
       <b>Rear View</b><br><br>
-      <img width="300" alt="Rear" src="https://github.com/user-attachments/assets/b0f3e105-a7cc-4837-9b14-94ea4bb5626b" />
+      <img width="300" alt="IntersRobotRear" src="https://github.com/user-attachments/assets/4ffc257f-8385-41cc-81e0-f4d970d191cb" />
     </td>
   </tr>
 </table>
@@ -272,9 +272,9 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 
 <div align="center">
 
-<img width="1245" height="700" alt="First plate" src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" />
-<img width="1248" height="700" alt="Second plate" src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" />
-<img width="1333" height="748" alt="Third plate" src="https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5" />
+<img width="1265" height="711" alt="FirstPlate" src="https://github.com/user-attachments/assets/7574f910-8654-4961-8804-b60b277ada77" />
+<img width="1170" height="661" alt="SecondPlate" src="https://github.com/user-attachments/assets/31289207-770f-41aa-9c84-2d3408222d82" />
+<img width="1175" height="659" alt="Third Plate" src="https://github.com/user-attachments/assets/a77182d4-1d0e-4b9b-85ec-6cec84d1671f" />
 
 </div>
 
