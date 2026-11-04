@@ -76,7 +76,7 @@ Three stacked, modular plates — any layer pulls off without touching the other
   <tr>
     <td align="center">
       <strong>Base Plate — Installed</strong><br>
-      <img width="700" alt="Base Plate Installed" src="https://github.com/user-attachments/assets/7763083b-e341-4566-9f6d-96d56026d52a" />
+      <img width="700" alt="FirstPlate" src="https://github.com/user-attachments/assets/4fa3c5b9-0844-45cd-a925-6bab5ccbc92a" />
     </td>
   </tr>
 </table>
@@ -116,7 +116,8 @@ Holds our custom PCB. Main rectangle seats the PCB, second smaller one houses th
   <tr>
     <td align="center">
       <strong>Second Story — Installed</strong><br>
-      <img width="700" alt="Second Story Installed" src="https://github.com/user-attachments/assets/116feb86-e038-4e22-8e40-c2fecf43d38d" />
+      <img width="700" alt="SecondPlate" src="https://github.com/user-attachments/assets/0d1a5ada-f303-48a8-8647-91e77423706c" />
+
     </td>
   </tr>
 </table>
@@ -137,7 +138,7 @@ This is the holder for the Raspberry Pi, enclosed case for protection, maintaini
   <tr>
     <td align="center">
       <strong>Third Story — Installed</strong><br>
-      <img width="700" alt="Third Story Installed" src="https://github.com/user-attachments/assets/200b7d2b-a27e-4cb8-b80d-62d3f662c3f5" />
+      <img width="700" alt="Third Plate" src="https://github.com/user-attachments/assets/1a07dbd2-77cd-428d-9d1b-fd1fc31b8d12" />
     </td>
   </tr>
 </table>
