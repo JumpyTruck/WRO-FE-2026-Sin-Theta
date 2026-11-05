@@ -54,8 +54,9 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
 ---
 
 ## The Robots
+<!-- <img width="4080" height="3072" alt="Gemini" src="https://github.com/user-attachments/assets/ff5fd9fd-d501-48f2-b877-af7b3c33b6e8" /> -->
 
-<img width="4080" height="3072" alt="Gemini" src="https://github.com/user-attachments/assets/ff5fd9fd-d501-48f2-b877-af7b3c33b6e8" />
+<img width="1445" height="1088" alt="Twin DIY Competition Robots on White Background" src="https://github.com/user-attachments/assets/5371126d-9097-423b-b06f-587721e09522" />
 
 <br>
 
