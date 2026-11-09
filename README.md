@@ -891,15 +891,15 @@ The image shows the main robot iterations during development. Each version was t
 <img width="1192" height="670" alt="Iteratonswdescription" src="https://github.com/user-attachments/assets/a82d7041-7978-48cf-935f-de3a5805f6b8" />
 
 ---
-### Reproducibility & Github Organization
+## Reproducibility & Github Organization
 
 This repository documents the design, build, and code for our WRO robot — including the mechanical models, custom PCB/electronics, full parts list, and the engineering journal tracking our design decisions along the way. Use the sections below to navigate to whatever you need, whether that's rebuilding the robot from scratch or understanding why we made the choices we did.
 
 ---
 
-## Safety Measures & Reliability
+### Safety Measures & Reliability
 
-### Hardware Safeguards
+#### Hardware Safeguards
 
 #### 1. **Power Distribution & Protection**
 - **Battery Isolation:** The battery pack is mechanically isolated in a dedicated compartment to prevent cells from shifting during impacts
