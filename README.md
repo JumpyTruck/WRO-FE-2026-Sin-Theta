@@ -757,16 +757,15 @@ Building this robot meant constantly balancing the needs of four interconnected 
 - Reason 2 (real-world/practical): more sensors also means more wiring, more points of failure, and more calibration to maintain — in a competition setting, every extra wire is a chance for a connector to come loose or a sensor to drift out of calibration between runs, which costs more reliability than the extra data is worth
 - Kept the sensor suite minimal and let the camera do most of the heavy lifting (also a learning opportunity to challenge ourselves with only using the camera) 
 
-#### Fixed speed instead of variable speed
-- Tested variable speed (slowing near obstacles, full speed in open path)
-- Found variable speed introduced **inconsistency** — behavior varied run to run depending on exactly when/where the speed transition kicked in
-- Since our focus is on **consistency and accuracy** rather than raw lap time, we chose fixed speed instead
-- A predictable, repeatable speed profile made the robot's behavior easier to tune and trust across multiple runs
+#### Variable speed instead of fixed speed
+- Our variable speed profile accelerates when an obstacle is detected, then decelerates once we're very close to it for more precise maneuvering
+- Accuracy is now essentially the same as fixed speed, but the run is much faster
+- The slow-down near the obstacle keeps the critical part of the path controlled, while the rest of the run takes advantage of the higher speed
 
 | Speed | Accuracy | Time |
 |---|---|---|
-| Fixed Speed | 90% | 70s |
-| Variable Speed | 80% | 60s |
+| Fixed Speed | ~90% | ~70s |
+| Variable Speed | ~90% | ~50s |
 
 #### LAB color space instead of HSV
 - Originally considered HSV for color detection
