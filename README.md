@@ -183,18 +183,6 @@ https://youtu.be/weySsihPY30
   
 ---
 
-## Design Decisions Summary
-
-| Decision | Option A | Option B (Chosen) | Why? |
-|----------|----------|-------------------|------|
-| **Motor** | 300 RPM gearmotor | 510 RPM 37D | Speed + torque + encoder |
-| **Steering** | Parallel | Ackermann | Reduced tire scrub |
-| **Vision** | HSV color space | LAB color space | Better under competition lighting |
-| **Power** | Linear 7805 | Buck converter | 39% → 85% efficiency, no thermal shutdown |
-| **Control** | Single board (ESP32) | Split (Pi + Nano) | 150ms vs 600ms latency |
-
----
-
 ## Mobility & Mechanical Design
 
 This section covers how our robot moves: the chassis structure, drivetrain, steering geometry, and wheels/differential. Each part was chosen and iterated on to maximize turning precision, stability, and reliability while keeping the robot compact enough for the WRO Future Engineers mat. Calculations behind our steering geometry and part choices are included below so the design can be understood and reproduced.
