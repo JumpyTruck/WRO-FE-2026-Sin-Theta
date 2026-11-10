@@ -1,2 +1,2 @@
 # Inters Robot Files
-STL models, mechanical assemblies, and visual references for our 2026 inters robot.
+STL models, mechanical assemblies, and visual references for WRO Future Engineers 2026 Internationals Sin Theta robot.
