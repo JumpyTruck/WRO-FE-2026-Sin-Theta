@@ -284,14 +284,27 @@ The chassis is built from three modular 3D-printed layers, each with dedicated m
 <table align="center">
   <tr>
     <td align="center">
-      <b>Exploded View</b><br><br>
-      <img width="540" alt="Exploded" src="v-photos/Exploded!.png" />
+      <b>Exploded View - Inters</b><br><br>
+      <img width="540" alt="Exploded" src="v-photos/Boom.png" />
       <b>Here is the exploded view of our robot design in CAD; eloquently delineating all of its individual, bespoke components.</b><br><br>
     </td>
     <td align="center">
-      <b>Full Assembly View</b><br><br>
-      <img width="740" alt="Intact" src="v-photos/Intact.png" />
+      <b>Full Assembly View - Inters</b><br><br>
+      <img width="740" alt="Intact" src="v-photos/Final.png" />
       <b>This is the complete assembly of our competition robot, as it was all dreamt up and designed on CAD</b><br><br>
+    </td>
+  </tr>
+</table>
+
+<table align="center">
+    <tr>
+    <td align="center">
+      <b>Exploded View - Nationals</b><br><br>
+      <img width="540" alt="Exploded" src="v-photos/Exploded!.png" />
+    </td>
+    <td align="center">
+      <b>Full Assembly View - Nationals</b><br><br>
+      <img width="560" alt="Intact" src="v-photos/Intact.png" />
     </td>
   </tr>
 </table>
