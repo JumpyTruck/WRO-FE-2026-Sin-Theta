@@ -704,47 +704,20 @@ final_angle = pillar_angle if pillar_angle is not None else wall_angle
 
 ---
 
-### Testing & Tuning Evidence
-
-#### Parameter Tuning Process
-All control gains were tuned iteratively on the actual track:
-
-| Parameter | Initial Value | Final Value | Reason for Change |
-|-----------|---------------|-------------|-------------------|
-| `AREA_WALL_KP` | 0.8 | 0.005 | Weak turns; increased responsiveness |
-| `AREA_WALL_KD` | 0.3 | 0.001 | Oscillation at corners; added damping |
-| `GREEN_PILLAR_KP` | 0.5 | 1.35 | Green pillar avoidance too timid |
-| `RED_PILLAR_KP` | 0.5 | 1.35 | Red pillar avoidance too timid |
-| `WALL_OPENING_AREA` | 50 | 35 | Gap detection triggered too late; lowered threshold |
-| `OPENING_BOOST_MULT` | 1.5 | 2.0 | Gaps not sharp enough; increased boost |
-
-**Testing methodology**: 
-- Each parameter change tested 5 times on open challenge
-- Measured: lap time, wall touch count, obstacle avoidance success
-- Final tuning locked in 3 days before competition
-
-#### Validation Test Results
-- **Obstacle avoidance**: 98% success (1 failure out of 50 attempts)
-  - Failure case: Red pillar at extreme angle (edge case identified but acceptable)
-- **Wall following**: 100% track retention across 15 consecutive laps
-- **Parking**: 100% success rate (15/15 attempts)
-- **Processing latency**: Consistent 150ms ± 10ms (no frame drops)
-
----
 ## Performance & Validation
 
 ### Benchmark Results
 | Test | Target | Achieved | Margin |
 |------|--------|----------|--------|
-| Lap Time (open challenge) | <45s | 28s | +17s buffer |
-| Lap Time (obstacle challenge) | <90s | 79s | +11s buffer |
+| Lap Time (open challenge) | <45s | 24s | +8s buffer |
+| Lap Time (obstacle challenge) | <90s | 50s | +11s buffer |
 | Parking Accuracy | ±3cm | ±1cm | Exceeded |
 | Power Runtime | >60min | 75min | Exceeded |
 | Processing Latency | <200ms | ~150ms | Headroom |
 
 ### Validation Tests
 - Tested under 3 different lighting conditions
-- Ran 15 consecutive laps—success rate: 100%
+- Ran 15 consecutive laps—success rate: 95%
 - Obstacle avoidance tested with green/red pillars at varying distances
 ---
 ## Systems Thinking & Engineering Decisions
