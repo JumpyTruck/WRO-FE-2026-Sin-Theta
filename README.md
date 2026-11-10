@@ -750,8 +750,8 @@ Building this robot meant constantly balancing the needs of four interconnected 
 
 | Speed | Accuracy | Time |
 |---|---|---|
-| Fixed Speed | ~90% | ~70s |
-| Variable Speed | ~90% | ~50s |
+| Fixed Speed | ~95% | ~70s |
+| Variable Speed | ~95% | ~50s |
 
 #### LAB color space instead of HSV
 - Originally considered HSV for color detection
