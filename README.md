@@ -1124,4 +1124,4 @@ Check the Github Issues Section for more detail
 
 Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
 
-[Go to Engineering Journal](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/Team_SinTheta_Engineering_Journal.pdf)
+[Go to Engineering Journal](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/Sin%20Theta%20Engineering%20Journal.pdf)
