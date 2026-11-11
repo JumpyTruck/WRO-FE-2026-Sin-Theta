@@ -51,15 +51,7 @@ Here's my Linkedin: https://www.linkedin.com/in/harshad-mahajan-9580362ba/
 <b>Rajas Salunke:</b> Hello Im Rajas, I am a student at Fletchers Meadow Secondary School who is currently in Grade 12. This is my 3rd year competing in WRO with experience in Robomission (Junior Category),  and 1 year in WRO future engineers with this being my second year in Future Engineers.<br><br> 
 Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/ 
 
----
-
-## The Robots
-
-<img width="1445" alt="two_robots" src="https://github.com/user-attachments/assets/220e9417-f522-4200-97e9-7209cf4edb13" />
-
-This is an image of our two robots for this years competition, the one on the right is the evolved inters robot design and the one on the left is the original nationals robot design.
-
----
+--- 
 
 ## Repository Roadmap
 
@@ -72,67 +64,6 @@ This guide maps out the central engineering subsystems, hardware configurations,
 *   **[`v-photos/`](v-photos/)**: Contains images (CAD and physical) of our robot for this year.
 *   **Main README**: Contains all information for this year's competition.
 *   **[Engineering Journal](Team_SinTheta_Engineering_Journal.pdf)**: This is our engineering journal for this year.
----
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [The Team](#the-team)
-3. [Design Philosophy](#design-philosophy)
-4. [Repository Roadmap](#repository-roadmap)
-5. [Performance Videos](#performance-videos)
-6. [The Robot](#the-robot)
-7. [Design Decisions Summary](#design-decisions-summary)
-8. [Mobility & Mechanical Design](#mobility--mechanical-design)
-   - [Robot Dimensions & Weight](#1-robot-dimensions--weight)
-   - [Drive System](#2-drive-system)
-   - [Steering System](#3-steering-system)
-   - [Chassis Assembly](#4-chassis-assembly)
-   - [Wheels & Differential](#5-wheels--differential)
-   - [Mechanical Testing & Validation](#mechanical-testing--validation)
-9. [Power & Sensor Architecture](#power--sensor-architecture)
-   - [Battery](#1-battery)
-   - [5V Buck Converter](#2-5v-buck-converter)
-   - [UBEC Voltage Regulator](#3-ubec-voltage-regulator)
-   - [Arduino Nano](#4-arduino-nano)
-   - [Motor Driver (DRV8871)](#5-motor-driver-drv8871)
-   - [Servo](#6-servo)
-   - [Raspberry Pi 4B + Camera](#7-raspberry-pi-4b--camera)
-   - [Camera Placement Rationale](#camera-placement-rationale)
-   - [Full Power Budget](#8-full-power-budget)
-   - [Bringing It All Together](#bringing-it-all-together)
-10. [Software Architecture & Obstacle Strategy](#software-architecture--obstacle-strategy)
-   - [Raspberry Pi + Arduino Nano](#raspberry-pi--arduino-nano)
-   - [Vision Pipeline](#1-vision-pipeline)
-   - [Wall Following](#2-wall-following)
-   - [Obstacle Avoidance](#3-obstacle-avoidance)
-   - [Crash Detection](#4-crash-detection)
-   - [Lap Counter](#5-lap-counter)
-   - [Parking](#6-parking)
-   - [The State Machine](#7-the-state-machine)
-   - [Arbitration](#8-arbitration)
-   - [Autonomous Navigation Flowcharts](#autonomous-navigation-flowcharts)
-   - [Testing & Tuning Evidence](#testing--tuning-evidence)
-11. [Performance & Validation](#performance--validation)
-   - [Benchmark Results](#benchmark-results)
-   - [Validation Tests](#validation-tests)
-11. [Systems Thinking & Engineering Decisions](#systems-thinking--engineering-decisions)
-   - [Trade-offs](#trade-offs)
-   - [Constraints](#constraints)
-   - [Risk and Failures](#risk-and-failures)
-   - [Iterations](#iterations)
-11. [Safety Measures & Reliability](#safety-measures--reliability)
-    - [Hardware Safeguards](#hardware-safeguards)
-    - [Software Safeguards](#software-safeguards)
-    - [Testing & Validation for Reliability](#testing--validation-for-reliability)
-    - [Competition-Day Safety Checklist](#competition-day-safety-checklist)
-    - [Known Limitations & Mitigation](#known-limitations--mitigation)
-12. [Reproducibility & GitHub Organization](#reproducibility--github-organization)
-    - [Parts List](#parts-list)
-    - [How to Rebuild This Robot](#how-to-rebuild-this-robot)
-    - [Future Improvements](#future-improvements)
-13. [Engineering Journal](#engineering-journal)
-
 ---
 
 ## Performance Videos
@@ -178,6 +109,14 @@ https://youtu.be/weySsihPY30
   </tr>
 </table>
   
+---
+
+## From Nationals to Internationals
+
+<img width="1445" alt="two_robots" src="https://github.com/user-attachments/assets/220e9417-f522-4200-97e9-7209cf4edb13" />
+
+This is an image of our two robots for this years competition, the one on the right is the evolved international robot design and the one on the left is the original nationals robot design.
+
 ---
 
 ## Mobility & Mechanical Design
