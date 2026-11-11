@@ -836,24 +836,8 @@ This repository documents the design, build, and code for our WRO robot — incl
 - **Tested Runtime:** Validated that the robot runs cooler under competition conditions than during extended testing
 
 #### 4. **Monitoring & Diagnostics**
-- **LED Status Indicator:** Visual feedback shows when the robot is ready, running, or in error state
+- **LED Status Indicator:** Visual feedback shows when the robot is ready to run
 - **Serial Debugging:** Real-time debug output over USB allows live monitoring of voltages, currents, and sensor readings during testing
-
----
-
-### Software Safeguards
-
-#### 1. **Watchdog & Timeout Protection**
-- **Heartbeat Check:** If the Pi stops sending commands to the Nano for 100ms, the Nano defaults to safe stop
-- **Encoder Validation:** Motor movement is verified via encoder feedback; if it doesn't match expected displacement, a fault is logged
-
-#### 2. **Crash Detection & Recovery**
-- **Wall Proximity Checks:** Continuous scanning of inner/outer walls prevents the robot from driving directly into barriers
-- **Speed Limiting:** Motor is capped at fixed speed to ensure the robot can always react to obstacles within the ~150ms vision cycle
-
-#### 3. **Emergency Abort**
-- **Manual Override:** Pressing the start button again stops the robot mid-run
-- **Timeout Exit:** If the robot runs for longer than expected (>120s), it automatically stops to prevent runaway behavior
 
 ---
 
@@ -871,7 +855,7 @@ This repository documents the design, build, and code for our WRO robot — incl
 
 #### 3. **Redundancy & Fallback**
 - **Dual PCB Design:** A second PCB is available as a drop-in replacement if the primary fails
-- **Encoder Fallback:** If the stepper/motor feedback becomes unreliable, fixed-time movements provide a basic fallback
+- **Encoder Fallback:** If the stepper/motor feedback becomes unreliable, fixed-time movements provide a basic fallback. Another motor is available as a replacement
 - **Camera Recalibration:** Color detection parameters can be re-tuned on-field in under 5 minutes without requiring hardware changes
 
 ---
