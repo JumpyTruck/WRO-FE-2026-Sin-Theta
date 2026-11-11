@@ -1110,9 +1110,13 @@ Follow along with this schematic of the entire electrical architecture for the n
 
 ### Future Improvements
 
-1) Begin to push code directly from the Raspberry Pi through Git in order to build a commit history.
-2) Implement Dynamic Ranges to improve obstacle, line, and parking block detection in a multitude of lighting conditions.
-3) Improving on our Acceleration and Deceleration code to a point that it becomes as reliable as fixed code, therefore we can improve our lap times overall.
+1) Implement dynamic colour ranges to improve obstacle, line and parking block detection in a multitude of lighting conditions.
+2) Lock camera exposure and white balance after warm-up so colours stay consistent for the whole run.
+3) Remember the pillar layout from lap 1 to plan faster, smoother paths for laps 2 and 3, removes inconsistency between laps.
+4) Add battery voltage monitoring to warn us before running on a low battery.
+5) Add a main fuse on the battery output to protect the wiring between the battery and the converters from short circuits.
+
+Check the Github Issues Section for more detail
 
 ---
 
