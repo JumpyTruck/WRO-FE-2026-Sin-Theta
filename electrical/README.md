@@ -18,16 +18,16 @@ At 12.8 V, the motor draws **0.40 A normal / 1.00 A peak (5.12 W)**.
 
 <img width="475"  alt="12V 37D Metal Gearmotor IMAGE" src="https://github.com/user-attachments/assets/ce9867de-050d-4366-aa7b-8baa1db68f33" />
 
-**Here is the math we did in order to deliberate in our motor decision:**
+**The math below shows the max speed and max acceleration our robot can reach with the motor we chose:**
 <table>
   <tr>
     <td align="center">
-      <strong>RPM Calculations - 452 RPM Needed for a 28 second Open Challenge</strong><br>
-      <img width="1034" height="1333" alt="RPM Calculations" src="https://github.com/user-attachments/assets/a09ea721-14e4-4653-8c19-68841528bffe" />
+      <strong>Max Speed — 0.598 m/s, giving a 21.7 s theoretical best Open Challenge time</strong><br>
+      <img width="1035 alt="SpeedCalc" src="https://github.com/user-attachments/assets/326762b1-d238-4aad-8a78-81340df3a1cd" />
     </td>
     <td align="center">
-      <strong>Torque Calcualtions - 0.198 kg cm Needed to Accelerate to Acheive Theoretical Top Speed in 0.353 seconds</strong><br>
-      <img width="1025" height="1333" alt="Torque Calcualtions" src="https://github.com/user-attachments/assets/39f57e83-94fd-4234-ba97-a3065ffee7dd" />
+      <strong>Max Acceleration — 15.36 m/s², reaching top speed in 58.4 ms</strong><br>
+      <img width="1035" alt="AccelCalcs" src="https://github.com/user-attachments/assets/fc435ce7-103b-49b6-b51e-c07ef2003fb5" />
     </td>
   </tr>
 </table>
