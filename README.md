@@ -54,11 +54,8 @@ Here's my Linkedin: https://www.linkedin.com/in/rajas-salunke-632794422/
 ---
 
 ## The Robots
-<!-- <img width="4080" height="3072" alt="Gemini" src="https://github.com/user-attachments/assets/ff5fd9fd-d501-48f2-b877-af7b3c33b6e8" /> -->
 
-<img width="1445" height="1088" alt="Twin DIY Competition Robots on White Background" src="https://github.com/user-attachments/assets/5371126d-9097-423b-b06f-587721e09522" />
-
-<br>
+<img width="1445" alt="two_robots" src="https://github.com/user-attachments/assets/220e9417-f522-4200-97e9-7209cf4edb13" />
 
 This is an image of our two robots for this years competition, the one on the right is the evolved inters robot design and the one on the left is the original nationals robot design.
 
@@ -191,7 +188,7 @@ This section covers how our robot moves: the chassis structure, drivetrain, stee
 
 ### 1) Robot Dimensions & Weight
 The robot was sized to fit all electrical components while keeping the robot compact.
-<img width="650" alt="Dimensions" src="https://github.com/user-attachments/assets/e3e3cb14-47ec-40e1-b22b-690e2bc438c1" />
+<img width="650" alt="robot_dimensions" src="https://github.com/user-attachments/assets/0d613ba4-d4f9-410c-a375-30845ffcfc14" />
 
 
 [Why We Chose These Dimensions](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/models#11-dimensions)
@@ -210,16 +207,16 @@ The motor's integrated encoder gives us speed and distance feedback, which we us
 
 [More on Motor Choice](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/tree/main/electrical#11-dc-motor-selection)
 
-**This is the math describing the speed and acceleration capabilities of our robot from the motor RPM and Torque:**
+**The math below shows the RPM required for a 28 s Open Challenge and the torque required to reach top speed in 0.353 s:**
 <table>
   <tr>
     <td align="center">
-      <strong>Max Speed - 0.598m/s resulting in a 21.7 second theoretical best open challenge time</strong><br>
-      <img width="1026" height="1333" alt="Speed Calulation - Motor" src="https://github.com/user-attachments/assets/5cfe72ca-f105-4c31-9682-5e190bf2e54b" />
+      <strong>Required Motor Torque — 0.190 kg·cm needed to reach top speed in 0.353 s</strong><br>
+      <img width="1016" alt="TorqueCalcs" src="https://github.com/user-attachments/assets/f7e15566-6058-45b6-b465-a048a6bd2c09" />
     </td>
     <td align="center">
-      <strong>Max Acceleration - 15.36m/s^2; achieving top speed in 58.4 milliseconds</strong><br>
-      <img width="1016" height="1333" alt="Acceleration Calculation - Motor" src="https://github.com/user-attachments/assets/9babd668-7ed5-48c9-84dd-4cbb3b4a2c8b" />
+      <strong>Required Motor RPM — 452 RPM needed for a 28 s Open Challenge</strong><br>
+      <img width="1016" alt="RPMCalcs" src="https://github.com/user-attachments/assets/c1a5b932-ecff-418b-b5f0-f01959932523" />
     </td>
   </tr>
 </table>
@@ -431,9 +428,8 @@ This is our PCB and how it works:
 
 #### Camera Placement Rationale
 
-- **Height**: The lens of the camera is mounted 225.5mm (214[Without wheels]+(28[Radius of wheels]-16.51[Difference between chassis and axle])
-  - Why: The height gives it a birds-eye-view of the mat, optimal for obstacle detection.
-  - Lowered the camera position by 14.0mm from national robot to reduce noise from signatures beyond the borders of the game field
+- **Height**: The lens of the camera is mounted a height of 230mm
+  - Lowered the camera position by 37.5mm from national robot to reduce noise and detection from colours outside the borders of the game field
   - Validated: The camera's view now maintains ~15% less view of beyond-field objects.
 
 - **Camera Angle**: Mounted 155° down-angle on 3D-printed stand (top plate)
