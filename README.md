@@ -818,6 +818,20 @@ This repository documents the design, build, and code for our WRO robot — incl
 
 ---
 
+### GitHub Utilization: Issues & Projects
+
+For the Nationals → Internationals phase, we used GitHub as more than a place to store files. **GitHub Issues** and **GitHub Projects** kept our team organized and made debugging faster.
+
+| Tool | How We Used It | Why It Helped |
+|---|---|---|
+| **Issues** | Every bug or improvement got its own issue: what we saw on the mat (the symptom), the run or video it happened in, what we think caused it, and what we changed. The issue was closed once the fix was tested. | Problems weren't forgotten between practice sessions, and every fix has a written record of its cause, which is how our failure analysis was written. |
+| **Projects** | A project board for the Internationals work, with each issue moved through **To Do → In Progress → Done** and assigned to the team member working on it. | Everyone could see what was left before Internationals and who was on it, so no two people worked on the same thing and nothing was missed. |
+| **Repository** | One shared repository for code, CAD, schematics, photos and documentation, with the Nationals and International code kept side by side. | Judges and other teams can see exactly how the robot changed between competitions and rebuild either version. |
+
+**Result:** Issues gave every bug a clear history from symptom to fix, and the Projects board gave us a single view of the remaining work. This made our debugging faster and more organized going into Internationals.
+
+---
+
 ### Safety Measures & Reliability
 
 #### Hardware Safeguards
