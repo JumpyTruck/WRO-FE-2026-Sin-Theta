@@ -183,7 +183,7 @@ To reduce tire scrub and improve cornering accuracy, we use 100% Ackermann steer
 **The Math:**
 With a wheelbase of 7.18" and a front track width of 3.00", we calculated the required steering angle as follows:
 
-<img width="500" alt="steering calculations" src="https://github.com/user-attachments/assets/826d66a1-7090-4872-bf1a-172ea52779a7" />
+<img width="800" alt="steering calculations" src="https://github.com/user-attachments/assets/826d66a1-7090-4872-bf1a-172ea52779a7" />
 
 This gives a target steering angle of ~12° at full lock to achieve true 100% Ackermann geometry.
 
