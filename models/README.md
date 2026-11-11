@@ -162,7 +162,7 @@ Sits atop the stand and holds the camera. Standalone piece so angle adjusts with
   <tr>
     <td align="center">
       <strong>Full Camera Assembly — Installed</strong><br>
-      <img width="500" alt="camerainstalled" src="https://github.com/user-attachments/assets/082183fe-2382-4521-a2c9-c87eeff48f15" />
+      <img width="500" alt="cameramount_mirrored" src="https://github.com/user-attachments/assets/cc4ed8d9-abe1-4193-aa28-8727e5bd44a8" />
     </td>
   </tr>
 </table>
