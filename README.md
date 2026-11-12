@@ -1125,3 +1125,9 @@ Check the Github Issues Section for more detail
 Our full engineering journal — including trade-offs, constraints, and the reasoning behind every major decision — is documented here.
 
 [Go to Engineering Journal](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/Sin%20Theta%20Engineering%20Journal.pdf)
+
+---
+
+### Special Thanks
+
+We would like to give a special thank you to our coach and mentor, Coach Vikram, who guided and helped us extremely well through this competition season. His expertise and support was key to this years success, from helping us when we blew up our pcb to being with us the tune the robot runs, he was always there for us, letting us grow while sharpening our problem-solving skills. We could have not asked for a better coach!
