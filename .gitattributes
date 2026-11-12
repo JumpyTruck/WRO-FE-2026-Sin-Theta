@@ -1,0 +1,33 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Code and text files
+*.py text eol=lf
+*.ino text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+.gitignore text eol=lf
+
+# CAD and 3D Model files (treat as binary to prevent corruption)
+*.stl binary
+*.step binary
+*.stp binary
+*.iges binary
+*.igs binary
+*.sldprt binary
+*.sldasm binary
+
+# Images and visual assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+
+# Documents and archives
+*.pdf binary
+*.zip binary
