@@ -86,30 +86,30 @@ This guide maps out the central engineering subsystems, hardware configurations,
   <tr>
     <td align="center">
       <b>Top View</b><br><br>
-      <img width="400" alt="IntersRobotTop" src="https://github.com/user-attachments/assets/1e33ab6b-1536-4233-8f60-6a5e1d6b70ca" />
+      <img width="600" alt="IntersRobotTop" src="https://github.com/user-attachments/assets/1e33ab6b-1536-4233-8f60-6a5e1d6b70ca" />
     </td>
     <td align="center">
       <b>Right View</b><br><br>
-      <img width="400" alt="IntersRobotRight" src="https://github.com/user-attachments/assets/afe7c649-b3e4-4f47-87f3-b0b851250ff8" />
+      <img width="600" alt="IntersRobotRight" src="https://github.com/user-attachments/assets/afe7c649-b3e4-4f47-87f3-b0b851250ff8" />
     </td>
     <td align="center">
       <b>Front View</b><br><br>
-      <img width="400" alt="IntersRobotFront" src="https://github.com/user-attachments/assets/5745188d-651e-40a9-b387-80617ff996c4" />
+      <img width="600" alt="IntersRobotFront" src="https://github.com/user-attachments/assets/5745188d-651e-40a9-b387-80617ff996c4" />
     </td>
   </tr>
 
   <tr>
     <td align="center">
       <b>Bottom View</b><br><br>
-      <img width="400" alt="IntersRobotBottom" src="https://github.com/user-attachments/assets/69372698-a407-4a08-a818-ccf7c2a7b9fc" />
+      <img width="600" alt="IntersRobotBottom" src="https://github.com/user-attachments/assets/69372698-a407-4a08-a818-ccf7c2a7b9fc" />
     </td>
     <td align="center">
       <b>Left View</b><br><br>
-      <img width="400" alt="IntersRobotLeft" src="https://github.com/user-attachments/assets/6b7101aa-8bda-45ed-8b38-40be8ac37a82" />
+      <img width="600" alt="IntersRobotLeft" src="https://github.com/user-attachments/assets/6b7101aa-8bda-45ed-8b38-40be8ac37a82" />
     </td>
     <td align="center">
       <b>Rear View</b><br><br>
-      <img width="400" alt="IntersRobotRear" src="https://github.com/user-attachments/assets/4ffc257f-8385-41cc-81e0-f4d970d191cb" />
+      <img width="600" alt="IntersRobotRear" src="https://github.com/user-attachments/assets/4ffc257f-8385-41cc-81e0-f4d970d191cb" />
     </td>
   </tr>
 </table>
