@@ -63,7 +63,7 @@ This guide maps out the central engineering subsystems, hardware configurations,
 *   **[`t-photos/`](t-photos/)**: Our dedicated **Team Photography Gallery** celebrating the individuals driving the project.
 *   **[`v-photos/`](v-photos/)**: Contains images (CAD and physical) of our robot for this year.
 *   **Main README**: Contains all information for this year's competition.
-*   **[Engineering Journal](Team_SinTheta_Engineering_Journal.pdf)**: This is our engineering journal for this year.
+*   **[Engineering Journal](https://github.com/JumpyTruck/WRO-FE-2026-Sin-Theta/blob/main/Sin%20Theta%20Engineering%20Journal.pdf)**: This is our engineering journal for this year.
 ---
 
 ## Performance Videos
