@@ -69,9 +69,12 @@ This guide maps out the central engineering subsystems, hardware configurations,
 ## Performance Videos
 
 ### Open Challenge
-https://youtu.be/3cM_T3cttLk
+[International Final Open Challenge Video: ](https://youtu.be/2viIotSwsVk)
+[National Final Open Challenge Video: ](https://youtu.be/3cM_T3cttLk)
+
 ### Obstacle Challenge
-https://youtu.be/weySsihPY30
+[International Final Obstacle Challenge Video: ](https://youtu.be/H9Go6qdAK00 )
+[National Final Obstacle Challenge Video: ](https://youtu.be/weySsihPY30)
 
 ---
 
